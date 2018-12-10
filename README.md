@@ -1,2 +1,2 @@
-# HeuriSolve
-HeuriSolve: A library of learned heuristics
+# CSPHeuristix
+CSPHeuristix: A library of learned heuristics
