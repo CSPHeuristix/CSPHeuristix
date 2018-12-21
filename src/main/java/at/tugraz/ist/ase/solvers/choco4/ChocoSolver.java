@@ -13,14 +13,12 @@ import org.chocosolver.solver.variables.IntVar;
  * @since 1.0
 */
 
-import at.tugraz.ist.ase.solvers.CSPInterface;
-import at.tugraz.ist.ase.solvers.SolverInterface;
-import at.tugraz.ist.ase.solvers.CustomVariable;
+import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.solvers.Var;
 
-public class ChocoSolver implements SolverInterface{
+public class ChocoSolver {
 
-	@Override
-	public CSPInterface solveCSP(CSPInterface csp) {
+	public CSP solveCSP(CSP csp) {
 		// TODO Auto-generated method stub
 		
 		 Model chocoModel= createChocoModel(csp);
@@ -32,14 +30,14 @@ public class ChocoSolver implements SolverInterface{
 		 long end = System.nanoTime();
 		 time = end-start;
 		
-		 ChocoCSP solution = new ChocoCSP(null);
+		 CSP solution = new CSP(null,null,null);
 		 solution.isSolved = isSolved;
 		 solution.runtime = time;
 		 
 		 return solution;
 	}
 	
-	private Model createChocoModel (CSPInterface csp){
+	private Model createChocoModel (CSP csp){
 		
 		Model newModel = new Model(csp.getName());
 		IntVar [] vars = new IntVar[csp.getVars().length];

@@ -7,14 +7,14 @@ package at.tugraz.ist.ase.solvers;
  * @since 1.0
 */
 
-public class CustomVariable{
+public class Var{
 	
 	String name;
 	int minDomain;
 	int maxDomain;
 	
 	  
-	public CustomVariable(String name, int minDomain, int maxDomain){
+	public Var(String name, int minDomain, int maxDomain){
 		this.name = name;
 		this.minDomain = minDomain;
 		this.maxDomain = maxDomain;

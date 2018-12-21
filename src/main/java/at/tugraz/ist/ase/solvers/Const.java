@@ -7,13 +7,13 @@ package at.tugraz.ist.ase.solvers;
  * @since 1.0
 */
 
-public class CustomConstraint {
+public class Const {
 	
 	int varID;
 	String operator;
 	int value;
 	 
-	public CustomConstraint(int varID, String operator, int value){
+	public Const(int varID, String operator, int value){
 		this.varID = varID;
 		this.operator = operator;
 		this.value = value;

@@ -1,8 +1,8 @@
-import at.tugraz.ist.ase.solvers.CSPInterface;
-import at.tugraz.ist.ase.solvers.CustomConstraint;
-import at.tugraz.ist.ase.solvers.CustomVariable;
-import at.tugraz.ist.ase.solvers.SolverInterface;
-import at.tugraz.ist.ase.solvers.choco4.ChocoCSP;
+import at.tugraz.ist.ase.CSPHeuristix.enumerators.SolverID;
+import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.solvers.Const;
+import at.tugraz.ist.ase.solvers.Solver;
+import at.tugraz.ist.ase.solvers.Var;
 import at.tugraz.ist.ase.solvers.choco4.ChocoSolver;
 
 import org.junit.Test;
@@ -10,23 +10,23 @@ import static org.junit.Assert.*;
 
 public class TestChoco {
 	
-	CustomVariable var1 = new CustomVariable(""+0, 0, 5);
-	CustomVariable [] vars = new CustomVariable[]{var1};
+	Var var1 = new Var(""+0, 0, 5);
+	Var [] vars = new Var[]{var1};
 	
-	CustomConstraint cons1 = new CustomConstraint(0, ">", 3);
-	CustomConstraint [] consArray1 = new CustomConstraint []{cons1};
+	Const cons1 = new Const(0, ">", 3);
+	Const [] consArray1 = new Const []{cons1};
 	
-	CustomConstraint cons2 = new CustomConstraint(0, ">", 6);
-	CustomConstraint [] consArray2 = new CustomConstraint []{cons2};
+	Const cons2 = new Const(0, ">", 6);
+	Const [] consArray2 = new Const []{cons2};
 
     @Test
     public void testSolutionFound(){
 		
 		/////////////////////////////////
-		SolverInterface solver = new ChocoSolver();
-		CSPInterface csp = new ChocoCSP("test1",vars, consArray1);
+		Solver solver = new Solver();
+		CSP csp = new CSP("test1",vars, consArray1);
 		
-		CSPInterface soln = solver.solveCSP(csp);
+		CSP soln = solver.solveCSP(csp,SolverID.choco);
 		
 		assertTrue(soln.isSolved());
 		///////////////////////////////
@@ -37,10 +37,10 @@ public class TestChoco {
     public void testNoSolutionFound(){
 		
 		/////////////////////////////////
-		SolverInterface solver2 = new ChocoSolver();
-		CSPInterface csp2 = new ChocoCSP("test2",vars, consArray2);
+		Solver solver2 = new Solver();
+		CSP csp2 = new CSP("test2",vars, consArray2);
 		
-		CSPInterface soln2 = solver2.solveCSP(csp2);
+		CSP soln2 = solver2.solveCSP(csp2,SolverID.choco);
 		
 		assertFalse(soln2.isSolved());
 		///////////////////////////////
