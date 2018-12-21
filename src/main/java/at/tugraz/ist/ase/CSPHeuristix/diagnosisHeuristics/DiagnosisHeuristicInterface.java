@@ -1,4 +1,4 @@
-package at.tugraz.ist.ase.CSPHeuristix.DiagnosisHeuristics;
+package at.tugraz.ist.ase.CSPHeuristix.diagnosisHeuristics;
 
 
 /** Represents a DiagnosisHeuristicInterface

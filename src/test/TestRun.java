@@ -1,7 +1,7 @@
-import at.tugraz.ist.ase.CSPHeuristix.Library;
 import at.tugraz.ist.ase.CSPHeuristix.enumerators.DiagnoserID;
 import at.tugraz.ist.ase.CSPHeuristix.enumerators.HeuristicID;
 import at.tugraz.ist.ase.CSPHeuristix.enumerators.SolverID;
+import at.tugraz.ist.ase.CSPHeuristix.Library;
 
 public class TestRun {
 	
