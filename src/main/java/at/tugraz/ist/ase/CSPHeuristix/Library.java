@@ -1,10 +1,21 @@
 package at.tugraz.ist.ase.CSPHeuristix;
 
+/** Represents a Library
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.log4j.*;
+
+import at.tugraz.ist.ase.CSPHeuristix.enumerators.DiagnoserID;
+import at.tugraz.ist.ase.CSPHeuristix.enumerators.HeuristicID;
+import at.tugraz.ist.ase.CSPHeuristix.enumerators.SolverID;
 
 public class Library {
 	
