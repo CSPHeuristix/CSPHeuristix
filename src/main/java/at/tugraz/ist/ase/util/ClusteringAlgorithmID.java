@@ -1,4 +1,4 @@
-package at.tugraz.ist.ase.CSPHeuristix.enumerators;
+package at.tugraz.ist.ase.util;
 
 /** Represents a DiagnoserID
  * @author Seda Polat Erdeniz (AIG, TUGraz)
@@ -7,6 +7,6 @@ package at.tugraz.ist.ase.CSPHeuristix.enumerators;
  * @since 1.0
 */
 
-public enum DiagnoserID {
-    fastdiag, flexdiag
+public enum ClusteringAlgorithmID {
+    kmeans, xmeans, em, clope, farthestFirst, filteredClusterer
 }

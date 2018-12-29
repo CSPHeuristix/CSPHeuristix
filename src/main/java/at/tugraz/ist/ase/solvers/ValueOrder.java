@@ -1,4 +1,4 @@
-package at.tugraz.ist.ase.solvers.choco4;
+package at.tugraz.ist.ase.solvers;
 
 /** Represents a ValueOrder
  * @author Seda Polat Erdeniz (AIG, TUGraz)

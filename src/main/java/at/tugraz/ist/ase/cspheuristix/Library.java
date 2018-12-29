@@ -1,4 +1,4 @@
-package at.tugraz.ist.ase.CSPHeuristix;
+package at.tugraz.ist.ase.cspheuristix;
 
 /** Represents a Library
  * @author Seda Polat Erdeniz (AIG, TUGraz)
@@ -13,20 +13,18 @@ import java.util.Date;
 
 import org.apache.log4j.*;
 
-import at.tugraz.ist.ase.CSPHeuristix.enumerators.DiagnoserID;
-import at.tugraz.ist.ase.CSPHeuristix.enumerators.HeuristicID;
-import at.tugraz.ist.ase.CSPHeuristix.enumerators.SolverID;
+import at.tugraz.ist.ase.util.DiagnoserID;
+import at.tugraz.ist.ase.util.HeuristicID;
+import at.tugraz.ist.ase.util.SolverID;
 
 public class Library {
 	
 	
 	private static final Logger logger = Logger.getLogger(Library.class);
 	
-
 	public Library(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFolder){
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		//System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 		
 		try{
 			logger.info("Library: start ("+dateFormat.format(date)+")");
@@ -63,8 +61,5 @@ public class Library {
 		logger.info("Library: end ("+dateFormat.format(date)+")");		
 	}
 	
-	
-    
-    
     
 }

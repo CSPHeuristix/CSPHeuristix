@@ -1,4 +1,4 @@
-package at.tugraz.ist.ase.CSPHeuristix.enumerators;
+package at.tugraz.ist.ase.util;
 
 /** Represents a SolverID
  * @author Seda Polat Erdeniz (AIG, TUGraz)

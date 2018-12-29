@@ -1,9 +1,8 @@
 package at.tugraz.ist.ase.solvers;
 
-import at.tugraz.ist.ase.CSPHeuristix.enumerators.SolverID;
-import at.tugraz.ist.ase.solvers.choco4.ChocoSolver;
+import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a SolverInterface
+/** Represents a Solver
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0
@@ -15,7 +14,7 @@ public class Solver {
 	public CSP solveCSP(CSP csp, SolverID id) {
 		
 		if(id == SolverID.choco)
-			return new ChocoSolver().solveCSP(csp);
+			return new Choco4().solveCSP(csp);
 		else
 			return null;
 		

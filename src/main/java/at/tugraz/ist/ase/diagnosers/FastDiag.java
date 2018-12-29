@@ -2,14 +2,15 @@ package at.tugraz.ist.ase.diagnosers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import at.tugraz.ist.ase.CSPHeuristix.enumerators.SolverID;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Solver;
 import at.tugraz.ist.ase.solvers.Var;
-import at.tugraz.ist.ase.solvers.choco4.ChocoSolver;
+import at.tugraz.ist.ase.util.SolverID;
 /** Represents a FastDiag
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
@@ -17,11 +18,11 @@ import at.tugraz.ist.ase.solvers.choco4.ChocoSolver;
  * @since 1.0
 */
 
-public class FastDiag {
+class FastDiag {
 	
 	Var[] vars;
 	SolverID solverID;
-	
+	int m=1;
 //	Algorithm − FastDiag
 	
 //	1 func FastDiag(C ⊆ AC, AC = {c1..ct}) : ∆
@@ -37,7 +38,7 @@ public class FastDiag {
 //	10 D2 = F D(D1, C1, AC − D1);
 //	11 return(D1 ∪ D2);
 	
-	public Const[] diagnose (Var[] vars, SolverID id, Const[] C, Const[] AC){
+	protected Const[] diagnose (Var[] vars, SolverID id, Const[] C, Const[] AC){
 		this.vars = vars;
 		this.solverID = id;
 		
@@ -46,6 +47,15 @@ public class FastDiag {
 		
 		else
 			return FD(null,C,AC);
+	}
+	
+	//////////////////////////////////
+	// for FlexDiag                 //
+	//////////////////////////////////
+	protected Const[] diagnose (Var[] vars, SolverID id, Const[] C, Const[] AC, int m){
+		this.m = m;
+		return diagnose(vars, id, C, AC);
+		
 	}
 
 	private Const[] FD (Const[] D, Const[] C, Const[] AC){
@@ -58,7 +68,7 @@ public class FastDiag {
 		int k = AC.length/2;
 		
 		Const[] C1 = Arrays.copyOfRange(C, 0, k);
-		Const[] C2 = Arrays.copyOfRange(C, k+1, C.length-1);
+		Const[] C2 = Arrays.copyOfRange(C, k, C.length);
 				
 		Const[] D1 = FD(C1, C2, subtract(AC, C1));
 		Const[] D2 = FD(D1, C2, subtract(AC, D1));
@@ -69,12 +79,33 @@ public class FastDiag {
 		System.arraycopy(D2, 0, Diagnosis, D1.length, D2.length);
 		
 		
-		return Diagnosis;
-		
+		////////////////////////////////////
+		// convert the Array to Set       //
+		// to eliminate dublications      //
+		// in the diagnosis array         //
+		////////////////////////////////////
+        Set<Const> diagnonsisSet = convertArrayToSet(Diagnosis); 
+        Const[] diagnosisArray = diagnonsisSet.toArray(new Const[0]);
+        //////////////////
+        
+		return diagnosisArray;
 	}
 	
 	///////////////////////////
-	
+
+	private Set<Const> convertArrayToSet(Const array[]) 
+    { 
+        // Create an empty Set 
+        Set<Const> set = new HashSet<>(); 
+  
+        // Iterate through the array 
+        for (Const t : array) { 
+            // Add each element into the set 
+            set.add(t); 
+        } 
+        // Return the converted Set 
+        return set; 
+    }
 	private boolean isConsistent(Const[] C){
 		// TODO
 		Solver solver = new Solver();

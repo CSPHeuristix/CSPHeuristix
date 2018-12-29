@@ -30,6 +30,19 @@
 		    <scope>test</scope>
 		</dependency>
 		
+		 <!-- Mahout --> 
+		<dependency>
+		    <groupId>org.apache.mahout</groupId>
+		    <artifactId>mahout-math</artifactId>
+		    <version>0.12.2</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.mahout</groupId>
+		    <artifactId>mahout-core</artifactId>
+		    <version>0.9</version>
+		</dependency>
+		
     
   </dependencies>
 

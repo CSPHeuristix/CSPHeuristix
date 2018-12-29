@@ -1,12 +1,12 @@
-package at.tugraz.ist.ase.diagnosers;
+package at.tugraz.ist.ase.util;
 
-/** Represents a DiagnoserInterface
+/** Represents a DiagnoserID
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0
  * @since 1.0
 */
 
-public interface DiagnoserInterface {
-
+public enum DiagnoserID {
+    fastdiag, flexdiag
 }
