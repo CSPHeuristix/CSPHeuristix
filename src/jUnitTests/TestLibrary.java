@@ -3,7 +3,7 @@ import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.SolverID;
 
-public class TestRun {
+public class TestLibrary {
 	
 	public static void main(String [] args){
 		

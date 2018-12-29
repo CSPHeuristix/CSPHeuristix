@@ -8,10 +8,10 @@ import org.apache.mahout.cf.taste.model.DataModel;
 
 public class MatrixFactorization {
 	
-	public static double[][] IF;
-	public static double[][] UF;
+	public double[][] IF;
+	public double[][] UF;
 	
-	public static void SVD(DataModel dataModel,int numFeatures, int numIterations, int userID, int numberRecommendedItems){
+	public void SVD(DataModel dataModel,int numFeatures, int numIterations, int userID, int numberRecommendedItems){
 		try {
 			long start = System.nanoTime();
 			Factorizer factorizer_svd;
@@ -33,7 +33,7 @@ public class MatrixFactorization {
 		}
 	}
 	
-	public static double[][] multiplyByMatrix(double[][] m1, double[][] m2) {
+	private double[][] multiplyByMatrix(double[][] m1, double[][] m2) {
 		
 		m2 = transposeMatrix(m2);
         int m1ColLength = m1[0].length; // m1 columns length
@@ -52,7 +52,7 @@ public class MatrixFactorization {
         return mResult;
     }
 	
-	 public static double[][] transposeMatrix(double [][] m){
+	private double[][] transposeMatrix(double [][] m){
 	        double[][] temp = new double[m[0].length][m.length];
 	        for (int i = 0; i < m.length; i++)
 	            for (int j = 0; j < m[0].length; j++)
@@ -60,14 +60,14 @@ public class MatrixFactorization {
 	        return temp;
 	    }
 	
-	public static double euclidean_distance(double[] a, double[] b) {
-        double diff_square_sum = 0.0;
-        for (int i = 0; i < a.length; i++) {
-        	if(a[i]!=-1)
-        		diff_square_sum += (a[i] - b[i]) * (a[i] - b[i]);
-        }
-        return Math.sqrt(diff_square_sum);
-    }
-	
+//	public double euclidean_distance(double[] a, double[] b) {
+//        double diff_square_sum = 0.0;
+//        for (int i = 0; i < a.length; i++) {
+//        	if(a[i]!=-1)
+//        		diff_square_sum += (a[i] - b[i]) * (a[i] - b[i]);
+//        }
+//        return Math.sqrt(diff_square_sum);
+//    }
+//	
 
 }

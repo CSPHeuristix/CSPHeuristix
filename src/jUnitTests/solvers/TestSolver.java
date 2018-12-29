@@ -1,3 +1,4 @@
+package solvers;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Solver;
@@ -8,7 +9,7 @@ import at.tugraz.ist.ase.util.SolverID;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class TestChoco {
+public class TestSolver {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //

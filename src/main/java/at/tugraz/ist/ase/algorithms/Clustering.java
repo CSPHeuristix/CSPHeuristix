@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.tugraz.ist.ase.util.ClusteringAlgorithmID;
 import net.sf.javaml.clustering.KMeans;
 import net.sf.javaml.core.Dataset;
 import net.sf.javaml.tools.data.FileHandler;
@@ -20,7 +21,7 @@ import weka.clusterers.XMeans;
 
 public class Clustering {
 
-	public int[][] cluster(int clusteringType, String dataSetFile, String outputFolder, int numberOfvars, int numberOfClusters){
+	public int[][] cluster(ClusteringAlgorithmID cid, String dataSetFile, String outputFolder, int numberOfvars, int numberOfClusters){
 		
 		try {
 	        /* Load a dataset */
@@ -29,32 +30,32 @@ public class Clustering {
 			data = FileHandler.loadDataset(new File(dataSetFile), numberOfvars, ",");
 			Dataset[] clusters = null;
 			
-	        switch(clusteringType){
-		        case 0:
+	        switch(cid){
+		        case kmeans:
 		        	KMeans km = new KMeans(numberOfClusters);
 		        	clusters = km.cluster(data);
 		        	break;
-		        case 1:
+		        case xmeans:
 		        	XMeans xm = new XMeans();
 		        	WekaClusterer jmlxm = new WekaClusterer(xm);
 		        	clusters = jmlxm.cluster(data);
 		        	break;
-		        case 2:
-		        	EM em = new EM();
-		        	WekaClusterer jmlem = new WekaClusterer(em);
+		        case em:
+		        	EM emc = new EM();
+		        	WekaClusterer jmlem = new WekaClusterer(emc);
 		        	clusters = jmlem.cluster(data);
 		        	break;
-		        case 3:
+		        case clope:
 		        	CLOPE clope = new CLOPE();
 		        	WekaClusterer jmlclope = new WekaClusterer(clope);
 		        	clusters = jmlclope.cluster(data);
 		        	break;
-		        case 4:
+		        case farthestFirst:
 		        	FarthestFirst ff = new FarthestFirst();
 		        	WekaClusterer jmlff = new WekaClusterer(ff);
 		        	clusters = jmlff.cluster(data);
 		        	break;
-		        case 5:
+		        case filteredClusterer:
 		        	FilteredClusterer fc = new FilteredClusterer();
 		        	WekaClusterer jmlfc = new WekaClusterer(fc);
 		        	clusters = jmlfc.cluster(data);
@@ -88,7 +89,7 @@ public class Clustering {
 		return getClusters(dataSetFile, numberOfClusters);
 	}
 
-	public int[][] getClusters(String outputFolder, int numberOfClusters){
+	private int[][] getClusters(String outputFolder, int numberOfClusters){
 		 
 		 int [][] clusters = new int [numberOfClusters][];
 		 

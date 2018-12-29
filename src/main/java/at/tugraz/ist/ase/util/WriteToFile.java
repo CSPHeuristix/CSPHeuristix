@@ -13,7 +13,7 @@ import java.util.List;
 public class WriteToFile {
 	
 	
-	 public static void writeALineToAFile(String line, String filename){
+	 public void writeALineToAFile(String line, String filename){
 		 
 			try {
 			
@@ -26,7 +26,7 @@ public class WriteToFile {
 				FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				
-				bw.write(line);
+				bw.write(line+"\n");
 				
 				bw.close();
 				
@@ -38,19 +38,19 @@ public class WriteToFile {
 		
 	 }
 
-	 public static int appendToBottomOfFile(String line,String filename) {
-			
-			line = "\n"+line;
-		    int lineNumber=0;
-			try {
-				
-				Files.write(Paths.get(filename), line.getBytes(), StandardOpenOption.APPEND);
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return lineNumber-1;
-			
-		}
+//	 public int appendToBottomOfFile(String line,String filename) {
+//			
+//			line = "\n"+line;
+//		    int lineNumber=0;
+//			try {
+//				
+//				Files.write(Paths.get(filename), line.getBytes(), StandardOpenOption.APPEND);
+//				
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			return lineNumber-1;
+//			
+//		}
 }

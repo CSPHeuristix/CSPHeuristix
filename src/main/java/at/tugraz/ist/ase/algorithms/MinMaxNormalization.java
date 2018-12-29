@@ -3,13 +3,20 @@ package at.tugraz.ist.ase.algorithms;
 public class MinMaxNormalization {
 
 	
-	public static double [] normalize(int [] arrayToNormalize, int[][] vars){
+	public double [] normalize(int[] arrayToNormalize, int[][] varsMinMax){
+		
+		return normalize(copyFromIntArray(arrayToNormalize),copyFromIntArray(varsMinMax));
+		
+	}
+	
+	
+	public double [] normalize(double[] arrayToNormalize, double[][] varsMinMax){
 		
 		double [] normalized = new double[arrayToNormalize.length];
 		
 		for(int i=0;i<arrayToNormalize.length;i++){
-			double min = vars[i][0]; // lower bound
-			double max = vars[i][1]; // upper bound
+			double min = varsMinMax[i][0]; // lower bound
+			double max = varsMinMax[i][1]; // upper bound
 			normalized[i] = (double)((arrayToNormalize[i]-min)/(max-min));
 			if(arrayToNormalize[i]==-1)
 				normalized[i]=-1;
@@ -18,7 +25,7 @@ public class MinMaxNormalization {
 		return normalized;
 	}
 	
-	public static double [] normalizeTo01(double [] arrayToNormalize, double[] minmax){
+	public double [] normalizeTo01(double [] arrayToNormalize, double[] minmax){
 		
 		double [] normalized = new double[arrayToNormalize.length];
 		
@@ -31,5 +38,26 @@ public class MinMaxNormalization {
 		}
 		
 		return normalized;
+	}
+	
+	private double[] copyFromIntArray(int[] source) {
+	    double[] dest = new double[source.length];
+	    for(int i=0; i<source.length; i++) {
+	        dest[i] = source[i];
+	    }
+	    return dest;
+	}
+	
+	private double[][] copyFromIntArray(int[][] source) {
+	    double[][] dest = new double[source.length][];
+	    
+	    for (int j=0;j<source.length;j++){
+	    	dest[j] = new double[source[j].length];
+	    	
+		    for(int i=0; i<source[j].length; i++) {
+		        dest[j][i] = source[j][i];
+		    }
+		}
+	    return dest;
 	}
 }

@@ -92,9 +92,9 @@ public class CollaborativeFiltering {
 					int size = domainValues[i].length;
 					for(int d=0;d<size;d++){
 						if(reqs[i] == domainValues[i][d])
-							WriteToFile.appendToBottomOfFile(20+","+itemIndex+",1.0",newUserFile);
+							new WriteToFile().writeALineToAFile(20+","+itemIndex+",1.0",newUserFile);
 						else
-							WriteToFile.appendToBottomOfFile(20+","+itemIndex+",0.0",newUserFile);
+							new WriteToFile().writeALineToAFile(20+","+itemIndex+",0.0",newUserFile);
 						itemIndex++;
 					}
 				}

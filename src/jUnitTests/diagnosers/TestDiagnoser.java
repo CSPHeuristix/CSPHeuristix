@@ -1,3 +1,4 @@
+package diagnosers;
 import at.tugraz.ist.ase.diagnosers.Diagnoser;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Const;
@@ -8,7 +9,7 @@ import at.tugraz.ist.ase.util.SolverID;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class TestFastDiag {
+public class TestDiagnoser {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -44,7 +45,9 @@ public class TestFastDiag {
 
     @Test
     public void testDiagnosisFound(){
-		
+    	did = DiagnoserID.fastdiag;
+    	SolverID sid = SolverID.choco;
+    	m = 1;
 		/////////////////////////////////
 		Diagnoser diagnoser = new Diagnoser();
 		Const[] diag = diagnoser.diagnose(vars, SolverID.choco, C1, AC1, m, did);
@@ -54,7 +57,10 @@ public class TestFastDiag {
 	}
     
     @Test
-    public void testMinimumDiagnosisFound(){	
+    public void testMinimumDiagnosisFound(){
+    	did = DiagnoserID.fastdiag;
+    	SolverID sid = SolverID.choco;
+    	m = 1;
 		/////////////////////////////////
     	Diagnoser diagnoser = new Diagnoser();
 		Const[] diag = diagnoser.diagnose(vars, SolverID.choco, C2, AC2, m, did);
@@ -63,7 +69,10 @@ public class TestFastDiag {
 	}
     
     @Test
-    public void testMinimumDiagnosisFound_reverse(){	
+    public void testMinimumDiagnosisFound_reverse(){
+    	did = DiagnoserID.fastdiag;
+    	SolverID sid = SolverID.choco;
+    	m = 1;
 		/////////////////////////////////
     	Diagnoser diagnoser = new Diagnoser();
 		//CSPInterface csp = new ChocoCSP("test1",vars, consArray1);
@@ -71,5 +80,7 @@ public class TestFastDiag {
 		assertTrue(diag.length==1 && diag[0].getValue()==3);
 		///////////////////////////////	
 	}
+   
+    
     
 }

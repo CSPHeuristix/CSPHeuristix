@@ -28,12 +28,12 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="thirdPartyLibraries/ajt-1.20.jar"/>
 	<classpathentry kind="lib" path="thirdPartyLibraries/commons-math-1.2.jar"/>
 	<classpathentry kind="lib" path="thirdPartyLibraries/Jama-1.0.2.jar"/>
-	<classpathentry kind="lib" path="thirdPartyLibraries/javaml-0.1.5.jar"/>
+	<classpathentry kind="lib" path="thirdPartyLibraries/javaml-0.1.5.jar" sourcepath="thirdPartyLibraries/javaml-0.1.5.jar"/>
 	<classpathentry kind="lib" path="thirdPartyLibraries/libsvm.jar"/>
 	<classpathentry kind="lib" path="thirdPartyLibraries/weka.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
