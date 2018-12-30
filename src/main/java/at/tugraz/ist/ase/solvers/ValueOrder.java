@@ -38,6 +38,6 @@ public class ValueOrder implements IntValueSelector {
 	 			returnvalue = lowerbound;
 	 		}
 	        
-	        return upperbound;
+	        return returnvalue;
 	    }
 }

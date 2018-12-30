@@ -26,7 +26,7 @@ public class Clustering {
 		try {
 	        /* Load a dataset */
 	        Dataset data;
-			
+	        
 			data = FileHandler.loadDataset(new File(dataSetFile), numberOfvars, ",");
 			Dataset[] clusters = null;
 			

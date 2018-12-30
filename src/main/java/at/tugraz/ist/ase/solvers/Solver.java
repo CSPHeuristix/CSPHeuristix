@@ -17,7 +17,6 @@ public class Solver {
 			return new Choco4().solveCSP(csp);
 		else
 			return null;
-		
 		// TODO
 	}
 	
