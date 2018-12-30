@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc;
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_Default;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.util.HeuristicID;
@@ -16,7 +17,7 @@ public class Individual_VVO extends Individual{
 	public Individual_VVO(int geneLength, CSP[] trainingDataset, HeuristicID hi,SolverID sid, PerformanceIndicator pi) {
 		super(geneLength, trainingDataset, hi,sid, pi);
 		initiate(geneLength, trainingDataset);
-		fitnessCalc = new FitnessCalc_VVO();
+		fitnessCalc = new FitnessCalc_VVO(this, target, pi, hi, trainingDataset, sid);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -58,7 +59,7 @@ public class Individual_VVO extends Individual{
 		if(fitness!=0)
 			return fitness;
 		
-		fitness = fitnessCalc.getFitness(this, target, pi, hi, trainingDataset, sid);
+		fitness = fitnessCalc.getFitness();
 		return fitness;
 	}
 

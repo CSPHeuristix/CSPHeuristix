@@ -13,7 +13,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
-class CLCO extends IHeuristics{
+class CLCO extends Heuristics{
 
 	@Override
 	protected void learn(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID,
@@ -21,7 +21,7 @@ class CLCO extends IHeuristics{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	protected CSP solveTask(CSP task) {
 		// TODO Auto-generated method stub

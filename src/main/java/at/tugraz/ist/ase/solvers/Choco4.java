@@ -1,19 +1,28 @@
 package at.tugraz.ist.ase.solvers;
 
 
+import static org.chocosolver.solver.search.strategy.Search.intVarSearch;
+
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.constraints.Constraint;
+import org.chocosolver.solver.search.strategy.selectors.values.IntValueSelector;
+import org.chocosolver.solver.search.strategy.selectors.variables.VariableSelector;
 import org.chocosolver.solver.variables.IntVar;
+import org.chocosolver.solver.variables.Variable;
 
-class Choco4 {
+import at.tugraz.ist.ase.cspheuristix.Heuristics;
+import at.tugraz.ist.ase.util.SolverID;
 
-	protected CSP solveCSP(CSP csp) {
-		// TODO Auto-generated method stub
-		
+class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
+
+	protected CSP solveCSP() {
+		 // TODO Auto-generated method stub
 		 Model chocoModel= createChocoModel(csp);
 		 Solver solver = chocoModel.getSolver();
- 	 
+		 if(withHeuristics)
+			 solver = setHeuristics(solver);
+		 
 		 long time = 0;
 		 long start = System.nanoTime();
 		 boolean isSolved= solver.solve();
@@ -26,7 +35,7 @@ class Choco4 {
 		 
 		 return solution;
 	}
-	
+		
 	private Model createChocoModel (CSP csp){
 		
 		Model newModel = new Model(csp.getName());
@@ -53,6 +62,66 @@ class Choco4 {
 		
 		return newModel;
 	}
-	
-	
+
+	private Solver setHeuristics (Solver solver){
+		
+		// TODO: SEDA : debug this function
+		
+		VariableSelector varSelector = null;
+		IntValueSelector valueSelector = new ValueOrder(heuristix.valueOrdering);
+		IntVar[] intvars = getIntVars(solver.getModel());
+		 
+		varSelector =(VariableSelector<IntVar>) variables -> {
+			for(int i =0;i<solver.getModel().getVars().length;i++){
+		        return intvars[heuristix.variableOrdering[i]];
+		    }
+		    return null;
+	    };
+		
+		solver.setSearch(intVarSearch(
+                
+				varSelector,
+                
+				valueSelector,
+              
+                // variables to branch on
+                getIntVars(solver.getModel())
+			));
+		return solver;
+		
+	}
+	private IntVar[] getIntVars(Model model){
+		 Variable[] vars = model.getVars();
+		 IntVar[] intvars = new IntVar[vars.length];
+		 
+		 for(int v=0;v<vars.length;v++){
+			 intvars[v]= (IntVar)vars[v];
+		 }
+		 return intvars;
+		
+	}
 }
+
+class ValueOrder implements IntValueSelector {
+	
+    int [][] valueSelections;
+    int counter = 0;
+    
+    public ValueOrder(int[][] heuristic){
+    	valueSelections =new int [heuristic.length][];
+    	for(int i=0;i<heuristic.length;i++){
+    		valueSelections[i] = new int [heuristic[i].length];
+    		valueSelections = heuristic.clone();
+    	}
+    }
+    
+ 	@Override
+    public int selectValue(IntVar var) {
+ 		
+ 		if(counter>valueSelections[var.getId()].length)
+ 			counter=0;
+ 		
+        return valueSelections[var.getId()][counter];
+    }
+}
+

@@ -13,6 +13,7 @@ public class CSP {
 	Var[] vars;
 	Const[] cons;
 	String name;
+	int [] reqs;
 	
 	public boolean isSolved= false;
 	public long runtime = -1;
@@ -30,6 +31,7 @@ public class CSP {
 	}
 
 	public void insertConstraints(int [] reqs){
+		this.reqs = reqs;
 		Const[] REQ = new Const[reqs.length];
 		for(int i=0;i<reqs.length;i++){
 			if(reqs[i]>0){ // IF INITIATED
@@ -47,7 +49,10 @@ public class CSP {
 
 	public String getName() {
 		return this.name;
-	}  
+	}
+	public int[] getREQs() {
+		return this.reqs;
+	}
 	public Var[] getVars() {
 		return this.vars;
 	}  

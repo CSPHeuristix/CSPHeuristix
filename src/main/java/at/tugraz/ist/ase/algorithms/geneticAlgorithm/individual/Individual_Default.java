@@ -16,7 +16,7 @@ public class Individual_Default extends Individual {
 	public Individual_Default(int geneLength, CSP[] trainingDataset, HeuristicID hi,SolverID sid,PerformanceIndicator pi) {
 		super(geneLength, trainingDataset, hi, sid, pi);
 		generateIndividual();
-		fitnessCalc= new FitnessCalc_Default();
+		fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -89,7 +89,7 @@ public class Individual_Default extends Individual {
 
     public float getFitness_Def(Individual target, PerformanceIndicator pi) {
         if (fitness == 0) 
-            fitness = fitnessCalc.getFitness(this, target, pi, hi, trainingDataset, sid);
+            fitness = fitnessCalc.getFitness();
  
         return fitness;
     }

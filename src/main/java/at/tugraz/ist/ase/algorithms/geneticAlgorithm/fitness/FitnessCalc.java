@@ -10,14 +10,21 @@ public abstract class FitnessCalc{
 
 	SolverID sid;
 	PerformanceIndicator pi;
+	HeuristicID hi;
 	Individual individual;
-	Individual target;
+	String target;
 	CSP[] trainingDataset;
 
-	FitnessCalc(){
-		
+	FitnessCalc(Individual individual, String target2,PerformanceIndicator pi, HeuristicID hi, CSP[] trainingDataset, SolverID sid){
+		this.individual = individual;
+		this.target=target2;
+		this.pi=pi;
+		this.hi=hi;
+		this.trainingDataset=trainingDataset.clone();
+		this.sid=sid;
 	}
-	public abstract float getFitness(Individual individual, Individual target,PerformanceIndicator pi, HeuristicID hi, CSP[] trainingDataset, SolverID sid); // {
+	
+	public abstract float getFitness(); // {
 //    	this.sid=sid;
 //    	this.pi=pi;
 //    	this.individual=individual;
@@ -35,7 +42,7 @@ public abstract class FitnessCalc{
 //    }
     
     // Get optimum fitness
-	public abstract int getMaxFitness(Individual target, HeuristicID hi); //{
+	public abstract int getMaxFitness(); //{
 //    	switch(hi){
 //			case clusterBasedVVO:
 //				return new FitnessCalc_VVO().getMaxFitness(target, hi);

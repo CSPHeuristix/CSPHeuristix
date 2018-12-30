@@ -110,7 +110,7 @@ class FastDiag {
 		// TODO
 		Solver solver = new Solver();
 		CSP csp = new CSP("test",vars, C);
-		CSP soln = solver.solveCSP(csp,this.solverID);
+		CSP soln = solver.solveCSP(csp,this.solverID,null);
 		return soln.isSolved();
 		
 	}

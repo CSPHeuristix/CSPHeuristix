@@ -13,7 +13,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
-class MFCO extends IHeuristics{
+class MFCO extends Heuristics{
 	
 	@Override
 	protected void learn(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID,

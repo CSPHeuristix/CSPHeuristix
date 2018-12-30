@@ -9,9 +9,14 @@ import at.tugraz.ist.ase.util.SolverID;
 
 public class FitnessCalc_VVO extends FitnessCalc{
 
-	@Override
-	public float getFitness(Individual individual, Individual target, PerformanceIndicator pi, HeuristicID hi,
+	public FitnessCalc_VVO(Individual individual, String target, PerformanceIndicator pi, HeuristicID hi,
 			CSP[] trainingDataset, SolverID sid) {
+		super(individual, target, pi, hi, trainingDataset, sid);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public float getFitness() {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 				switch(pi){
@@ -25,7 +30,7 @@ public class FitnessCalc_VVO extends FitnessCalc{
 	}
 
 	@Override
-	public int getMaxFitness(Individual target, HeuristicID hi) {
+	public int getMaxFitness() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -40,8 +45,8 @@ public class FitnessCalc_VVO extends FitnessCalc{
 		long start=System.currentTimeMillis();
 		
 		for (int i=0;i<trainingDataset.length;i++){
-			Solver s = new Solver();
-			s.solveCSP(trainingDataset[i], this.sid); 
+			Solver s= new Solver();
+			s.solveCSP(trainingDataset[i], this.sid, this.individual); 
 		}
 		long stop=System.currentTimeMillis();
 		

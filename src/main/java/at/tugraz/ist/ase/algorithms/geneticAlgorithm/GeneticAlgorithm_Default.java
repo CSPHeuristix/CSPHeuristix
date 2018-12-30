@@ -28,9 +28,9 @@ public class GeneticAlgorithm_Default extends GeneticAlgorithm {
     	// Evolve our population until we reach an optimum solution
         int generationCount = 0;
         
-    	while (myPop.getFittest().getFitness(target,pi) < new FitnessCalc_Default().getMaxFitness(target, null)) {
+    	while (myPop.getFittest().getFitness(target, pi) < new FitnessCalc_Default(target,targetStr,pi,hi,trainingDataset, sid).getMaxFitness()) {
     		generationCount++;
-    		System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness(target,pi));
+    		System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness(target, pi));
     		myPop = this.evolvePopulation(myPop);
     	}
     	System.out.println("Solution found!");

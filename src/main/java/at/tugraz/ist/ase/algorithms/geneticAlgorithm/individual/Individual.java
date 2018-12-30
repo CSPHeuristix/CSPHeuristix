@@ -18,8 +18,8 @@ public abstract class Individual{
 	protected PerformanceIndicator pi;
 	protected String target;
 	
-	protected int [] variableOrdering;
-	protected int [][] valueOrdering;
+	public int [] variableOrdering;
+	public int [][] valueOrdering;
 	protected int numberOfVars;
 	protected float fitness=0;
 	FitnessCalc fitnessCalc;
