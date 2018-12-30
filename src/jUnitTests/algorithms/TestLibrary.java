@@ -22,15 +22,16 @@ public class TestLibrary {
 	PerformanceIndicator pi = PerformanceIndicator.runtime;
 	HeuristicID hid= HeuristicID.clusterBasedVVO;
 	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
-	String inputFile = "IOFOLDER/INPUT/test/kmeans/simpleCSPS.data";
-	String outputFolder = "IOFOLDER/OUTPUT/test/kmeans/";
+	String inputFile = "IOFOLDER/INPUT/test/CSPSolving/pastReqs";
+	String outputFolder = "IOFOLDER/OUTPUT/test/CSPSolving/";
 	int numberOfvars=4;
 	int numberOfClusters=3;
+	String stoppingCriteria = "10"; // stop learning after 10 ms
 	////////////////////////////////
 
 	@Test
     public void testCLVVO(){
-		Library lib = new Library(hid, sid, did, inputFile, outputFolder, pi);
+		Library lib = new Library(hid, sid, did, inputFile, outputFolder, pi, stoppingCriteria, cid, numberOfClusters);
 		CSP[] solutions = lib.solveTasks();
 		assertTrue(solutions!=null);
 	}

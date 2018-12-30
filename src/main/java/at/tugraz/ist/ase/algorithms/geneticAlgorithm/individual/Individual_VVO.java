@@ -14,8 +14,8 @@ import at.tugraz.ist.ase.util.SolverID;
 public class Individual_VVO extends Individual{
 	
 
-	public Individual_VVO(int geneLength, CSP[] trainingDataset, HeuristicID hi,SolverID sid, PerformanceIndicator pi) {
-		super(geneLength, trainingDataset, hi,sid, pi);
+	public Individual_VVO(CSP[] trainingDataset, HeuristicID hi,SolverID sid, PerformanceIndicator pi) {
+		super(trainingDataset, hi,sid, pi);
 		initiate(geneLength, trainingDataset);
 		fitnessCalc = new FitnessCalc_VVO(this, target, pi, hi, trainingDataset, sid);
 		// TODO Auto-generated constructor stub
@@ -27,7 +27,7 @@ public class Individual_VVO extends Individual{
 		// TODO Auto-generated method stub
 		// crossover value orderings
 		
-		Individual_VVO newSol = new Individual_VVO(indiv2.getGeneLength(),trainingDataset, hi, sid, pi);
+		Individual_VVO newSol = new Individual_VVO(trainingDataset, hi, sid, pi);
 				//newSol.instantiate(numberOfVars, trainingDataset);
 		for (int i = 0; i < this.getGeneLength(); i++) {
 		            // Crossover
@@ -54,7 +54,7 @@ public class Individual_VVO extends Individual{
 	}
 
 	@Override
-	public float getFitness(Individual target, PerformanceIndicator pi) {
+	public float getFitness(String target, PerformanceIndicator pi) {
 		// TODO Auto-generated method stub
 		if(fitness!=0)
 			return fitness;
@@ -78,23 +78,24 @@ public class Individual_VVO extends Individual{
 	
 	private void initiate(int defaultGeneLength, CSP[] trainingDataset) {
 		//super(defaultGeneLength,trainingDataset);
-		this.numberOfVars = numberOfVars;
+		this.numberOfVars = defaultGeneLength;
 		variableOrdering = new int [numberOfVars];
 		for(int i=0;i<numberOfVars;i++)
 			variableOrdering[i]=i;
 			
-		int [][] domains = new int [numberOfVars][];
+		int [][] domains = new int [numberOfVars][2];
 		for (int i=0;i<numberOfVars;i++){
 				domains[i][0]= trainingDataset[0].getVars()[i].getMinDomain();
 				domains[i][1]= trainingDataset[0].getVars()[i].getMaxDomain();
 		}
-		
+		initiate(this.numberOfVars, domains);
 		generateIndividual();
 	}
 
 	private void initiate(int numberOfVars, int [][] domains){
 		this.numberOfVars = numberOfVars;
 		variableOrdering = new int [numberOfVars];
+		valueOrdering = new int [numberOfVars][];
 		for(int i=0;i<numberOfVars;i++)
 			variableOrdering[i]=i;
 			

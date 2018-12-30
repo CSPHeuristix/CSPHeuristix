@@ -12,19 +12,13 @@ import at.tugraz.ist.ase.util.SolverID;
 */
 
 public class Solver {
-	boolean withHeuristics = false;
-	Individual heuristix;
-	CSP csp;
 	
-	public CSP solveCSP(CSP csp, SolverID id, Individual heuristix)
+	
+	public CSP solveCSP(CSP task, SolverID id, Individual heu)
 	{
-		if(heuristix!=null)
-			this.withHeuristics=true;
-		this.heuristix = heuristix;
-		this.csp=csp;
 		
 		if(id == SolverID.choco)
-			return new Choco4().solveCSP();
+			return new Choco4().solveCSP(task,heu);
 		else
 			return null;
 		// TODO

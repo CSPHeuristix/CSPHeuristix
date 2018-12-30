@@ -6,19 +6,29 @@ import static org.chocosolver.solver.search.strategy.Search.intVarSearch;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.constraints.Constraint;
+import org.chocosolver.solver.constraints.nary.cnf.LogOp.Operator;
 import org.chocosolver.solver.search.strategy.selectors.values.IntValueSelector;
 import org.chocosolver.solver.search.strategy.selectors.variables.VariableSelector;
 import org.chocosolver.solver.variables.IntVar;
 import org.chocosolver.solver.variables.Variable;
 
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.cspheuristix.Heuristics;
 import at.tugraz.ist.ase.util.SolverID;
 
 class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 
-	protected CSP solveCSP() {
+	boolean withHeuristics = false;
+	Individual heuristix;
+	CSP csp;
+	
+	protected CSP solveCSP(CSP task, Individual heu) {
+		 this.csp=task;
+		 this.heuristix=heu;
+		 if(heu!=null)
+			 this.withHeuristics=true;
 		 // TODO Auto-generated method stub
-		 Model chocoModel= createChocoModel(csp);
+		 Model chocoModel= createChocoModel(this.csp);
 		 Solver solver = chocoModel.getSolver();
 		 if(withHeuristics)
 			 solver = setHeuristics(solver);
@@ -29,7 +39,12 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		 long end = System.nanoTime();
 		 time = end-start;
 		
-		 CSP solution = new CSP(null,null,null);
+		 CSP solution = new CSP(csp);
+		 int [] vars = new int [chocoModel.getNbVars()];
+		 for(int i=0;i<vars.length;i++)
+			 vars[i]= ((IntVar)chocoModel.getVar(i)).getValue();
+		 solution.setSolutions(vars);
+		 
 		 solution.isSolved = isSolved;
 		 solution.runtime = time;
 		 
@@ -52,11 +67,14 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		}
 		
 		// INSERT CONSTRAINTS
+		if(cons!=null)
 		for(int m=0;m<cons.length;m++){
 			int id = csp.getConstraints()[m].getVarID();
 			String operator = csp.getConstraints()[m].getOperator();
 			int value = csp.getConstraints()[m].getValue();
-			cons[m] = newModel.arithm((IntVar) newModel.getVar(id), operator, value);
+			
+			IntVar var = (IntVar)(newModel.getVar(id));
+			cons[m] = newModel.arithm(var, operator, value);
 			cons[m].post();
 		}
 		
@@ -67,7 +85,7 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		
 		// TODO: SEDA : debug this function
 		
-		VariableSelector varSelector = null;
+		VariableSelector<IntVar> varSelector = null;
 		IntValueSelector valueSelector = new ValueOrder(heuristix.valueOrdering);
 		IntVar[] intvars = getIntVars(solver.getModel());
 		 

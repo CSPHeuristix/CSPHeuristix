@@ -86,7 +86,7 @@ public class Clustering {
 			e.printStackTrace();
 		}
 
-		return getClusters(dataSetFile, numberOfClusters);
+		return getClusters(outputFolder, numberOfClusters);
 	}
 
 	private int[][] getClusters(String outputFolder, int numberOfClusters){
@@ -104,7 +104,7 @@ public class Clustering {
 			     while (line != null) {
 			         sb.append(line);
 			         sb.append(System.lineSeparator());
-			         int val = Integer.valueOf(line.split("\t")[0]);
+			         int val = Integer.valueOf(line.split("\t")[0].trim());
 			         indexes.add(val);
 			         line = br.readLine();
 			     }

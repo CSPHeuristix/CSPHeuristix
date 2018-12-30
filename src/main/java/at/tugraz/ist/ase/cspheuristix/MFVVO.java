@@ -1,6 +1,7 @@
 package at.tugraz.ist.ase.cspheuristix;
 
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.util.ClusteringAlgorithmID;
 import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
@@ -17,7 +18,7 @@ class MFVVO extends Heuristics{
 
 	@Override
 	protected void learn(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID,
-			String inputFile, String outputFolder,CSP basisTask, PerformanceIndicator pi) {
+			String inputFile, String outputFolder, PerformanceIndicator pi, String stoppingCriteria ,ClusteringAlgorithmID cid, int numberOClusters) {
 		// TODO Auto-generated method stub
 		
 	}

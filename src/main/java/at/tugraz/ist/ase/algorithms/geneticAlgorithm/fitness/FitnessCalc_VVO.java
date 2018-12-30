@@ -50,7 +50,9 @@ public class FitnessCalc_VVO extends FitnessCalc{
 		}
 		long stop=System.currentTimeMillis();
 		
-		return 1/(stop-start);
+		long time=stop-start;
+		
+		return (float)((float)1/(float)(time));
 	}
 	
 	private float getpredictionQualityFitness(){

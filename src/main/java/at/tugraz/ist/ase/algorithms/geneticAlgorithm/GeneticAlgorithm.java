@@ -16,7 +16,7 @@ public abstract class GeneticAlgorithm {
 	private int tournamentSize = 5;
 	private boolean elitism = true;
 	private IndividualID iid= IndividualID.vvo;
-	private Individual target =null;
+	private String target =null;
 	private PerformanceIndicator pi = PerformanceIndicator.runtime;
 	CSP[] trainingDataset;
 	SolverID sid;

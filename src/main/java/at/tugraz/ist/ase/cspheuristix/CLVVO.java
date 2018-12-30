@@ -17,34 +17,44 @@ class CLVVO extends Heuristics{
 
 	////////////////////////
 	// Default parameters //
-	int numberOfClusters=4;
+	int k;
 	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
+	SolverID sid;
 	CSP[][] trainingDataset;
 	Individual_VVO[] learnedHeuristics;
 	int [][] clusteredItems;
+	String stoppingCriteria;
+	CSP [] pastCSPs;
 	////////////////////////
 	
-	public void setParameters(int numberOfClusters, ClusteringAlgorithmID cid){
-		this.cid=cid;
-		this.numberOfClusters=numberOfClusters;
-	}
 	
 	@Override
 	protected void learn(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID,
-			String inputFile, String outputFolder, CSP basisTask, PerformanceIndicator pi) {
-		this.sid=sid;
+			String inputFile, String outputFolder, PerformanceIndicator pi, String stoppingCriteria ,ClusteringAlgorithmID cid, int numberOfClusters) {
+		this.sid=solverID;
+		this.cid=cid;
+		this.k=numberOfClusters;
+		this.stoppingCriteria=stoppingCriteria;
 		// get number of variables from inputFile
 		int numberOfvars = new ReadFile().readFile(inputFile).get(0).split(",").length-1;
+		//basisTask = generateBasisTask(inputFile);
+		pastCSPs = generatePastCSPs(inputFile);
 		
 		// Step-1: Cluster past user requirements of the same CSP tasks
 		Clustering clustering = new Clustering();
-		clusteredItems = clustering.cluster(cid, inputFile, outputFolder, numberOfvars, numberOfClusters);
-		trainingDataset = new CSP[numberOfClusters][];
-		learnedHeuristics = new Individual_VVO[numberOfClusters];
+		clusteredItems = clustering.cluster(cid, inputFile, outputFolder, numberOfvars, k);
+		trainingDataset = new CSP[k][];
+		
+		for (int i=0;i<k;i++){
+			trainingDataset[i]=new CSP[clusteredItems[i].length];
+			for(int j=0;j<clusteredItems[i].length;j++)
+				trainingDataset[i][j]=pastCSPs[clusteredItems[i][j]];
+		}
+		learnedHeuristics = new Individual_VVO[k];
 			
 		// Step-2: Learn Heuristics for Clusters
-		for(int i=0;i<numberOfClusters;i++){
-			learnedHeuristics[i] = (Individual_VVO)new GeneticAlgorithm_VVO().getTheFittestIndividual(numberOfvars, null, pi, trainingDataset[i], heuristicsID, solverID);
+		for(int i=0;i<k;i++){
+			learnedHeuristics[i] = (Individual_VVO)(new GeneticAlgorithm_VVO().getTheFittestIndividual(numberOfvars, stoppingCriteria, pi, trainingDataset[i], heuristicsID, solverID));
 		}
 	}
 	
@@ -59,9 +69,9 @@ class CLVVO extends Heuristics{
 		
 		// Step-4: Solve with the heuristics of the nearest cluster
 		Solver s = new Solver();
-		s.solveCSP(task, sid, learnedHeuristics[index]);
+		CSP solution = s.solveCSP(task, sid, learnedHeuristics[index]);
 		
-		return null;
+		return solution;
 	}
 
 	

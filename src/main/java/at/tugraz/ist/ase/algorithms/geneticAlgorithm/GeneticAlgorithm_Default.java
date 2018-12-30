@@ -19,18 +19,18 @@ public class GeneticAlgorithm_Default extends GeneticAlgorithm {
 		// TODO Auto-generated method stub
 						
     	// Set a target individual
-        Individual_Default target = new Individual_Default(geneLength, trainingDataset, null, sid, pi);
+        Individual_Default target = new Individual_Default(targetStr, trainingDataset, null, sid, pi);
         target.setDefaultGeneLength(geneLength);
     		
         // Create an initial population
-        Population myPop = new Population(50, true, IndividualID.binary, target, pi,trainingDataset,sid);
+        Population myPop = new Population(50, true, IndividualID.binary, targetStr, pi,trainingDataset,sid);
     		    
     	// Evolve our population until we reach an optimum solution
         int generationCount = 0;
         
-    	while (myPop.getFittest().getFitness(target, pi) < new FitnessCalc_Default(target,targetStr,pi,hi,trainingDataset, sid).getMaxFitness()) {
+    	while (myPop.getFittest().getFitness(targetStr, pi) < new FitnessCalc_Default(target,targetStr,pi,hi,trainingDataset, sid).getMaxFitness()) {
     		generationCount++;
-    		System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness(target, pi));
+    		System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness(targetStr, pi));
     		myPop = this.evolvePopulation(myPop);
     	}
     	System.out.println("Solution found!");

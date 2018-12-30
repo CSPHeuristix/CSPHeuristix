@@ -13,7 +13,7 @@ import at.tugraz.ist.ase.util.SolverID;
 public class Population {
 
     Individual[] individuals;
-    Individual target=null;
+    String target=null;
     PerformanceIndicator pi = PerformanceIndicator.runtime;
     int geneLenght;
     SolverID sid;
@@ -22,37 +22,34 @@ public class Population {
      * Constructors
      */
     // Create a population
-    public Population(int populationSize, boolean initialise, IndividualID iid, Individual target,PerformanceIndicator pi, CSP[] trainingDataset,SolverID sid) {
+    public Population(int populationSize, boolean initialise, IndividualID iid, String target,PerformanceIndicator pi, CSP[] trainingDataset,SolverID sid) {
     	this.pi = pi;
     	this.sid=sid;
-    	this.geneLenght = target.getGeneLength();
-        individuals = new Individual[populationSize];
+    	individuals = new Individual[populationSize];
         this.target = target;
         // Initialise population
         if (initialise) {
             // Loop and create individuals
             for (int i = 0; i < size(); i++) {
-            	Individual newIndividual=null;
             	//newIndividual = new Individual(this.geneLenght,trainingDataset,HeuristicID.clusterBasedVVO,sid);
     			
             	switch(iid){
             		case vvo:
-            			newIndividual = new Individual_VVO(this.geneLenght,trainingDataset,HeuristicID.clusterBasedVVO,sid, pi);
+            			individuals[i] = new Individual_VVO(trainingDataset,HeuristicID.clusterBasedVVO,sid, pi);
             			//newIndividual.instantiate(this.geneLenght, trainingDataset);
             			break;
             		case co:
-            			newIndividual = new Individual_CO(this.geneLenght,trainingDataset,HeuristicID.clusterBasedCO,sid, pi);
+            			individuals[i] = new Individual_CO(trainingDataset,HeuristicID.clusterBasedCO,sid, pi);
             			break;
             		case binary:
-            			newIndividual = new Individual_Default(this.geneLenght, null, null,sid, pi);
+            			individuals[i] = new Individual_Default(target, null, null,sid, pi);
             			break;
             		default:
-            			newIndividual = new Individual_Default(this.geneLenght, null, null,sid, pi);
+            			individuals[i] = new Individual_Default(target, null, null,sid, pi);
             			break;
             			
             	}
-            	//newIndividual.generateIndividual();
-                saveIndividual(i, newIndividual);
+            
             }
         }
     }
@@ -79,8 +76,8 @@ public class Population {
         return individuals.length;
     }
 
-    // Save individual
-    public void saveIndividual(int index, Individual indiv) {
-        individuals[index] = indiv;
+    public void saveIndividual(int i, Individual ind){
+    	individuals[i] = ind;
     }
+
 }

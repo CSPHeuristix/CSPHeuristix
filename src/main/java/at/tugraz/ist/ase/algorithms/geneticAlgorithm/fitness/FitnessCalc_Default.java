@@ -45,8 +45,8 @@ public class FitnessCalc_Default extends FitnessCalc{
     
     // To make it easier we can use this method to set our candidate solution 
     // with string of 0s and 1s
-    private Individual stringToTarget(String newSolution) {
-    	Individual_Default target = new Individual_Default(newSolution.length(),null, null, sid,pi);
+    private Individual stringToTarget(String newSolution, String trgt) {
+    	Individual_Default target = new Individual_Default(trgt,null, null, sid,pi);
         // Loop through each character of our string and save it in our byte 
         // array
         for (int i = 0; i < newSolution.length(); i++) {

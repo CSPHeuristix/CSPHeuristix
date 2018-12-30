@@ -7,8 +7,8 @@ import at.tugraz.ist.ase.util.SolverID;
 
 public class Individual_CO extends Individual{
 
-	public Individual_CO(int geneLength, CSP[] trainingDataset, HeuristicID hi, SolverID sid, PerformanceIndicator pi) {
-		super(geneLength, trainingDataset, hi, sid, pi);
+	public Individual_CO(CSP[] trainingDataset, HeuristicID hi, SolverID sid, PerformanceIndicator pi) {
+		super(trainingDataset, hi, sid, pi);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,15 +25,15 @@ public class Individual_CO extends Individual{
 	}
 
 	@Override
-	public float getFitness(Individual target, PerformanceIndicator pi) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public float getFitness(String target, PerformanceIndicator pi) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

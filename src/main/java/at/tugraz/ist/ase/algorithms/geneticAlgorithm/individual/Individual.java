@@ -26,8 +26,8 @@ public abstract class Individual{
 	
 	
 	
-	public Individual(int geneLength, CSP[] trainingDataset, HeuristicID hi, SolverID sid, PerformanceIndicator pi){
-		this.geneLength = geneLength;
+	public Individual(CSP[] trainingDataset, HeuristicID hi, SolverID sid, PerformanceIndicator pi){
+		this.geneLength = trainingDataset[0].getVars().length;
 		this.trainingDataset = trainingDataset.clone();
 		this.hi=hi;
 		this.sid=sid;
@@ -75,7 +75,7 @@ public abstract class Individual{
 //		}	
 //	}
 
-	public abstract float getFitness(Individual target, PerformanceIndicator pi);
+	public abstract float getFitness(String target, PerformanceIndicator pi);
 //    {
 //    	switch(hi){
 //			case clusterBasedVVO:

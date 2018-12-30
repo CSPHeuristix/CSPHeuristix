@@ -13,8 +13,8 @@ public class Individual_Default extends Individual {
     private float fitness = 0;
     
 
-	public Individual_Default(int geneLength, CSP[] trainingDataset, HeuristicID hi,SolverID sid,PerformanceIndicator pi) {
-		super(geneLength, trainingDataset, hi, sid, pi);
+	public Individual_Default(String target, CSP[] trainingDataset, HeuristicID hi,SolverID sid,PerformanceIndicator pi) {
+		super(trainingDataset, hi, sid, pi);
 		generateIndividual();
 		fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid);
 		// TODO Auto-generated constructor stub
@@ -24,7 +24,7 @@ public class Individual_Default extends Individual {
 	@Override
 	public Individual crossover(Individual indiv2, double uniformRate) {
 		// TODO Auto-generated method stub
-		Individual_Default newSol = new Individual_Default(this.geneLength,null, null, sid,pi);
+		Individual_Default newSol = new Individual_Default(target,null, null, sid,pi);
         // Loop through genes
         for (int i = 0; i < this.getGeneLength(); i++) {
             // Crossover
@@ -51,7 +51,7 @@ public class Individual_Default extends Individual {
 	}
 
 	@Override
-	public float getFitness(Individual target, PerformanceIndicator pi) {
+	public float getFitness(String target, PerformanceIndicator pi) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
