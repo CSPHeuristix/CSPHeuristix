@@ -5,6 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+/** Represents a Copy File Operation
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public class CopyFile {
 
 	public static void CopyFileToAnother(String in, String out){

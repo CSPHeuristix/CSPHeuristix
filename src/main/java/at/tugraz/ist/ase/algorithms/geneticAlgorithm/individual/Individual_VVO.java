@@ -12,6 +12,13 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents an Individual of a Genetic Algorithm for learning Variable and Value Ordering 
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public class Individual_VVO extends Individual{
 	
 

@@ -5,7 +5,7 @@ import at.tugraz.ist.ase.solvers.Var;
 import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a DiagnoserInterface
+/** Represents a Diagnoser
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

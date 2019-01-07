@@ -1,6 +1,6 @@
 package at.tugraz.ist.ase.solvers;
 
-/** Represents a VariableInterface
+/** Represents an Integer Variable
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

@@ -19,6 +19,12 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import at.tugraz.ist.ase.util.CopyFile;
 import at.tugraz.ist.ase.util.WriteToFile;
 
+/** Represents a Collaborative Filtering Operation
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
 
 public class CollaborativeFiltering {
 

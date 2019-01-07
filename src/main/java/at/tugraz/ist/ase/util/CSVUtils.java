@@ -5,6 +5,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
+/** Represents CSV File Operations
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
+
 public class CSVUtils {
 
     private static final char DEFAULT_SEPARATOR = ',';

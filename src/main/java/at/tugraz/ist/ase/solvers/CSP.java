@@ -1,6 +1,6 @@
 package at.tugraz.ist.ase.solvers;
 
-/** Represents a CSPInterface
+/** Represents a CSP with Var[] and Const[]
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

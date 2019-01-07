@@ -13,13 +13,20 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents an Abstract Individual of a Genetic Algorithm
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public abstract class Individual{
 	
 	public int [] variableOrdering;
 	public int [][] valueOrdering;
-	public CSP[] trainingDataset;
 	
 	
+	protected CSP[] trainingDataset;
 	protected int geneLength;
 	protected HeuristicID hi;
 	protected SolverID sid;

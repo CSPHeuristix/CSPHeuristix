@@ -9,6 +9,13 @@ import at.tugraz.ist.ase.util.IndividualID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents a Genetic Algorithm for learning Constraint Ordering
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public class GeneticAlgorithm_CO extends GeneticAlgorithm {
 
 	public GeneticAlgorithm_CO(int geneLength, String targetStr, PerformanceIndicator pi, CSP[] trainingDataset,

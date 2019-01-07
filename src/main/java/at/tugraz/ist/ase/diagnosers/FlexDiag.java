@@ -4,7 +4,7 @@ import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Var;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a FlexDiag
+/** Represents a FlexDiag Diagnoser
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

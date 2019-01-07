@@ -1,12 +1,5 @@
 package at.tugraz.ist.ase.cspheuristix;
 
-/** Represents a Library
- * @author Seda Polat Erdeniz (AIG, TUGraz)
- * @author http://ase.ist.tugraz.at
- * @version 1.0
- * @since 1.0
-*/
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +19,12 @@ import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.ReadFile;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents the main access point of the CSPHeuristix Library
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
 public class Library {
 	
 	private static final Logger logger = Logger.getLogger(Library.class);
@@ -96,7 +95,7 @@ public class Library {
 	}
 	
 	public CSP[] solveTasks (){
-		CSP [] newTasks = heuristix.generateNewCSPs(inputFolder);
+		CSP [] newTasks = heuristix.generateNewCSPs();
 		CSP [] solutions = new CSP [newTasks.length];
 		
 		for (int i=0;i<solutions.length;i++){

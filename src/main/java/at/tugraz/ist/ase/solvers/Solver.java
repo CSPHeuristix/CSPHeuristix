@@ -4,7 +4,7 @@ import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.cspheuristix.Heuristics;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a Solver
+/** Represents a CSP Solver
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

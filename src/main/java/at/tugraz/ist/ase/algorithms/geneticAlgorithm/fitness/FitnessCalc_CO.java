@@ -10,6 +10,13 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents Fitness Calculation of a Genetic Algorithm for learning Constraint Ordering
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public class FitnessCalc_CO extends FitnessCalc{
 	
 	Const[][] diagnosisArray;

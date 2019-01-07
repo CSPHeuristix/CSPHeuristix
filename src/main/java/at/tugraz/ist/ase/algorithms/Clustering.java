@@ -19,6 +19,14 @@ import weka.clusterers.FarthestFirst;
 import weka.clusterers.FilteredClusterer;
 import weka.clusterers.XMeans;
 
+/** Represents a Clustering Operation
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
+
 public class Clustering {
 
 	public int[][] cluster(ClusteringAlgorithmID cid, String dataSetFile, String outputFolder, int numberOfvars, int numberOfClusters){

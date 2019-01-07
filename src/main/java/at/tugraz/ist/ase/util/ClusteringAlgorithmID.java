@@ -1,6 +1,6 @@
 package at.tugraz.ist.ase.util;
 
-/** Represents a DiagnoserID
+/** Represents a Clustering Algorithm ID
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

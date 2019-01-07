@@ -23,7 +23,7 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a MFBasedVVO
+/** Represents Matrix Factorization Based Variable and Value Ordering Heuristics for Constraint Solving
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0
@@ -63,7 +63,7 @@ class MFVVO extends Heuristics{
 		MatrixFactorization mf = new MatrixFactorization();
 		DataModel dataModel;
 		try {
-			dataModel = new FileDataModel(new File(inputFile));
+			dataModel = new FileDataModel(new File(ratingsForSolvingFile));
 			mf.SVD(dataModel, numFeatures, numIterations, userID, numberRecommendedItems);
 			p=mf.UF;
 			q=mf.IF;

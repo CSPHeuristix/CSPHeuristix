@@ -7,6 +7,13 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents an Abstract Fitness Calculation of a Genetic Algorithm 
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public abstract class FitnessCalc{
 
 	SolverID sid;

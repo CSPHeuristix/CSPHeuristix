@@ -11,7 +11,8 @@ import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Solver;
 import at.tugraz.ist.ase.solvers.Var;
 import at.tugraz.ist.ase.util.SolverID;
-/** Represents a FastDiag
+
+/** Represents a FastDiag Diagnoser
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0

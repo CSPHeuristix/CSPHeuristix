@@ -1,5 +1,12 @@
 package at.tugraz.ist.ase.algorithms;
 
+/** Represents Euclidean Distance Function
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 public class EuclideanDistance {
 	
 	public double distanceOfArrays(double[] a, double[] b) {

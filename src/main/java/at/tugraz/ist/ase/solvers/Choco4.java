@@ -16,6 +16,13 @@ import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.cspheuristix.Heuristics;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents Choco Solver v4
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
+
 class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 
 	boolean withHeuristics = false;
@@ -86,7 +93,7 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		// TODO: SEDA : debug this function
 		
 		VariableSelector<IntVar> varSelector = null;
-		IntValueSelector valueSelector = new ValueOrder(heuristix.valueOrdering);
+		IntValueSelector valueSelector = new Choco4ValueOrder(heuristix.valueOrdering);
 		IntVar[] intvars = getIntVars(solver.getModel());
 		 
 		varSelector =(VariableSelector<IntVar>) variables -> {
@@ -120,12 +127,12 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 	}
 }
 
-class ValueOrder implements IntValueSelector {
+class Choco4ValueOrder implements IntValueSelector {
 	
     int [][] valueSelections;
     int counter = 0;
     
-    public ValueOrder(int[][] heuristic){
+    public Choco4ValueOrder(int[][] heuristic){
     	valueSelections =new int [heuristic.length][];
     	for(int i=0;i<heuristic.length;i++){
     		valueSelections[i] = new int [heuristic[i].length];

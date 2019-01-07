@@ -9,6 +9,12 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents an Individual of a default Genetic Algorithm 
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
 public class Individual_Default extends Individual {
 
 	private byte[] genes = new byte[this.geneLength];

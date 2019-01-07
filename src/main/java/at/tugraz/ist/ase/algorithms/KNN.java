@@ -6,6 +6,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+/** Represents a kth Nearest Neighbor Operation based on Euclidean Distance
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
 
 public class KNN {
 	public KNN(){}

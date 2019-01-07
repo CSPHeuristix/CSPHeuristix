@@ -14,6 +14,12 @@ import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.ReadFile;
 import at.tugraz.ist.ase.util.SolverID;
 
+/** Represents Cluster Based Variable and Value Ordering Heuristics for Constraint Solving
+ * @author Seda Polat Erdeniz (AIG, TUGraz)
+ * @author http://ase.ist.tugraz.at
+ * @version 1.0
+ * @since 1.0
+*/
 class CLVVO extends Heuristics{
 	
 	int [][] clusteredItems;
@@ -42,13 +48,13 @@ class CLVVO extends Heuristics{
 	protected void learn() {
 		
 		// get number of variables from inputFile
-		int numberOfvars = new ReadFile().readFile(inputFile).get(0).split(",").length-1;
+		int numberOfvars = new ReadFile().readFile(pastSolutionsFile).get(0).split(",").length-1;
 		//basisTask = generateBasisTask(inputFile);
-		pastCSPs = generatePastCSPs(inputFile);
+		pastCSPs = generatePastCSPs();
 		
 		// Step-1: Cluster past user requirements of the same CSP tasks
 		Clustering clustering = new Clustering();
-		clusteredItems = clustering.cluster(cid, inputFile, outputFolder, numberOfvars, k);
+		clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
 		trainingDataset = new CSP[k][];
 		
 		for (int i=0;i<k;i++){

@@ -15,7 +15,7 @@ import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.ReadFile;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a clusterBasedCO
+/** Represents Cluster Based Constraint Ordering Heuristics for Consistency Based Diagnosis
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0
@@ -55,12 +55,12 @@ class CLCO extends Heuristics{
 		
 		this.stoppingCriteria=stoppingCriteria;
 		// get number of variables from inputFile
-		int numberOfvars = new ReadFile().readFile(inputFile).get(0).split(",").length-1;
-		pastCSPs = generatePastCSPs(inputFile);
+		int numberOfvars = new ReadFile().readFile(pastSolutionsFile).get(0).split(",").length-1;
+		pastCSPs = generatePastCSPs();
 		
 		// Step-1: Cluster past inconsistent user requirements of the same CSP tasks
 		Clustering clustering = new Clustering();
-		clusteredItems = clustering.cluster(cid, inputFile, outputFolder, numberOfvars, k);
+		clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
 		trainingDataset = new CSP[k][];
 		
 		for (int i=0;i<k;i++){
@@ -98,8 +98,11 @@ class CLCO extends Heuristics{
 		// Step-4: order REQs
 		Const[] unsorted = task.getREQ().clone();
 		Const[] sorted = new Const[unsorted.length];
-		for(int i=0;i<unsorted.length;i++)
-			sorted[i]=learnedHeuristics[index].trainingDataset[index].getREQ()[i];
+		for(int i=0;i<unsorted.length;i++){
+			int constIndex = learnedHeuristics[index].variableOrdering[i];
+			sorted[i]=unsorted[constIndex];
+			//sorted[i]=learnedHeuristics[index].variableOrdering.getREQ()[i];
+		}
 		task.setREQ(sorted);
 		
 				

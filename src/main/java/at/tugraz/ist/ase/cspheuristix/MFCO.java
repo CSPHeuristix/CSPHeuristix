@@ -12,6 +12,7 @@ import org.apache.mahout.cf.taste.model.DataModel;
 
 import at.tugraz.ist.ase.algorithms.KNN;
 import at.tugraz.ist.ase.algorithms.MatrixFactorization;
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_CO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
 import at.tugraz.ist.ase.diagnosers.Diagnoser;
 import at.tugraz.ist.ase.solvers.CSP;
@@ -23,7 +24,7 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents a MFBasedCO
+/** Represents Matrix Factorization Based Constraint Ordering Heuristics for Consistency Based Diagnosis
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0
@@ -63,7 +64,7 @@ class MFCO extends Heuristics{
 				MatrixFactorization mf = new MatrixFactorization();
 				DataModel dataModel;
 				try {
-					dataModel = new FileDataModel(new File(inputFile));
+					dataModel = new FileDataModel(new File(ratingsForDiagnosisFile));
 					mf.SVD(dataModel, numFeatures, numIterations, userID, numberRecommendedItems);
 					p=mf.UF;
 					q=mf.IF;
@@ -80,44 +81,28 @@ class MFCO extends Heuristics{
 				
 				
 				// 3- Sort the variables and their values  -> learnedHeuristics
-				learnedHeuristics = new Individual_VVO[numberOfUsers];
+				learnedHeuristics = new Individual_CO[numberOfUsers];
 				
 				for (int i=0;i<numberOfUsers;i++){
 					int index = 0;
 					
 					HashMap<Double,Integer> vars = new HashMap<Double,Integer>(numberOfvars);   
 					
-					// SORT VALUES
-					for(int v=0;v<numberOfvars;v++){
-						HashMap<Double,Integer> valuesOfv = new HashMap<Double,Integer>();   
-						
-						for(int d=0;d<domains[v].length;d++){
-							valuesOfv.put(fullMatrix[i][index],d);
-							index++;
-						}
-						List<Double> mapKeys = new ArrayList<>(valuesOfv.keySet());
-					    Collections.sort(mapKeys);
-					    Collections.reverse(mapKeys);
-					    
-					    for(int d=0;d<domains[v].length;d++){
-					    	int val_index = valuesOfv.get(mapKeys.get(d));
-					    	learnedHeuristics[i].valueOrdering[v][d] = val_index;
-					    	if (d==0)
-					    		vars.put(mapKeys.get(0),v);
-					    }
-					    
-					}
+					// SORT CONSTRAINTS (VARS)
+					// use only the right half of the matrix
+					for(int v=0;v<numberOfvars;v++)
+						vars.put(fullMatrix[i][v+numberOfvars],v);
 					
-					// SORT VARIABLES
 					List<Double> mapKeys2 = new ArrayList<>(vars.keySet());
 				    Collections.sort(mapKeys2);
 				    Collections.reverse(mapKeys2);
-				
+				    
+				   
 			        for(int v=0;v<numberOfvars;v++){
 				    	int var_index = vars.get(mapKeys2.get(v));
 				    	learnedHeuristics[i].variableOrdering[v]= var_index; 
-				    	//recommendationTasks.recomTasks_copies[h][i].variableOrdering[v] = var_index; 
 					}
+			      
 				}
 		
 	}
@@ -144,8 +129,11 @@ class MFCO extends Heuristics{
 		// Step-5: order REQs
 		Const[] unsorted = task.getREQ().clone();
 		Const[] sorted = new Const[unsorted.length];
-		for(int i=0;i<unsorted.length;i++)
-			sorted[i]=learnedHeuristics[index].trainingDataset[index].getREQ()[i];
+		for(int i=0;i<unsorted.length;i++){
+			int constIndex = learnedHeuristics[index].variableOrdering[i];
+			sorted[i]=unsorted[constIndex];
+			//sorted[i]=learnedHeuristics[index].variableOrdering.getREQ()[i];
+		}
 		task.setREQ(sorted);
 						
 		// Step-6: Solve with the heuristics of the nearest cluster
