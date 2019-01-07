@@ -7,6 +7,7 @@ import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_Default;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
@@ -14,11 +15,9 @@ import at.tugraz.ist.ase.util.SolverID;
 public class Individual_VVO extends Individual{
 	
 
-	public Individual_VVO(CSP[] trainingDataset, HeuristicID hi,SolverID sid, PerformanceIndicator pi) {
-		super(trainingDataset, hi,sid, pi);
-		initiate(geneLength, trainingDataset);
-		fitnessCalc = new FitnessCalc_VVO(this, target, pi, hi, trainingDataset, sid);
-		// TODO Auto-generated constructor stub
+	public Individual_VVO(CSP[] trainingDataset, HeuristicID hi,SolverID sid, PerformanceIndicator pi, DiagnoserID did, int m) {
+		super(trainingDataset, hi,sid, pi,did,m);
+		fitnessCalc= new FitnessCalc_VVO(this, target, pi, hi, trainingDataset, sid,did, m);
 	}
 
 	
@@ -27,14 +26,14 @@ public class Individual_VVO extends Individual{
 		// TODO Auto-generated method stub
 		// crossover value orderings
 		
-		Individual_VVO newSol = new Individual_VVO(trainingDataset, hi, sid, pi);
+		Individual_VVO newSol = new Individual_VVO(trainingDataset, hi, sid, pi,did,m);
 				//newSol.instantiate(numberOfVars, trainingDataset);
 		for (int i = 0; i < this.getGeneLength(); i++) {
 		            // Crossover
 		            if (Math.random() <= uniformRate) {
 		                newSol.valueOrdering[i] = this.valueOrdering[i].clone();
 		            } else {
-		               newSol.valueOrdering[i] = ((Individual_VVO)indiv2).valueOrdering[i].clone();
+		                newSol.valueOrdering[i] = ((Individual_VVO)indiv2).valueOrdering[i].clone();
 		            }
 		 }
 		 return (Individual)newSol;
@@ -50,18 +49,17 @@ public class Individual_VVO extends Individual{
             	this.variableOrdering[i+1]=swap;
             }
         }
-		
 	}
 
-	@Override
-	public float getFitness(String target, PerformanceIndicator pi) {
-		// TODO Auto-generated method stub
-		if(fitness!=0)
-			return fitness;
-		
-		fitness = fitnessCalc.getFitness();
-		return fitness;
-	}
+//	@Override
+//	public float getFitness(String target, PerformanceIndicator pi) {
+//		// TODO Auto-generated method stub
+//		if(fitness!=0)
+//			return fitness;
+//		
+//		fitness = fitnessCalc.getFitness();
+//		return fitness;
+//	}
 
 	@Override
 	public String toString() {
@@ -69,16 +67,9 @@ public class Individual_VVO extends Individual{
 		return null;
 	}
 	
-	
-	
-	///////////////////////////////////////////////
-	///////////////////////////////////////////////
-	///////////////////////////////////////////////
-	///////////////////////////////////////////////
-	
-	private void initiate(int defaultGeneLength, CSP[] trainingDataset) {
-		//super(defaultGeneLength,trainingDataset);
-		this.numberOfVars = defaultGeneLength;
+	@Override
+	protected void generateIndividual() {
+		// TODO Auto-generated method stub
 		variableOrdering = new int [numberOfVars];
 		for(int i=0;i<numberOfVars;i++)
 			variableOrdering[i]=i;
@@ -88,45 +79,50 @@ public class Individual_VVO extends Individual{
 				domains[i][0]= trainingDataset[0].getVars()[i].getMinDomain();
 				domains[i][1]= trainingDataset[0].getVars()[i].getMaxDomain();
 		}
-		initiate(this.numberOfVars, domains);
-		generateIndividual();
-	}
-
-	private void initiate(int numberOfVars, int [][] domains){
-		this.numberOfVars = numberOfVars;
-		variableOrdering = new int [numberOfVars];
-		valueOrdering = new int [numberOfVars][];
-		for(int i=0;i<numberOfVars;i++)
-			variableOrdering[i]=i;
-			
 		for(int i=0;i<numberOfVars;i++){
 			valueOrdering[i]=new int[domains[i].length];
 			valueOrdering[i]=domains[i].clone();
 		}
-	}
-
-	private void generateIndividual() {
-		// TODO Auto-generated method stub
-		this.variableOrdering = shuffleArray(this.variableOrdering);
+		
+		// SHUFFLE
+		variableOrdering = shuffleArray(variableOrdering).clone();
 		for(int i=0;i<numberOfVars;i++)
-			this.valueOrdering[i]=shuffleArray(this.valueOrdering[i]);
-	}
-
+			valueOrdering[i] = shuffleArray(valueOrdering[i]).clone();
 	
-	int[] shuffleArray(int[] ar)
-	  {
-	    // If running on Java 6 or older, use `new Random()` on RHS here
-	    Random rnd = ThreadLocalRandom.current();
-	    for (int i = ar.length - 1; i > 0; i--)
-	    {
-	      int index = rnd.nextInt(i + 1);
-	      // Simple swap
-	      int a = ar[index];
-	      ar[index] = ar[i];
-	      ar[i] = a;
-	    }
-	    return ar;
-	  }
-
+	}
+	
+	///////////////////////////////////////////////
+	///////////////////////////////////////////////
+	///////////////////////////////////////////////
+	///////////////////////////////////////////////
+	
+//	private void initiate(int defaultGeneLength, CSP[] trainingDataset) {
+//		//super(defaultGeneLength,trainingDataset);
+//		this.numberOfVars = defaultGeneLength;
+//		variableOrdering = new int [numberOfVars];
+//		for(int i=0;i<numberOfVars;i++)
+//			variableOrdering[i]=i;
+//			
+//		int [][] domains = new int [numberOfVars][2];
+//		for (int i=0;i<numberOfVars;i++){
+//				domains[i][0]= trainingDataset[0].getVars()[i].getMinDomain();
+//				domains[i][1]= trainingDataset[0].getVars()[i].getMaxDomain();
+//		}
+//		initiate(this.numberOfVars, domains);
+//		generateIndividual();
+//	}
+//
+//	private void initiate(int numberOfVars, int [][] domains){
+//		this.numberOfVars = numberOfVars;
+//		variableOrdering = new int [numberOfVars];
+//		valueOrdering = new int [numberOfVars][];
+//		for(int i=0;i<numberOfVars;i++)
+//			variableOrdering[i]=i;
+//			
+//		for(int i=0;i<numberOfVars;i++){
+//			valueOrdering[i]=new int[domains[i].length];
+//			valueOrdering[i]=domains[i].clone();
+//		}
+//	}
 
 }

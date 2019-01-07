@@ -5,6 +5,7 @@ import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_CO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_Default;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.IndividualID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
@@ -22,7 +23,7 @@ public class Population {
      * Constructors
      */
     // Create a population
-    public Population(int populationSize, boolean initialise, IndividualID iid, String target,PerformanceIndicator pi, CSP[] trainingDataset,SolverID sid) {
+    public Population(int populationSize, boolean initialise, IndividualID iid, String target,PerformanceIndicator pi, CSP[] trainingDataset,SolverID sid, DiagnoserID did, int m) {
     	this.pi = pi;
     	this.sid=sid;
     	individuals = new Individual[populationSize];
@@ -35,17 +36,17 @@ public class Population {
     			
             	switch(iid){
             		case vvo:
-            			individuals[i] = new Individual_VVO(trainingDataset,HeuristicID.clusterBasedVVO,sid, pi);
+            			individuals[i] = new Individual_VVO(trainingDataset,HeuristicID.clusterBasedVVO,sid, pi,did,m);
             			//newIndividual.instantiate(this.geneLenght, trainingDataset);
             			break;
             		case co:
-            			individuals[i] = new Individual_CO(trainingDataset,HeuristicID.clusterBasedCO,sid, pi);
+            			individuals[i] = new Individual_CO(trainingDataset,HeuristicID.clusterBasedCO,sid, pi,did,m);
             			break;
             		case binary:
-            			individuals[i] = new Individual_Default(target, null, null,sid, pi);
+            			individuals[i] = new Individual_Default(target, null, null,sid, pi,did,m);
             			break;
             		default:
-            			individuals[i] = new Individual_Default(target, null, null,sid, pi);
+            			individuals[i] = new Individual_Default(target, null, null,sid, pi,did,m);
             			break;
             			
             	}
@@ -63,7 +64,7 @@ public class Population {
     	Individual fittest = individuals[0];
         // Loop through individuals to find fittest
         for (int i = 0; i < size(); i++) {
-            if (fittest.getFitness(target,pi) <= getIndividual(i).getFitness(target,pi)) {
+            if (fittest.getFitness() <= getIndividual(i).getFitness()) {
                 fittest = getIndividual(i);
             }
         }

@@ -1,39 +1,58 @@
 package at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_CO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_Default;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
 public abstract class Individual{
 	
+	public int [] variableOrdering;
+	public int [][] valueOrdering;
+	public CSP[] trainingDataset;
+	
+	
 	protected int geneLength;
-	protected CSP[] trainingDataset;
 	protected HeuristicID hi;
 	protected SolverID sid;
 	protected PerformanceIndicator pi;
+	protected DiagnoserID did; 
+	protected int m;
 	protected String target;
-	
-	public int [] variableOrdering;
-	public int [][] valueOrdering;
 	protected int numberOfVars;
 	protected float fitness=0;
 	FitnessCalc fitnessCalc;
 	
 	
-	
-	public Individual(CSP[] trainingDataset, HeuristicID hi, SolverID sid, PerformanceIndicator pi){
-		this.geneLength = trainingDataset[0].getVars().length;
+	public Individual(CSP[] trainingDataset, HeuristicID hi, SolverID sid, 
+			PerformanceIndicator pi, DiagnoserID did, int m){
+		
 		this.trainingDataset = trainingDataset.clone();
 		this.hi=hi;
 		this.sid=sid;
 		this.pi=pi;
+		this.did=did;
+		this.m=m;
+		
+		this.geneLength = trainingDataset[0].getVars().length;
+		this.numberOfVars=this.geneLength;
+		
+		generateIndividual();
+		fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid,did, m);
+		
 	}
 	
+
+	protected abstract void generateIndividual();
+
 
 	public void setDefaultGeneLength(int length) {
 		// TODO Auto-generated method stub
@@ -75,7 +94,13 @@ public abstract class Individual{
 //		}	
 //	}
 
-	public abstract float getFitness(String target, PerformanceIndicator pi);
+	public float getFitness(){
+		if(fitness!=0)
+			return fitness;
+		
+		fitness = fitnessCalc.getFitness();
+		return fitness;
+	}
 //    {
 //    	switch(hi){
 //			case clusterBasedVVO:
@@ -108,4 +133,35 @@ public abstract class Individual{
 //		default:
 //			new Individual_Default(geneLength);
 //	}
+
+	<T>T[] shuffleArray(T [] ar)
+	  {
+	    // If running on Java 6 or older, use `new Random()` on RHS here
+	    Random rnd = ThreadLocalRandom.current();
+	    for (int i = ar.length - 1; i > 0; i--)
+	    {
+	      int index = rnd.nextInt(i + 1);
+	      // Simple swap
+	      T a = ar[index];
+	      ar[index] = ar[i];
+	      ar[i] = a;
+	    }
+	    return ar;
+	  }
+	
+	int[] shuffleArray(int [] ar)
+	  {
+	    // If running on Java 6 or older, use `new Random()` on RHS here
+	    Random rnd = ThreadLocalRandom.current();
+	    for (int i = ar.length - 1; i > 0; i--)
+	    {
+	      int index = rnd.nextInt(i + 1);
+	      // Simple swap
+	      int a = ar[index];
+	      ar[index] = ar[i];
+	      ar[i] = a;
+	    }
+	    return ar;
+	  }
+
 }

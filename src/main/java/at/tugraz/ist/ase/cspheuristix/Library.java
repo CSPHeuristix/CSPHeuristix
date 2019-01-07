@@ -42,7 +42,7 @@ public class Library {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	
-	public Library(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFolder, String outputFolder, PerformanceIndicator pi, String stoppingCriteria, ClusteringAlgorithmID cid, int numberOfClusters){
+	public Library(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFolder, String outputFolder, PerformanceIndicator pi, String stoppingCriteria, ClusteringAlgorithmID cid, int numberOfClusters, int m){
 		
 		this.hid= heuristicsID;
 		this.sid= solverID;
@@ -66,19 +66,19 @@ public class Library {
 			
 			switch (heuristicsID) {
 		         case clusterBasedVVO:
-		        	 heuristix = new CLVVO();
+		        	 heuristix = new CLVVO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		        	 break;
 		                 
 		         case clusterBasedCO:
-		        	 heuristix = new CLCO();
+		        	 heuristix = new CLCO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		             break;
 		                      
 		         case MFBasedCO: 
-		        	 heuristix = new MFCO();
+		        	 heuristix = new MFCO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		             break;
 		                     
 		         case MFBasedVVO:
-		        	 heuristix = new MFVVO();
+		        	 heuristix = new MFVVO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		             break;
 		             
 		         default:
@@ -86,8 +86,8 @@ public class Library {
 		     }
 			
 			
-			heuristix.learn(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters);
-            
+			heuristix.learn();
+			
 		}catch(Exception ex){
 			logger.error(ex.toString());
 		}

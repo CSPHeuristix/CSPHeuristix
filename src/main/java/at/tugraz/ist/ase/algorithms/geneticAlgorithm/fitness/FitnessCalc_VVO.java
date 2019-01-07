@@ -3,6 +3,7 @@ package at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Solver;
+import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
@@ -10,28 +11,17 @@ import at.tugraz.ist.ase.util.SolverID;
 public class FitnessCalc_VVO extends FitnessCalc{
 
 	public FitnessCalc_VVO(Individual individual, String target, PerformanceIndicator pi, HeuristicID hi,
-			CSP[] trainingDataset, SolverID sid) {
-		super(individual, target, pi, hi, trainingDataset, sid);
+			CSP[] trainingDataset, SolverID sid, DiagnoserID did,int m) {
+		super(individual, target, pi, hi, trainingDataset, sid, did,m);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public float getFitness() {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-				switch(pi){
-					case runtime:
-						return getRuntimeFitness();
-					case predictionQuality:
-						return getpredictionQualityFitness();
-					default:
-						return getRuntimeFitness();
-				}
-	}
+	
 
 	@Override
 	public int getMaxFitness() {
 		// TODO Auto-generated method stub
+		// not yet supported
 		return 0;
 	}
 	
@@ -41,21 +31,23 @@ public class FitnessCalc_VVO extends FitnessCalc{
 	/////////////////////////////////////////////////
 	/////////////////////////////////////////////////
 	
-	private float getRuntimeFitness(){
-		long start=System.currentTimeMillis();
+	@Override
+	protected float getRuntimeFitness(){
+		long start=System.nanoTime();
 		
 		for (int i=0;i<trainingDataset.length;i++){
 			Solver s= new Solver();
 			s.solveCSP(trainingDataset[i], this.sid, this.individual); 
 		}
-		long stop=System.currentTimeMillis();
+		long stop=System.nanoTime();
 		
 		long time=stop-start;
 		
 		return (float)((float)1/(float)(time));
 	}
 	
-	private float getpredictionQualityFitness(){
+	@Override
+	protected float getpredictionQualityFitness(){
 		// TODO SEDA
 		return 0;
 	}

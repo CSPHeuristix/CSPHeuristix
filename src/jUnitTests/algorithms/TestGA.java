@@ -21,8 +21,9 @@ public class TestGA {
 		int geneLength = 64;
 		PerformanceIndicator pi = PerformanceIndicator.runtime;
 		String targetStr = "1111000000000000000000000000000000000000000000000000000000001111";
-		Individual result = new GeneticAlgorithm_Default().getTheFittestIndividual(geneLength, targetStr, pi, null, null, null);
-	    
+		
+		Individual result = new GeneticAlgorithm_Default(geneLength, targetStr, pi, null, null, null, null, 0).getTheFittestIndividual();
+				
 	    assertTrue(result!=null);
 	}
 

@@ -3,6 +3,9 @@ package at.tugraz.ist.ase.cspheuristix;
 
 import java.util.List;
 
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_CO;
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Var;
@@ -15,13 +18,47 @@ import at.tugraz.ist.ase.util.SolverID;
 
 public abstract class Heuristics{
 	
+	////////////////////////
+	// Default parameters //
+	int k;
+	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
+	SolverID sid;
+	HeuristicID hid;
+	DiagnoserID did;
+	CSP[][] trainingDataset;
+	Individual[] learnedHeuristics;
+	String stoppingCriteria;
+	CSP [] pastCSPs;
+	int m;
+	PerformanceIndicator pi;
+	String outputFolder;
+	String inputFile;
+	////////////////////////
 	
+	Heuristics(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, 
+			String inputFile, String outputFolder, PerformanceIndicator pi, 
+			String stoppingCriteria, ClusteringAlgorithmID cid, int numberOfClusters, 
+			int m){
+		this.sid=solverID;
+		this.cid=cid;
+		this.hid=heuristicsID;
+		this.did=diagnosisAlgorithmID;
+		this.k=numberOfClusters;
+		this.stoppingCriteria=stoppingCriteria;
+		this.m = m;
+		this.pi=pi;
+		this.outputFolder=outputFolder;
+		this.inputFile=inputFile;
+	}
 	
-    protected abstract void learn(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFile, String outputFolder, PerformanceIndicator pi, String stoppingCriteria,ClusteringAlgorithmID cid, int numberOClusters);
+    protected abstract void learn();
 
     protected abstract CSP solveTask(CSP task);
     
+    protected abstract Const[] diagnoseTask(CSP task);
     
+
+   
     protected CSP[] generatePastCSPs(String inputFile){
     	CSP basis = generateBasisCSP(inputFile);
     	
@@ -48,8 +85,8 @@ public abstract class Heuristics{
 			for(int j=0;j<reqsStr[i].length-1;j++)
 				reqs[j]= Integer.valueOf(reqsStr[i][j].trim());
 				
-			pastCSPs[i]= new CSP(basis.getName()+i,basis.getVars(),basis.getConstraints());
-			pastCSPs[i].insertConstraints(reqs);
+			pastCSPs[i]= new CSP(basis.getName()+i,basis.getVars(),basis.getAllConstraints());
+			pastCSPs[i].insertReqs(reqs);
 		}
 		
 		return pastCSPs;

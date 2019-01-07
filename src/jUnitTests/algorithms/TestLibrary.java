@@ -27,11 +27,12 @@ public class TestLibrary {
 	int numberOfvars=4;
 	int numberOfClusters=3;
 	String stoppingCriteria = "10"; // stop learning after 10 ms
+	int m=1;
 	////////////////////////////////
 
 	@Test
     public void testCLVVO(){
-		Library lib = new Library(hid, sid, did, inputFile, outputFolder, pi, stoppingCriteria, cid, numberOfClusters);
+		Library lib = new Library(hid, sid, did, inputFile, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
 		CSP[] solutions = lib.solveTasks();
 		assertTrue(solutions!=null);
 	}

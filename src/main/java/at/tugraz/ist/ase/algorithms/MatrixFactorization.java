@@ -11,6 +11,8 @@ public class MatrixFactorization {
 	public double[][] IF;
 	public double[][] UF;
 	
+	
+	
 	public void SVD(DataModel dataModel,int numFeatures, int numIterations, int userID, int numberRecommendedItems){
 		try {
 			long start = System.nanoTime();
@@ -33,7 +35,7 @@ public class MatrixFactorization {
 		}
 	}
 	
-	private double[][] multiplyByMatrix(double[][] m1, double[][] m2) {
+	public double[][] multiplyByMatrix(double[][] m1, double[][] m2) {
 		
 		m2 = transposeMatrix(m2);
         int m1ColLength = m1[0].length; // m1 columns length

@@ -2,7 +2,9 @@ package at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual;
 
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_Default;
+import at.tugraz.ist.ase.diagnosers.Diagnoser;
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
@@ -13,18 +15,17 @@ public class Individual_Default extends Individual {
     private float fitness = 0;
     
 
-	public Individual_Default(String target, CSP[] trainingDataset, HeuristicID hi,SolverID sid,PerformanceIndicator pi) {
-		super(trainingDataset, hi, sid, pi);
-		generateIndividual();
-		fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid);
+	public Individual_Default(String target, CSP[] trainingDataset, HeuristicID hi,SolverID sid,PerformanceIndicator pi, DiagnoserID did, int m) {
+		super(trainingDataset, hi, sid, pi,did,m);
+		fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid,did, m);
+		
 		// TODO Auto-generated constructor stub
 	}
-
     
 	@Override
 	public Individual crossover(Individual indiv2, double uniformRate) {
 		// TODO Auto-generated method stub
-		Individual_Default newSol = new Individual_Default(target,null, null, sid,pi);
+		Individual_Default newSol = new Individual_Default(target,null, null, sid,pi,did,m);
         // Loop through genes
         for (int i = 0; i < this.getGeneLength(); i++) {
             // Crossover
@@ -50,17 +51,21 @@ public class Individual_Default extends Individual {
         }
 	}
 
-	@Override
-	public float getFitness(String target, PerformanceIndicator pi) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+//	@Override
+//	public float getFitness(String target, PerformanceIndicator pi) {
+//		// TODO Auto-generated method stub
+//		if (fitness == 0) 
+//            fitness = fitnessCalc.getFitness();
+// 
+//        return fitness;
+//	}
 	
 	///////////////////////////////////////////////////
 	
 	
     // Create a random individual
-    private void generateIndividual() {
+	@Override
+    protected void generateIndividual() {
         for (int i = 0; i < this.getGeneLength(); i++) {
             byte gene = (byte) Math.round(Math.random());
             genes[i] = gene;
@@ -85,13 +90,6 @@ public class Individual_Default extends Individual {
     /* Public methods */
     public int getGeneLength() {
         return genes.length;
-    }
-
-    public float getFitness_Def(Individual target, PerformanceIndicator pi) {
-        if (fitness == 0) 
-            fitness = fitnessCalc.getFitness();
- 
-        return fitness;
     }
 
     @Override

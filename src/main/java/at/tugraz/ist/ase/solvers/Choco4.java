@@ -55,7 +55,7 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		
 		Model newModel = new Model(csp.getName());
 		IntVar [] vars = new IntVar[csp.getVars().length];
-		Constraint [] cons = new Constraint[csp.getConstraints().length];
+		Constraint [] cons = new Constraint[csp.getAllConstraints().length];
 		
 		// INSERT VARS
 		for(int m=0;m<vars.length;m++){
@@ -69,9 +69,9 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		// INSERT CONSTRAINTS
 		if(cons!=null)
 		for(int m=0;m<cons.length;m++){
-			int id = csp.getConstraints()[m].getVarID();
-			String operator = csp.getConstraints()[m].getOperator();
-			int value = csp.getConstraints()[m].getValue();
+			int id = csp.getAllConstraints()[m].getVarID();
+			String operator = csp.getAllConstraints()[m].getOperator();
+			int value = csp.getAllConstraints()[m].getValue();
 			
 			IntVar var = (IntVar)(newModel.getVar(id));
 			cons[m] = newModel.arithm(var, operator, value);

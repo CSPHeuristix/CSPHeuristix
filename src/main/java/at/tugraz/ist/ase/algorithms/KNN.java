@@ -58,7 +58,8 @@ public class KNN {
              }
         }
         
-       // USE EUCLIDEAN DISTANCE FORMULA
+        	
+        // USE EUCLIDEAN DISTANCE FORMULA
 		double [] distances = new double [clusteredItems.length];
         for(int c=0;c<clusteredItems.length;c++){
         	 int sum_of_sqr_subtract = 0;
@@ -71,7 +72,7 @@ public class KNN {
         }
         
         double min = distances[0];
-        for(int k=1;k<clusteredItems.length-1;k++){
+        for(int k=0;k<clusteredItems.length;k++){
         	if(min>distances[k]){
         		min = distances[k];
         		index= k;
@@ -79,6 +80,51 @@ public class KNN {
         }
         return index;
 	}
+	
+	public int findClosestCluster(double [][] clusteredItems, int []reqs){
+		int index = 0;
+		
+		// CALCULATE MEANS OF THE CLUSTERS
+		double [][] meanValues = new double [clusteredItems.length][reqs.length];
+        for(int c=0;c<clusteredItems.length;c++){
+        	 for(int v=0;v<reqs.length;v++){
+        		int sum_of_v = 0;
+             	for(int e=0;e<clusteredItems[c].length;e++){
+             		// get Vth value of the CSP in the cluster
+             		sum_of_v += clusteredItems[c][e];
+             	}
+             	int avg_of_v = 0;
+             	
+             	if (clusteredItems[c].length!=0)
+             		avg_of_v = sum_of_v/clusteredItems[c].length;
+             	
+             	meanValues[c][v] = avg_of_v;
+             }
+        }
+        
+        	
+        // USE EUCLIDEAN DISTANCE FORMULA
+		double [] distances = new double [clusteredItems.length];
+        for(int c=0;c<clusteredItems.length;c++){
+        	 int sum_of_sqr_subtract = 0;
+        	 for(int v=0;v<reqs.length;v++){
+        		 double subtract_v = reqs[v] - meanValues[c][v];
+        		 double sqr_subtract_v = subtract_v*subtract_v;
+        		 sum_of_sqr_subtract += sqr_subtract_v;
+             }
+        	 distances[c] = Math.sqrt(sum_of_sqr_subtract);
+        }
+        
+        double min = distances[0];
+        for(int k=0;k<clusteredItems.length;k++){
+        	if(min>distances[k]){
+        		min = distances[k];
+        		index= k;
+        	}
+        }
+        return index;
+	}
+	
 	
 	
 //	private int[] aggregateAvg (int[][] similars){

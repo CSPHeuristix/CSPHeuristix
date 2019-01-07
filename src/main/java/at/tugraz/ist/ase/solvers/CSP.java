@@ -11,46 +11,49 @@ public class CSP {
 	
 	
 	Var[] vars;
-	Const[] cons;
+	Const[] AC; // all constraints = BC + REQ
+	Const[] BC; // basis constraints -> always consistent
+	Const[] REQ; // user requirements -> can be inconsistent
 	String name;
 	int [] reqs;
-	int[] solutions;
+	int [] solutions;
 	
 	public boolean isSolved= false;
 	public float runtime = -1;
 	
 	public CSP (CSP basisCSP){
 		this.name= basisCSP.name;
-		this.vars= basisCSP.vars;
-		this.cons = basisCSP.cons;
+		this.vars= basisCSP.vars.clone();
+		this.AC = basisCSP.AC.clone();
+		this.BC = basisCSP.BC.clone();
 	}
 	
 	public CSP(String name,Var[] vars,Const[] cons){
 		this.name= name;
 		this.vars= vars;
-		this.cons = cons;
+		this.AC = cons.clone();
+		this.BC = cons.clone();
 	}
 
-	public void insertConstraints(int [] reqs){
+	public void insertReqs(int [] reqs){
 		this.reqs = reqs;
-		Const[] REQ = new Const[reqs.length];
+		
+		REQ = new Const[reqs.length];
 		for(int i=0;i<reqs.length;i++){
 			if(reqs[i]>0){ // IF INITIATED
 				REQ[i]=new Const(i, "=", reqs[i]);
 			}
 		}
 		
-		Const[] C= cons.clone();
-		Const[] AC = new Const[C.length+REQ.length];
+		Const[] currentAC= AC.clone();
+		AC = new Const[BC.length+REQ.length];
 		
-		for(int i=0;i<C.length;i++)
-			AC[i]=C[i];
+		for(int i=0;i<BC.length;i++)
+			AC[i]=currentAC[i];
 		
 		for(int i=0;i<REQ.length;i++)
-			AC[C.length+i]=REQ[i];
+			AC[BC.length+i]=REQ[i];
 		
-		this.cons = new Const[AC.length];
-		cons=AC.clone();
 	}
 
 	public String getName() {
@@ -62,8 +65,8 @@ public class CSP {
 	public Var[] getVars() {
 		return this.vars;
 	}  
-	public Const[] getConstraints() {
-		return this.cons;
+	public Const[] getAllConstraints() {
+		return this.AC;
 	}
 	
 	public boolean isSolved() {
@@ -79,7 +82,7 @@ public class CSP {
 		if(solutions!=null)
 			for (int i=0;i<solutions.length;i++)
 				print += ", var-"+i+"= "+solutions[i];
-		print+= ", runtime: "+this.runtime+"ms";
+		print+= ", runtime: "+this.runtime+" ns";
 		return print;
 		
 	}
@@ -95,7 +98,53 @@ public class CSP {
 	 * @param solutions the solutions to set
 	 */
 	public void setSolutions(int[] solutions) {
-		this.solutions = solutions;
+		this.solutions = solutions.clone();
+	}
+
+	/**
+	 * @return the aC
+	 */
+	public Const[] getAC() {
+		return AC;
+	}
+
+	/**
+	 * @param aC the aC to set
+	 */
+	public void setAC(Const[] aC) {
+		AC = aC.clone();
+	}
+
+	/**
+	 * @return the c
+	 */
+	public Const[] getC() {
+		return BC;
+	}
+
+	/**
+	 * @param c the c to set
+	 */
+	public void setC(Const[] c) {
+		BC = c.clone();
+	}
+
+	/**
+	 * @return the rEQ
+	 */
+	public Const[] getREQ() {
+		return REQ;
+	}
+
+	/**
+	 * @param rEQ the rEQ to set
+	 */
+	public void setREQ(Const[] rEQ) {
+		REQ = rEQ.clone();
+	}
+	
+	public void setOneREQ(int i, Const req) {
+		REQ[i] = req;
 	}
 
 }

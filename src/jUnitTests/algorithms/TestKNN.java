@@ -69,4 +69,6 @@ public class TestKNN {
 		assertTrue(indexes[3]==2);
 	}
 	
+	// TODO:
+	//	findClosestCluster
 }

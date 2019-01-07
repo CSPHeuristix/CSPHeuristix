@@ -3,6 +3,7 @@ package at.tugraz.ist.ase.algorithms.geneticAlgorithm;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.population.Population;
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.util.DiagnoserID;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.IndividualID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
@@ -17,14 +18,31 @@ public abstract class GeneticAlgorithm {
 	private boolean elitism = true;
 	private IndividualID iid= IndividualID.vvo;
 	private String target =null;
-	private PerformanceIndicator pi = PerformanceIndicator.runtime;
-	CSP[] trainingDataset;
-	SolverID sid;
+	
+	/* other parameters */
+	protected PerformanceIndicator pi = PerformanceIndicator.runtime;
+	protected CSP[] trainingDataset;
+	protected SolverID sid;
+	protected DiagnoserID did; 
+	protected int m;
+	int geneLength;
+	protected String targetStr;
+	protected HeuristicID hi;
 
     /* Public methods */
     
-   
-    public abstract Individual getTheFittestIndividual(int geneLength, String targetStr,PerformanceIndicator pi, CSP[] trainingDataset, HeuristicID hi,SolverID sid);
+	GeneticAlgorithm(int geneLength, String targetStr,PerformanceIndicator pi, CSP[] trainingDataset, HeuristicID hi,SolverID sid, DiagnoserID did, int m){
+		this.geneLength= geneLength;
+		this.targetStr=targetStr;
+		this.pi=pi;
+		this.trainingDataset=trainingDataset;
+		this.hi=hi;
+		this.sid=sid;
+		this.did=did;
+		this.m=m;
+		
+	}
+    public abstract Individual getTheFittestIndividual();
 //    {
 //    	
 //    	trainingDataset = trainingDataset.clone();
@@ -41,7 +59,7 @@ public abstract class GeneticAlgorithm {
     
     // Evolve a population
     protected Population evolvePopulation(Population pop) {
-        Population newPopulation = new Population(pop.size(), false, iid, target,pi,trainingDataset,sid);
+        Population newPopulation = new Population(pop.size(), false, iid, target,pi,trainingDataset,sid,did,m);
 
         // Keep our best individual
         if (elitism) {
@@ -75,7 +93,7 @@ public abstract class GeneticAlgorithm {
     // Select individuals for crossover
     protected Individual tournamentSelection(Population pop) {
         // Create a tournament population
-        Population tournament = new Population(tournamentSize, false, iid, target,pi,trainingDataset,sid);
+        Population tournament = new Population(tournamentSize, false, iid, target,pi,trainingDataset,sid,did,m);
         // For each place in the tournament get a random individual
         for (int i = 0; i < tournamentSize; i++) {
             int randomId = (int) (Math.random() * pop.size());
@@ -85,5 +103,5 @@ public abstract class GeneticAlgorithm {
         Individual fittest = tournament.getFittest();
         return fittest;
     }
-
+	
 }

@@ -5,6 +5,7 @@ import at.tugraz.ist.ase.algorithms.KNN;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.GeneticAlgorithm_VVO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
+import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Solver;
 import at.tugraz.ist.ase.util.ClusteringAlgorithmID;
 import at.tugraz.ist.ase.util.DiagnoserID;
@@ -14,27 +15,32 @@ import at.tugraz.ist.ase.util.ReadFile;
 import at.tugraz.ist.ase.util.SolverID;
 
 class CLVVO extends Heuristics{
-
-	////////////////////////
-	// Default parameters //
-	int k;
-	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
-	SolverID sid;
-	CSP[][] trainingDataset;
-	Individual_VVO[] learnedHeuristics;
-	int [][] clusteredItems;
-	String stoppingCriteria;
-	CSP [] pastCSPs;
-	////////////////////////
 	
+	int [][] clusteredItems;
+
+	CLVVO(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFile,
+			String outputFolder, PerformanceIndicator pi, String stoppingCriteria, ClusteringAlgorithmID cid,
+			int numberOfClusters, int m) {
+		super(heuristicsID, solverID, diagnosisAlgorithmID, inputFile, outputFolder, pi, stoppingCriteria, cid,
+				numberOfClusters, m);
+		// TODO Auto-generated constructor stub
+	}
+
+//	////////////////////////
+//	// Default parameters //
+//	int k;
+//	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
+//	SolverID sid;
+//	CSP[][] trainingDataset;
+//	Individual_VVO[] learnedHeuristics;
+//	int [][] clusteredItems;
+//	String stoppingCriteria;
+//	CSP [] pastCSPs;
+//	////////////////////////
 	
 	@Override
-	protected void learn(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID,
-			String inputFile, String outputFolder, PerformanceIndicator pi, String stoppingCriteria ,ClusteringAlgorithmID cid, int numberOfClusters) {
-		this.sid=solverID;
-		this.cid=cid;
-		this.k=numberOfClusters;
-		this.stoppingCriteria=stoppingCriteria;
+	protected void learn() {
+		
 		// get number of variables from inputFile
 		int numberOfvars = new ReadFile().readFile(inputFile).get(0).split(",").length-1;
 		//basisTask = generateBasisTask(inputFile);
@@ -52,9 +58,9 @@ class CLVVO extends Heuristics{
 		}
 		learnedHeuristics = new Individual_VVO[k];
 			
-		// Step-2: Learn Heuristics for Clusters
+		// Step-2: Learn Heuristics for Clusters -> learnedHeuristics
 		for(int i=0;i<k;i++){
-			learnedHeuristics[i] = (Individual_VVO)(new GeneticAlgorithm_VVO().getTheFittestIndividual(numberOfvars, stoppingCriteria, pi, trainingDataset[i], heuristicsID, solverID));
+			learnedHeuristics[i] = (Individual_VVO)(new GeneticAlgorithm_VVO(numberOfvars, stoppingCriteria, pi, trainingDataset[i], hid, sid,did,m).getTheFittestIndividual());
 		}
 	}
 	
@@ -72,6 +78,15 @@ class CLVVO extends Heuristics{
 		CSP solution = s.solveCSP(task, sid, learnedHeuristics[index]);
 		
 		return solution;
+	}
+
+	@Override
+	protected Const[] diagnoseTask(CSP task) {
+		// TODO Auto-generated method stub
+		
+		// This method is not supported
+		
+		return null;
 	}
 
 	
