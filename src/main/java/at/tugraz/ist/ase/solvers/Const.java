@@ -30,4 +30,12 @@ public class Const {
 		return this.value;
 	}
 	
+	public String toString(){
+		
+		String print = "CONSTRAINT: ";
+		print+= "var-"+varID+" "+operator+" "+value;
+		return print;
+		
+	}
+	
 }

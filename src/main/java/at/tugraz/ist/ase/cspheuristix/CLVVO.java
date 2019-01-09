@@ -9,9 +9,9 @@ import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Solver;
 import at.tugraz.ist.ase.util.ClusteringAlgorithmID;
 import at.tugraz.ist.ase.util.DiagnoserID;
+import at.tugraz.ist.ase.util.FileOperations;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
-import at.tugraz.ist.ase.util.ReadFile;
 import at.tugraz.ist.ase.util.SolverID;
 
 /** Represents Cluster Based Variable and Value Ordering Heuristics for Constraint Solving
@@ -23,6 +23,7 @@ import at.tugraz.ist.ase.util.SolverID;
 class CLVVO extends Heuristics{
 	
 	int [][] clusteredItems;
+	CSP [][] trainingDatasetClustered;
 
 	CLVVO(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFile,
 			String outputFolder, PerformanceIndicator pi, String stoppingCriteria, ClusteringAlgorithmID cid,
@@ -48,25 +49,25 @@ class CLVVO extends Heuristics{
 	protected void learn() {
 		
 		// get number of variables from inputFile
-		int numberOfvars = new ReadFile().readFile(pastSolutionsFile).get(0).split(",").length-1;
+		int numberOfvars = FileOperations.readFile(pastSolutionsFile).get(0).split(",").length-1;
 		//basisTask = generateBasisTask(inputFile);
-		pastCSPs = generatePastCSPs();
+		// pastCSPs = generatePastCSPs();
 		
 		// Step-1: Cluster past user requirements of the same CSP tasks
 		Clustering clustering = new Clustering();
 		clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
-		trainingDataset = new CSP[k][];
+		trainingDatasetClustered = new CSP[k][];
 		
 		for (int i=0;i<k;i++){
-			trainingDataset[i]=new CSP[clusteredItems[i].length];
+			trainingDatasetClustered[i]=new CSP[clusteredItems[i].length];
 			for(int j=0;j<clusteredItems[i].length;j++)
-				trainingDataset[i][j]=pastCSPs[clusteredItems[i][j]];
+				trainingDatasetClustered[i][j]=trainingDataset[clusteredItems[i][j]];
 		}
 		learnedHeuristics = new Individual_VVO[k];
 			
 		// Step-2: Learn Heuristics for Clusters -> learnedHeuristics
 		for(int i=0;i<k;i++){
-			learnedHeuristics[i] = (Individual_VVO)(new GeneticAlgorithm_VVO(numberOfvars, stoppingCriteria, pi, trainingDataset[i], hid, sid,did,m).getTheFittestIndividual());
+			learnedHeuristics[i] = (Individual_VVO)(new GeneticAlgorithm_VVO(numberOfvars, stoppingCriteria, pi, trainingDatasetClustered[i], hid, sid,did,m).getTheFittestIndividual());
 		}
 	}
 	
@@ -87,7 +88,7 @@ class CLVVO extends Heuristics{
 	}
 
 	@Override
-	protected Const[] diagnoseTask(CSP task) {
+	protected CSP diagnoseTask(CSP task) {
 		// TODO Auto-generated method stub
 		
 		// This method is not supported

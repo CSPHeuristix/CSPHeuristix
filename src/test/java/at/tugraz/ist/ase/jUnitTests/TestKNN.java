@@ -23,7 +23,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
-public class TestKNN {
+ class TestKNN {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -35,7 +35,7 @@ public class TestKNN {
 	////////////////////////////////
 
 	@Test
-    public void testKNN_1(){
+     void testKNN_1(){
 		k=1;
 		KNN knn = new KNN();
 		int [] indexes = knn.getKNN(k, req, otherReqs, varsMinMax);
@@ -44,7 +44,7 @@ public class TestKNN {
 	}
 	
 	@Test
-    public void testKNN_2(){
+     void testKNN_2(){
 		k=2;
 		KNN knn = new KNN();
 		int [] indexes = knn.getKNN(k, req, otherReqs, varsMinMax);
@@ -54,7 +54,7 @@ public class TestKNN {
 	}
 	
 	@Test
-    public void testKNN_3(){
+     void testKNN_3(){
 		k=3;
 		KNN knn = new KNN();
 		int [] indexes = knn.getKNN(k, req, otherReqs, varsMinMax);
@@ -65,7 +65,7 @@ public class TestKNN {
 	}
 	
 	@Test
-    public void testKNN_4(){
+     void testKNN_4(){
 		k=4;
 		KNN knn = new KNN();
 		int [] indexes = knn.getKNN(k, req, otherReqs, varsMinMax);

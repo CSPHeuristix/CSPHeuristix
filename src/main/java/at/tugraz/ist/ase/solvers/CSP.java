@@ -18,6 +18,8 @@ public class CSP {
 	int [] reqs;
 	int [] solutions;
 	
+	Const[] diagnoses;
+	
 	public boolean isSolved= false;
 	public float runtime = -1;
 	
@@ -82,6 +84,11 @@ public class CSP {
 		if(solutions!=null)
 			for (int i=0;i<solutions.length;i++)
 				print += ", var-"+i+"= "+solutions[i];
+		if(diagnoses!=null)
+			for (int i=0;i<diagnoses.length;i++)
+					print+= diagnoses[i].toString()+";";
+			
+		
 		print+= ", runtime: "+this.runtime+" ns";
 		return print;
 		
@@ -145,6 +152,20 @@ public class CSP {
 	
 	public void setOneREQ(int i, Const req) {
 		REQ[i] = req;
+	}
+
+	/**
+	 * @return the diagnoses
+	 */
+	public Const[] getDiagnoses() {
+		return diagnoses;
+	}
+
+	/**
+	 * @param diagnoses the diagnoses to set
+	 */
+	public void setDiagnoses(Const[] diagnoses) {
+		this.diagnoses = diagnoses;
 	}
 
 }

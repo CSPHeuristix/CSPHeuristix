@@ -1,4 +1,4 @@
-package at.tugraz.ist.ase.algorithms.geneticAlgorithm;
+package at.tugraz.ist.ase.algorithms;
 
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.population.Population;
@@ -27,18 +27,18 @@ public abstract class GeneticAlgorithm {
 	private String target =null;
 	
 	/* other parameters */
-	protected PerformanceIndicator pi = PerformanceIndicator.runtime;
+	protected PerformanceIndicator pi;
 	protected CSP[] trainingDataset;
 	protected SolverID sid;
 	protected DiagnoserID did; 
 	protected int m;
-	int geneLength;
+	protected int geneLength;
 	protected String targetStr;
 	protected HeuristicID hi;
 
     /* Public methods */
     
-	GeneticAlgorithm(int geneLength, String targetStr,PerformanceIndicator pi, CSP[] trainingDataset, HeuristicID hi,SolverID sid, DiagnoserID did, int m){
+	public GeneticAlgorithm(int geneLength, String targetStr,PerformanceIndicator pi, CSP[] trainingDataset, HeuristicID hi,SolverID sid, DiagnoserID did, int m){
 		this.geneLength= geneLength;
 		this.targetStr=targetStr;
 		this.pi=pi;
@@ -50,20 +50,7 @@ public abstract class GeneticAlgorithm {
 		
 	}
     public abstract Individual getTheFittestIndividual();
-//    {
-//    	
-//    	trainingDataset = trainingDataset.clone();
-//    	this.sid=sid;
-//    	switch(hi){
-//    		case clusterBasedVVO:
-//    			return new GeneticAlgorithm_VVO().getTheFittest(geneLenght, targetStr, pi, trainingDataset);
-//    		case clusterBasedCO:	
-//    			return new GeneticAlgorithm_CO().getTheFittest(geneLenght, targetStr, pi, trainingDataset);
-//    		default:
-//    			return new GeneticAlgorithm_Default().getTheFittest(geneLenght, targetStr, pi, trainingDataset);
-//    	}	
-//    }
-    
+
     // Evolve a population
     protected Population evolvePopulation(Population pop) {
         Population newPopulation = new Population(pop.size(), false, iid, target,pi,trainingDataset,sid,did,m);

@@ -1,5 +1,8 @@
 package at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_CO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_Default;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_VVO;
@@ -38,12 +41,22 @@ public class Individual_CO extends Individual{
 	@Override
 	public void mutate(double mutationRate) {
 		// TODO Auto-generated method stub
-		for(int m=0;m<this.trainingDataset.length;m++)
+		
 			for (int i = 0; i < this.getGeneLength()-1; i++) {
 	            if (Math.random() <= mutationRate) {
-	                Const swap = this.trainingDataset[m].getREQ()[i];
-	            	this.trainingDataset[m].setOneREQ(i, this.trainingDataset[m].getREQ()[i+1]);
-	            	this.trainingDataset[m].setOneREQ(i+1,swap);
+	                // Update constraint ordering 
+	            	int swapIndex =  this.variableOrdering[i];
+	            	this.variableOrdering[i] = this.variableOrdering[i+1];
+	            	this.variableOrdering[i+1] = swapIndex;
+	            	
+	            	
+	            	// Update constraints in TrainingDataset 
+	            	for(int m=0;m<this.trainingDataset.length;m++){
+		                Const swap = this.trainingDataset[m].getREQ()[i];
+		            	this.trainingDataset[m].setOneREQ(i, this.trainingDataset[m].getREQ()[i+1]);
+		            	this.trainingDataset[m].setOneREQ(i+1,swap);
+	            	}
+	            	
 	            }
 	        }
 	}
@@ -57,10 +70,19 @@ public class Individual_CO extends Individual{
 
 	@Override
 	protected void generateIndividual() {
-		// SHUFFLE REQs
+		this.variableOrdering = new int [this.numberOfVars]; // constraint ordering
+		//Arrays.setAll(variableOrdering, i -> i + 1);
+		variableOrdering = IntStream.rangeClosed(0, numberOfVars-1).toArray();
+		
+		// Update constraint ordering 
+		this.variableOrdering = shuffleArray(variableOrdering).clone(); 
+	
+		// Update trainingDataset
 		for(int m=0;m<this.trainingDataset.length;m++){
-			Const [] shuffled = shuffleArray(this.trainingDataset[m].getREQ()).clone();
-			this.trainingDataset[m].setREQ(shuffled);
+			Const [] shuffledReqs= new Const[this.numberOfVars];
+			for(int i=0;i<shuffledReqs.length;i++)
+				shuffledReqs[i]=this.trainingDataset[m].getREQ()[this.variableOrdering[i]];
+			this.trainingDataset[m].setREQ(shuffledReqs);
 		}
 		
 	}

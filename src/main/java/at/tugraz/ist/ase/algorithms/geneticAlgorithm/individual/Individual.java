@@ -53,7 +53,7 @@ public abstract class Individual{
 		this.numberOfVars=this.geneLength;
 		
 		generateIndividual();
-		fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid,did, m);
+		//fitnessCalc= new FitnessCalc_Default(this, target, pi, hi, trainingDataset, sid,did, m);
 		
 	}
 	

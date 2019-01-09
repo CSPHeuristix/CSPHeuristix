@@ -14,9 +14,8 @@ import at.tugraz.ist.ase.algorithms.Clustering;
 import at.tugraz.ist.ase.algorithms.MatrixFactorization;
 import at.tugraz.ist.ase.algorithms.MinMaxNormalization;
 import at.tugraz.ist.ase.util.ClusteringAlgorithmID;
-import at.tugraz.ist.ase.util.ReadFile;
+import at.tugraz.ist.ase.util.FileOperations;
 import at.tugraz.ist.ase.util.SolverID;
-import at.tugraz.ist.ase.util.WriteToFile;
 
 /** Tests for File Operations
  * @author Seda Polat Erdeniz (AIG, TUGraz)
@@ -25,7 +24,7 @@ import at.tugraz.ist.ase.util.WriteToFile;
  * @since 1.0
 */
 
-public class TestFileOperations {
+ class TestFileOperations {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -35,39 +34,33 @@ public class TestFileOperations {
 	////////////////////////////////
 
 	@Test
-    public void writeAndReadALine(){
+     void writeAndReadALine(){
 		int random = (int) (Math.random()*1000);
 		String line = "test-"+random;
-		WriteToFile write = new WriteToFile();
-		write.writeALineToAFile(line,testFile);
+		FileOperations.writeALineToAFile(line,testFile);
 		
-		ReadFile read = new ReadFile();
-		List<String>lines =read.readFile(testFile);
+		List<String>lines =FileOperations.readFile(testFile);
 		
 		assertTrue(lines.get(lines.size()-1).equals(line));
 		
 	}
 	
 	@Test
-    public void appendAndReadLines(){
+     void appendAndReadLines(){
 		int random = (int) (Math.random()*1000);
 		String line = "test-"+random;
-		WriteToFile write = new WriteToFile();
-		write.writeALineToAFile(line,testFile);
+		FileOperations.writeALineToAFile(line,testFile);
 		
-		ReadFile read = new ReadFile();
-		List<String>lines =read.readFile(testFile);
+		List<String>lines =FileOperations.readFile(testFile);
 		
 		assertTrue(lines.get(lines.size()-1).equals(line));
 		
 		
 		random = (int) (Math.random()*1000);
 		line = "test-"+random;
-		WriteToFile write2 = new WriteToFile();
-		write2.writeALineToAFile(line,testFile);
+		FileOperations.writeALineToAFile(line,testFile);
 		
-		ReadFile read2 = new ReadFile();
-		List<String>lines2 =read2.readFile(testFile);
+		List<String>lines2 =FileOperations.readFile(testFile);
 		
 		assertTrue(lines2.get(lines2.size()-1).equals(line));
 		

@@ -20,7 +20,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
-public class TestMF {
+ class TestMF {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -36,7 +36,7 @@ public class TestMF {
 	////////////////////////////////
 
 	@Test
-    public void testMF(){
+     void testMF(){
 		
 		MatrixFactorization mf = new MatrixFactorization();
 		DataModel dataModel;

@@ -1,10 +1,5 @@
 at.tugraz.ist.ase.algorithms
-at.tugraz.ist.ase.algorithms.geneticAlgorithm
-at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness
-at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual
-at.tugraz.ist.ase.algorithms.geneticAlgorithm.population
 at.tugraz.ist.ase.cspheuristix
 at.tugraz.ist.ase.diagnosers
-at.tugraz.ist.ase.jUnitTests
 at.tugraz.ist.ase.solvers
 at.tugraz.ist.ase.util

@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import at.tugraz.ist.ase.algorithms.KNN;
 import at.tugraz.ist.ase.algorithms.MatrixFactorization;
+import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_CO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
 import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Const;
@@ -32,7 +33,6 @@ import at.tugraz.ist.ase.util.SolverID;
 
 class MFVVO extends Heuristics{
 	
-	int numberOfvars;
 	int [][]domains;
 	int numFeatures=3; // mxk, kxn -> k value
 	int numIterations=2;
@@ -83,12 +83,13 @@ class MFVVO extends Heuristics{
 		learnedHeuristics = new Individual_VVO[numberOfUsers];
 		
 		for (int i=0;i<numberOfUsers;i++){
+			this.learnedHeuristics[i] = new Individual_VVO(this.trainingDataset, hid, sid, pi, did, m);
 			int index = 0;
 			
-			HashMap<Double,Integer> vars = new HashMap<Double,Integer>(numberOfvars);   
+			HashMap<Double,Integer> vars = new HashMap<Double,Integer>(this.numberOfVars);   
 			
 			// SORT VALUES
-			for(int v=0;v<numberOfvars;v++){
+			for(int v=0;v<this.numberOfVars;v++){
 				HashMap<Double,Integer> valuesOfv = new HashMap<Double,Integer>();   
 				
 				for(int d=0;d<domains[v].length;d++){
@@ -113,7 +114,7 @@ class MFVVO extends Heuristics{
 		    Collections.sort(mapKeys2);
 		    Collections.reverse(mapKeys2);
 		
-	        for(int v=0;v<numberOfvars;v++){
+	        for(int v=0;v<this.numberOfVars;v++){
 		    	int var_index = vars.get(mapKeys2.get(v));
 		    	learnedHeuristics[i].variableOrdering[v]= var_index; 
 		    	//recommendationTasks.recomTasks_copies[h][i].variableOrdering[v] = var_index; 
@@ -140,7 +141,7 @@ class MFVVO extends Heuristics{
 
 	
 	@Override
-	protected Const[] diagnoseTask(CSP task) {
+	protected CSP diagnoseTask(CSP task) {
 		// TODO Auto-generated method stub
 		
 		// This method is not supported

@@ -22,7 +22,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
-public class TestNormalization {
+ class TestNormalization {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -33,7 +33,7 @@ public class TestNormalization {
 	////////////////////////////////
 
 	@Test
-    public void testNormalize(){
+     void testNormalize(){
 		
 		MinMaxNormalization norm = new MinMaxNormalization();
 		double [] normalized = norm.normalize(arrayToNormalize, varsMinMax);
@@ -42,7 +42,7 @@ public class TestNormalization {
 	}
 	
 	@Test
-    public void testNormalizeTo01(){
+     void testNormalizeTo01(){
 		
 		MinMaxNormalization norm = new MinMaxNormalization();
 		double [] normalized = norm.normalizeTo01(arrayToNormalize, minMax);

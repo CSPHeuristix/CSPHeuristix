@@ -33,7 +33,6 @@ import at.tugraz.ist.ase.util.SolverID;
 
 class MFCO extends Heuristics{
 	
-	int numberOfvars;
 	int [][]domains;
 	int numFeatures=3; // mxk, kxn -> k value
 	int numIterations=2;
@@ -59,7 +58,7 @@ class MFCO extends Heuristics{
 	protected void learn() {
 		// TODO Auto-generated method stub
 		
-		// 1- Factorize the matrix
+				// 1- Factorize the matrix
 		
 				MatrixFactorization mf = new MatrixFactorization();
 				DataModel dataModel;
@@ -76,29 +75,32 @@ class MFCO extends Heuristics{
 				numberOfUsers = p.length;
 				numberOfItems = q.length;
 				
+				this.numberOfVars = numberOfItems/2; // other half is for diagnosis
+				
 				// 2- calculate the full matrix from P and Q
 				fullMatrix = new MatrixFactorization().multiplyByMatrix(p, q);
 				
 				
 				// 3- Sort the variables and their values  -> learnedHeuristics
-				learnedHeuristics = new Individual_CO[numberOfUsers];
+				this.learnedHeuristics = new Individual_CO[numberOfUsers];
 				
 				for (int i=0;i<numberOfUsers;i++){
-					int index = 0;
+					// CSP[] trainingDataset, HeuristicID hi, SolverID sid, PerformanceIndicator pi, DiagnoserID did, int m
+					this.learnedHeuristics[i] = new Individual_CO(this.trainingDataset, hid, sid, pi, did, m);
+					this.learnedHeuristics[i].variableOrdering = new int [this.numberOfVars];
 					
-					HashMap<Double,Integer> vars = new HashMap<Double,Integer>(numberOfvars);   
+					HashMap<Double,Integer> vars = new HashMap<Double,Integer>(this.numberOfVars);   
 					
 					// SORT CONSTRAINTS (VARS)
 					// use only the right half of the matrix
-					for(int v=0;v<numberOfvars;v++)
-						vars.put(fullMatrix[i][v+numberOfvars],v);
+					for(int v=0;v<this.numberOfVars;v++)
+						vars.put(fullMatrix[i][v+this.numberOfVars],v);
 					
 					List<Double> mapKeys2 = new ArrayList<>(vars.keySet());
 				    Collections.sort(mapKeys2);
 				    Collections.reverse(mapKeys2);
 				    
-				   
-			        for(int v=0;v<numberOfvars;v++){
+				    for(int v=0;v<this.numberOfVars;v++){
 				    	int var_index = vars.get(mapKeys2.get(v));
 				    	learnedHeuristics[i].variableOrdering[v]= var_index; 
 					}
@@ -117,7 +119,7 @@ class MFCO extends Heuristics{
 	}
 
 	@Override
-	protected Const[] diagnoseTask(CSP task) {
+	protected CSP diagnoseTask(CSP task) {
 		// TODO Auto-generated method stub
 		
 		Const[] diagnosis = null;
@@ -137,10 +139,18 @@ class MFCO extends Heuristics{
 		task.setREQ(sorted);
 						
 		// Step-6: Solve with the heuristics of the nearest cluster
+		long time = 0;
+	    long start = System.nanoTime();
 		Diagnoser d = new Diagnoser();
 		diagnosis = d.diagnose(task.getVars(), sid, task.getREQ(), task.getAC(), m, this.did);
 		//.solveCSP(task, sid, learnedHeuristics[index]);
-						
-		return diagnosis;	
+		//.solveCSP(task, sid, learnedHeuristics[index]);
+		long end = System.nanoTime();	
+		time = end-start;
+					
+		task.setDiagnoses(diagnosis);
+		task.runtime = time;
+		
+		return task;	
 	}
 }

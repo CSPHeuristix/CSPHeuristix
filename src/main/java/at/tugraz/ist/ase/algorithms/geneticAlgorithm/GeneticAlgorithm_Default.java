@@ -1,5 +1,6 @@
 package at.tugraz.ist.ase.algorithms.geneticAlgorithm;
 
+import at.tugraz.ist.ase.algorithms.GeneticAlgorithm;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness.FitnessCalc_Default;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_Default;

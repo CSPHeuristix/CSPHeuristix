@@ -17,7 +17,7 @@ import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 
 import at.tugraz.ist.ase.util.CopyFile;
-import at.tugraz.ist.ase.util.WriteToFile;
+import at.tugraz.ist.ase.util.FileOperations;
 
 /** Represents a Collaborative Filtering Operation
  * @author Seda Polat Erdeniz (AIG, TUGraz)
@@ -98,9 +98,9 @@ public class CollaborativeFiltering {
 					int size = domainValues[i].length;
 					for(int d=0;d<size;d++){
 						if(reqs[i] == domainValues[i][d])
-							new WriteToFile().writeALineToAFile(20+","+itemIndex+",1.0",newUserFile);
+							 FileOperations.writeALineToAFile(20+","+itemIndex+",1.0",newUserFile);
 						else
-							new WriteToFile().writeALineToAFile(20+","+itemIndex+",0.0",newUserFile);
+							 FileOperations.writeALineToAFile(20+","+itemIndex+",0.0",newUserFile);
 						itemIndex++;
 					}
 				}

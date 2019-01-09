@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * @since 1.0
 */
 
-public class TestDiagnoser {
+ class TestDiagnoser {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -51,7 +51,7 @@ public class TestDiagnoser {
 	////////////////////////////////
 
     @Test
-    public void testDiagnosisFound(){
+     void testDiagnosisFound(){
     	did = DiagnoserID.fastdiag;
     	SolverID sid = SolverID.choco;
     	m = 1;
@@ -64,7 +64,7 @@ public class TestDiagnoser {
 	}
     
     @Test
-    public void testMinimumDiagnosisFound(){
+     void testMinimumDiagnosisFound(){
     	did = DiagnoserID.fastdiag;
     	SolverID sid = SolverID.choco;
     	m = 1;
@@ -76,7 +76,7 @@ public class TestDiagnoser {
 	}
     
     @Test
-    public void testMinimumDiagnosisFound_reverse(){
+     void testMinimumDiagnosisFound_reverse(){
     	did = DiagnoserID.fastdiag;
     	SolverID sid = SolverID.choco;
     	m = 1;
@@ -88,6 +88,5 @@ public class TestDiagnoser {
 		///////////////////////////////	
 	}
    
-    
     
 }

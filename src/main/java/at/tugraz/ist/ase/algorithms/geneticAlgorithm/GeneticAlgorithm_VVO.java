@@ -1,5 +1,6 @@
 package at.tugraz.ist.ase.algorithms.geneticAlgorithm;
 
+import at.tugraz.ist.ase.algorithms.GeneticAlgorithm;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.population.Population;
