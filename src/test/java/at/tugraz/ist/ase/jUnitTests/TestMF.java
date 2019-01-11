@@ -42,7 +42,7 @@ public  class TestMF {
 		DataModel dataModel;
 		try {
 			dataModel = new FileDataModel(new File(inputFile));
-			mf.SVD(dataModel, numFeatures, numIterations, userID, numberRecommendedItems);
+			mf.SVD(dataModel);
 			p=mf.UF;
 			q=mf.IF;
 		} catch (IOException e) {

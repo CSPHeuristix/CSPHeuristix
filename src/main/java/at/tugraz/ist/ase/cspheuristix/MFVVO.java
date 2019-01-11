@@ -35,10 +35,7 @@ import at.tugraz.ist.ase.util.SolverID;
 class MFVVO extends Heuristics{
 	
 	//int [][]domains;
-	int numFeatures=3; // mxk, kxn -> k value
-	int numIterations=2;
-	int userID=20;
-	int numberRecommendedItems=10;
+	
 	//String inputFile = "IOFOLDER/INPUT/test/mf/userRatings.data";
 	double [][] p = null;
 	double [][] q = null;
@@ -65,7 +62,7 @@ class MFVVO extends Heuristics{
 		DataModel dataModel;
 		try {
 			dataModel = new FileDataModel(new File(ratingsForSolvingFile));
-			mf.SVD(dataModel, numFeatures, numIterations, userID, numberRecommendedItems);
+			mf.SVD(dataModel);
 			p=mf.UF;
 			q=mf.IF;
 		} catch (IOException e) {

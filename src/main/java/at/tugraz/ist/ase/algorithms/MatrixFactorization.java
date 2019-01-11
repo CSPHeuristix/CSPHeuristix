@@ -17,9 +17,14 @@ public class MatrixFactorization {
 	public double[][] IF;
 	public double[][] UF;
 	
+    ////////////////////////////////////////////
+	///////////// Default Settings /////////////
+	int numFeatures=6;  // mxk, kxn -> k value
+	int numIterations=5;
+    ////////////////////////////////////////////	
 	
 	
-	public void SVD(DataModel dataModel,int numFeatures, int numIterations, int userID, int numberRecommendedItems){
+	public void SVD(DataModel dataModel){
 		try {
 			long start = System.nanoTime();
 			Factorizer factorizer_svd;
@@ -30,11 +35,8 @@ public class MatrixFactorization {
 			IF = facts.allItemFeatures();
 			UF = facts.allUserFeatures();
 		
-//			Recommender recommender = new SVDRecommender(dataModel,factorizer_svd);
-//			List<RecommendedItem> topItems = recommender.recommend(userID,numberRecommendedItems);
 			long end  = System.nanoTime();
 			System.out.println("SVD Time: "+ (end-start));
-//			//System.out.println("SVD: "+topItems.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,15 +69,6 @@ public class MatrixFactorization {
 	                temp[j][i] = m[i][j];
 	        return temp;
 	    }
-	
-//	public double euclidean_distance(double[] a, double[] b) {
-//        double diff_square_sum = 0.0;
-//        for (int i = 0; i < a.length; i++) {
-//        	if(a[i]!=-1)
-//        		diff_square_sum += (a[i] - b[i]) * (a[i] - b[i]);
-//        }
-//        return Math.sqrt(diff_square_sum);
-//    }
-//	
+
 
 }
