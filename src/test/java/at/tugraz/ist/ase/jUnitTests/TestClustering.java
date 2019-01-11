@@ -14,7 +14,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
-class TestClustering {
+public class TestClustering {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -27,7 +27,7 @@ class TestClustering {
 	////////////////////////////////
 
 	@Test
-     void testKmeans(){
+	public void testKmeans(){
 		
 		Clustering clustering = new Clustering();
 		int [][] clusteredItems = clustering.cluster(cid, inputFile, outputFolder, numberOfvars, numberOfClusters);

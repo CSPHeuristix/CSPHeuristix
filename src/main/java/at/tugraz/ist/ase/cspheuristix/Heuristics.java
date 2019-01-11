@@ -39,6 +39,7 @@ public abstract class Heuristics{
 	DiagnoserID did;
 	CSP [] trainingDataset;
 	CSP [] newTasks;
+	CSP basisCSP;
 	Individual[] learnedHeuristics;
 	String stoppingCriteria;
 	int m;
@@ -89,6 +90,7 @@ public abstract class Heuristics{
 		
 		FileOperations.cleanOutputFolder(outputFolder);
 		
+		generateBasisCSP();
 		generatePastCSPs();
 		generateNewCSPs();
 		generateSolvingRatingFile();
@@ -103,23 +105,23 @@ public abstract class Heuristics{
     protected abstract CSP diagnoseTask(CSP task);
     
     private void generatePastCSPs(){
-    	CSP basis = generateBasisCSP();
+    	basisCSP = generateBasisCSP();
     	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
-    		trainingDataset = generateCSPs(pastDiagnosesFile,basis).clone(); 
+    		trainingDataset = generateCSPs(pastDiagnosesFile).clone(); 
     	else
-    		trainingDataset = generateCSPs(pastSolutionsFile,basis).clone(); 
+    		trainingDataset = generateCSPs(pastSolutionsFile).clone(); 
 	}
     
     private void generateNewCSPs(){
-    	CSP basis = generateBasisCSP();
+    	//CSP basis = generateBasisCSP();
     	
     	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
-    		newTasks =  generateCSPs(newInconsistentReqsFile,basis).clone(); 	
+    		newTasks =  generateCSPs(newInconsistentReqsFile).clone(); 	
     	else
-    		newTasks =  generateCSPs(newConsistentReqsFile,basis).clone(); 	
+    		newTasks =  generateCSPs(newConsistentReqsFile).clone(); 	
 	}
     
-    private CSP[] generateCSPs(String inputFile,CSP basis){
+    private CSP[] generateCSPs(String inputFile){
     	
 		// read reqs 
 		List<String> lines = FileOperations.readFile(inputFile);
@@ -128,12 +130,12 @@ public abstract class Heuristics{
     	
 		for(int i=0;i<lines.size();i++){
 			reqsStr[i] = lines.get(i).split(",");
-			int [] reqs= new int [basis.getVars().length];
+			int [] reqs= new int [basisCSP.getVars().length];
 					
-			for(int j=0;j<basis.getVars().length;j++)
+			for(int j=0;j<basisCSP.getVars().length;j++)
 				reqs[j]= Integer.valueOf(reqsStr[i][j].trim());
 				
-			generatedCSPs[i]= new CSP(basis.getName()+i,basis.getVars(),basis.getAllConstraints());
+			generatedCSPs[i]= new CSP(basisCSP.getName()+i,basisCSP.getVars(),basisCSP.getAllConstraints());
 			generatedCSPs[i].insertReqs(reqs);
 		}
 				
@@ -177,21 +179,39 @@ public abstract class Heuristics{
 		//numberOfVars = pastConsistentReqs.get(0).split(",").length-1; // the last one is user ID
 		
 		for(int i=0;i<pastSolutions.size();i++){
+			int userID=i;
+			int itemID=0;
 			for(int j=0;j<numberOfVars;j++){
+				int valueRange=basisCSP.getVars()[j].getMaxDomain()-basisCSP.getVars()[j].getMinDomain();
 				int value = Integer.valueOf(pastSolutions.get(i).split(",")[j].trim());
-				String line = i+","+j+","+value;
-				FileOperations.writeALineToAFile(line,ratingsForSolvingFile);
+				for(int v=0;v<valueRange;v++){
+					int rating = 0;
+					if(v==value)
+						rating = 1;
+					String line = userID+","+itemID+","+rating;
+					FileOperations.writeALineToAFile(line,ratingsForSolvingFile);
+					itemID++;
+				}
 			}
 		}
 		
 		for(int i=0;i<pastConsistentReqs.size();i++){
+			int userID=i+pastSolutions.size();
+			int itemID=0;
 			for(int j=0;j<numberOfVars;j++){
-				int value = Integer.valueOf(pastSolutions.get(i).split(",")[j].trim());
-				if(value!=-1){ // unassigned variable
-					int uID =pastSolutions.size()+i;
-					String line = uID+","+j+","+value;
-					FileOperations.writeALineToAFile(line,ratingsForSolvingFile);
-				}
+				int valueRange=basisCSP.getVars()[j].getMaxDomain()-basisCSP.getVars()[j].getMinDomain();
+				int value = Integer.valueOf(pastConsistentReqs.get(i).split(",")[j].trim());
+				if(value>-1)
+					for(int v=0;v<valueRange;v++){
+						int rating = 0;
+						if(v==value)
+							rating = 1;
+						String line = userID+","+itemID+","+rating;
+						FileOperations.writeALineToAFile(line,ratingsForSolvingFile);
+						itemID++;
+					}
+				else
+					itemID += valueRange;
 			}
 		}
 		
@@ -208,7 +228,7 @@ public abstract class Heuristics{
 		List<String> pastInconsistentReqs =FileOperations.readFile(pastInconsistentReqsFile);
 		//numberOfVars = pastConsistentReqs.get(0).split(",").length-1; // the last one is user ID
 		
-	// ratings with diagnoses
+	    // ratings with diagnoses
 		for(int i=0;i<pastDiagnoses.size();i++){
 			for(int j=0;j<numberOfVars;j++){
 				int reqvalue = Integer.valueOf(pastDiagnoses.get(i).split(",")[j].trim());

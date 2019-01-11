@@ -20,6 +20,7 @@ import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Solver;
 import at.tugraz.ist.ase.util.ClusteringAlgorithmID;
 import at.tugraz.ist.ase.util.DiagnoserID;
+import at.tugraz.ist.ase.util.FileOperations;
 import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
@@ -33,7 +34,7 @@ import at.tugraz.ist.ase.util.SolverID;
 
 class MFVVO extends Heuristics{
 	
-	int [][]domains;
+	//int [][]domains;
 	int numFeatures=3; // mxk, kxn -> k value
 	int numIterations=2;
 	int userID=20;
@@ -92,7 +93,7 @@ class MFVVO extends Heuristics{
 			for(int v=0;v<this.numberOfVars;v++){
 				HashMap<Double,Integer> valuesOfv = new HashMap<Double,Integer>();   
 				
-				for(int d=0;d<domains[v].length;d++){
+				for(int d=0;d<basisCSP.getVars()[v].getMaxDomain();d++){
 					valuesOfv.put(fullMatrix[i][index],d);
 					index++;
 				}
@@ -100,11 +101,11 @@ class MFVVO extends Heuristics{
 			    Collections.sort(mapKeys);
 			    Collections.reverse(mapKeys);
 			    
-			    for(int d=0;d<domains[v].length;d++){
+			    for(int d=0;d<basisCSP.getVars()[v].getMaxDomain();d++){
 			    	int val_index = valuesOfv.get(mapKeys.get(d));
 			    	learnedHeuristics[i].valueOrdering[v][d] = val_index;
 			    	if (d==0)
-			    		vars.put(mapKeys.get(0),v);
+			    		vars.put(mapKeys.get(0),v); // put max value rating for each var
 			    }
 			    
 			}
@@ -129,7 +130,28 @@ class MFVVO extends Heuristics{
 		
 		// Step-4: Find nearest cluster
 		KNN knn = new KNN();
-		int index = knn.findClosestCluster(fullMatrix, task.getREQs());
+		
+		// convert reqs of the task into binary format to compare with matrix rows
+		int numberOfEncodedItems=fullMatrix[0].length;
+		int [] encodedReqs = new int [numberOfEncodedItems];
+		int itemID=0;
+		for(int i=0;i<basisCSP.getVars().length;i++){
+			int domainSize = basisCSP.getVars()[i].getMaxDomain();
+			for(int j=0;j<domainSize;j++){
+				if(task.getREQs()[i]>-1){ // initialized
+					if(task.getREQs()[i]==j)
+						encodedReqs[itemID] = 1;
+					else
+						encodedReqs[itemID] = 0;
+				}
+				else{ // not initialized
+					encodedReqs[itemID] = -1;
+				}
+				itemID++;
+			}
+		}
+			
+		int index = knn.findClosestCluster(fullMatrix, encodedReqs);
 				
 				
 		// Step-5: Solve with the heuristics of the nearest cluster

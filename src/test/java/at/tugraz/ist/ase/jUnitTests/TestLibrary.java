@@ -43,7 +43,7 @@ import at.tugraz.ist.ase.util.SolverID;
 	public void testResultsNotNull(){
 		
 		//for(int i=0;i<hid.length;i++){
-			Library lib = new Library(hid[2], sid, did, inputFolder, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
+			Library lib = new Library(hid[3], sid, did, inputFolder, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
 			results = lib.solveTasks();
 			assertTrue(results!=null);
 		//}

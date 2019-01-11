@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * @since 1.0
 */
 
- class TestSolver {
+public class TestSolver {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
 	////////////////////////////////
 	
     @Test
-     void testSolutionFound(){
+    public void testSolutionFound(){
 		
 		/////////////////////////////////
 		Solver solver = new Solver();
@@ -57,7 +57,7 @@ import static org.junit.Assert.*;
 	}
     
     @Test
-     void testNoSolutionFound(){
+    public void testNoSolutionFound(){
 		
 		/////////////////////////////////
 		Solver solver2 = new Solver();

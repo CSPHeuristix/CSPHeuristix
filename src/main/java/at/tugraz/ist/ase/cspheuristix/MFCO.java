@@ -33,7 +33,7 @@ import at.tugraz.ist.ase.util.SolverID;
 
 class MFCO extends Heuristics{
 	
-	int [][]domains;
+	//int [][]domains;
 	int numFeatures=3; // mxk, kxn -> k value
 	int numIterations=2;
 	int userID=20;

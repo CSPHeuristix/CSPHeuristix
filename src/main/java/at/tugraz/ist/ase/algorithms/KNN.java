@@ -96,12 +96,12 @@ public class KNN {
 		double [][] meanValues = new double [clusteredItems.length][reqs.length];
         for(int c=0;c<clusteredItems.length;c++){
         	 for(int v=0;v<reqs.length;v++){
-        		int sum_of_v = 0;
+        		double sum_of_v = 0;
              	for(int e=0;e<clusteredItems[c].length;e++){
              		// get Vth value of the CSP in the cluster
              		sum_of_v += clusteredItems[c][e];
              	}
-             	int avg_of_v = 0;
+             	double avg_of_v = 0;
              	
              	if (clusteredItems[c].length!=0)
              		avg_of_v = sum_of_v/clusteredItems[c].length;
@@ -114,7 +114,7 @@ public class KNN {
         // USE EUCLIDEAN DISTANCE FORMULA
 		double [] distances = new double [clusteredItems.length];
         for(int c=0;c<clusteredItems.length;c++){
-        	 int sum_of_sqr_subtract = 0;
+        	 double sum_of_sqr_subtract = 0;
         	 for(int v=0;v<reqs.length;v++){
         		 double subtract_v = reqs[v] - meanValues[c][v];
         		 double sqr_subtract_v = subtract_v*subtract_v;

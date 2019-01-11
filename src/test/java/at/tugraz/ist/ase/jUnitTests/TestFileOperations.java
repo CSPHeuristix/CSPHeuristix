@@ -24,7 +24,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @since 1.0
 */
 
- class TestFileOperations {
+public  class TestFileOperations {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -34,7 +34,7 @@ import at.tugraz.ist.ase.util.SolverID;
 	////////////////////////////////
 
 	@Test
-     void writeAndReadALine(){
+	public  void writeAndReadALine(){
 		int random = (int) (Math.random()*1000);
 		String line = "test-"+random;
 		FileOperations.writeALineToAFile(line,testFile);
@@ -46,7 +46,7 @@ import at.tugraz.ist.ase.util.SolverID;
 	}
 	
 	@Test
-     void appendAndReadLines(){
+	public  void appendAndReadLines(){
 		int random = (int) (Math.random()*1000);
 		String line = "test-"+random;
 		FileOperations.writeALineToAFile(line,testFile);

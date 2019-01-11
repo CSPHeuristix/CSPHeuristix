@@ -21,10 +21,10 @@ import at.tugraz.ist.ase.util.PerformanceIndicator;
  * @since 1.0
 */
 
- class TestGA {
+public  class TestGA {
 	
 	@Test
-    void testGA(){
+	public void testGA(){
 		int geneLength = 64;
 		PerformanceIndicator pi = PerformanceIndicator.runtime;
 		String targetStr = "1111000000000000000000000000000000000000000000000000000000001111";

@@ -10,7 +10,7 @@ import org.junit.Test;
  * @version 1.0
  * @since 1.0
 */
- class TestJava {
+public  class TestJava {
 	
 	@Test
      void testArrayShallowCopy(){
@@ -27,7 +27,7 @@ import org.junit.Test;
 	}
 	
 	@Test
-     void testArrayCopy(){
+	public void testArrayCopy(){
 	
 		int [] array= {1,2,3};
 		int [] newarray = new int[array.length];
@@ -43,7 +43,7 @@ import org.junit.Test;
 	}
 	
 	@Test
-     void testArrayClone(){
+	public  void testArrayClone(){
 	
 		int [] array= {1,2,3};
 		int [] newarray = array.clone();
