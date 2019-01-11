@@ -100,9 +100,13 @@ class CLCO extends Heuristics{
 		// Step-4: order REQs
 		Const[] unsorted = task.getREQ().clone();
 		Const[] sorted = new Const[unsorted.length];
+		
 		for(int i=0;i<unsorted.length;i++){
-			int constIndex = learnedHeuristics[index].variableOrdering[i];
-			sorted[i]=unsorted[constIndex];
+			for(int j=0;j<learnedHeuristics[index].variableOrdering.length;j++){
+				int constIndex = learnedHeuristics[index].variableOrdering[j];
+				if(unsorted[i].getVarID()==constIndex)
+					sorted[constIndex]=unsorted[i];
+			}
 			//sorted[i]=learnedHeuristics[index].variableOrdering.getREQ()[i];
 		}
 		task.setREQ(sorted);

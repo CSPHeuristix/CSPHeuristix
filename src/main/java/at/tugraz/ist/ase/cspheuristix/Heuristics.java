@@ -46,6 +46,8 @@ public abstract class Heuristics{
 	PerformanceIndicator pi;
 	String outputFolder;
 	String inputFolder;
+	int [][] solutionsOfNewTasks;
+	int [][] pastDiagnoses;
 	////////////////////////
 	protected int numberOfVars;
 	
@@ -77,6 +79,7 @@ public abstract class Heuristics{
 		this.outputFolder=outputFolder;
 		this.inputFolder=inputFolder;
 		
+		// input files
 		basisCSPFile = inputFolder+"/basisCSP";
 		newConsistentReqsFile = inputFolder+"/newConsistentReqs";
 		newInconsistentReqsFile = inputFolder+"/newInconsistentReqs";
@@ -84,6 +87,7 @@ public abstract class Heuristics{
 		pastConsistentReqsFile = inputFolder+"/pastConsistentReqs";
 		pastDiagnosesFile = inputFolder+"/pastDiagnoses";
 		pastInconsistentReqsFile = inputFolder+"/pastInconsistentReqs";
+		//
 		
 		ratingsForSolvingFile = outputFolder+"/ratingsForSolving";
 		ratingsForDiagnosisFile = outputFolder+"/ratingsForDiagnosis";
@@ -105,36 +109,55 @@ public abstract class Heuristics{
     protected abstract CSP diagnoseTask(CSP task);
     
     private void generatePastCSPs(){
-    	basisCSP = generateBasisCSP();
+    	//basisCSP = generateBasisCSP();
     	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
-    		trainingDataset = generateCSPs(pastDiagnosesFile).clone(); 
+    		trainingDataset = generateCSPs(pastDiagnosesFile,false).clone(); 
     	else
-    		trainingDataset = generateCSPs(pastSolutionsFile).clone(); 
+    		trainingDataset = generateCSPs(pastSolutionsFile,false).clone(); 
 	}
     
     private void generateNewCSPs(){
     	//CSP basis = generateBasisCSP();
     	
     	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
-    		newTasks =  generateCSPs(newInconsistentReqsFile).clone(); 	
+    		newTasks =  generateCSPs(newInconsistentReqsFile,true).clone(); 	
     	else
-    		newTasks =  generateCSPs(newConsistentReqsFile).clone(); 	
+    		newTasks =  generateCSPs(newConsistentReqsFile,true).clone(); 	
 	}
     
-    private CSP[] generateCSPs(String inputFile){
+    private CSP[] generateCSPs(String inputFile,boolean isNew){
     	
 		// read reqs 
 		List<String> lines = FileOperations.readFile(inputFile);
-		String [][] reqsStr = new String[lines.size()][];
+		int numberOfUsers=lines.size();
+		String [][] reqsStr = new String[numberOfUsers][];
+		solutionsOfNewTasks = new int[numberOfUsers][];
+		pastDiagnoses = new int[numberOfUsers][];
+		
 		CSP [] generatedCSPs= new CSP[reqsStr.length];
     	
-		for(int i=0;i<lines.size();i++){
+		for(int i=0;i<numberOfUsers;i++){
 			reqsStr[i] = lines.get(i).split(",");
-			int [] reqs= new int [basisCSP.getVars().length];
-					
-			for(int j=0;j<basisCSP.getVars().length;j++)
+			int [] reqs= new int [numberOfVars];
+			
+			if((reqsStr[i].length-1)/2==numberOfVars){
+				if(isNew)
+					solutionsOfNewTasks[i] = new int [numberOfVars];
+				else
+					pastDiagnoses[i] = new int [numberOfVars];
+			}
+			
+						
+			for(int j=0;j<numberOfVars;j++){
 				reqs[j]= Integer.valueOf(reqsStr[i][j].trim());
-				
+				if((reqsStr[i].length-1)/2==numberOfVars){
+					if(isNew)
+						solutionsOfNewTasks[i][j]=Integer.valueOf(reqsStr[i][j+numberOfVars].trim());
+					else
+						pastDiagnoses[i][j]=Integer.valueOf(reqsStr[i][j+numberOfVars].trim());
+				}
+			}
+		
 			generatedCSPs[i]= new CSP(basisCSP.getName()+i,basisCSP.getVars(),basisCSP.getAllConstraints());
 			generatedCSPs[i].insertReqs(reqs);
 		}
@@ -143,7 +166,7 @@ public abstract class Heuristics{
 		
 	}
     
-    private CSP generateBasisCSP(){
+    private void generateBasisCSP(){
 		
 		// read vars 
 		List<String> lines = FileOperations.readFile(basisCSPFile);
@@ -163,7 +186,9 @@ public abstract class Heuristics{
 			constList[i-1]=new Const(Integer.valueOf(constStr[0]).intValue(),constStr[1].trim(),Integer.valueOf(constStr[2]).intValue());
 		}
 		//new CSP(name, varList, constList);
-		return new CSP(name, varList, constList);
+		
+		this.numberOfVars = varList.length;
+		this.basisCSP = new CSP(name, varList, constList);
 	}
     
     
@@ -173,7 +198,7 @@ public abstract class Heuristics{
     	
     	
 		List<String> pastSolutions =FileOperations.readFile(pastSolutionsFile);
-		this.numberOfVars = pastSolutions.get(0).split(",").length-1; // the last one is user ID
+		//this.numberOfVars = pastSolutions.get(0).split(",").length-1; // the last one is user ID
 		
 		List<String> pastConsistentReqs =FileOperations.readFile(pastConsistentReqsFile);
 		//numberOfVars = pastConsistentReqs.get(0).split(",").length-1; // the last one is user ID
@@ -223,7 +248,7 @@ public abstract class Heuristics{
     	
     	
 		List<String> pastDiagnoses =FileOperations.readFile(pastDiagnosesFile);
-		this.numberOfVars = (pastDiagnoses.get(0).split(",").length-1)/2; // the last one is user ID, others are vars+diagnoses
+		//this.numberOfVars = (pastDiagnoses.get(0).split(",").length-1)/2; // the last one is user ID, others are vars+diagnoses
 		
 		List<String> pastInconsistentReqs =FileOperations.readFile(pastInconsistentReqsFile);
 		//numberOfVars = pastConsistentReqs.get(0).split(",").length-1; // the last one is user ID

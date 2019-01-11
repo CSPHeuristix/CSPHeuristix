@@ -36,21 +36,23 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 			 this.withHeuristics=true;
 		 // TODO Auto-generated method stub
 		 Model chocoModel= createChocoModel(this.csp);
+		 //Variable [] solutions = chocoModel.getVars();
 		 Solver solver = chocoModel.getSolver();
 		 if(withHeuristics)
 			 solver = setHeuristics(solver);
 		 
 		 long time = 0;
 		 long start = System.nanoTime();
-		 boolean isSolved= solver.solve();
+		 boolean isSolved = solver.solve();
 		 long end = System.nanoTime();
 		 time = end-start;
 		
 		 CSP solution = new CSP(csp);
 		 int [] vars = new int [chocoModel.getNbVars()];
 		 if(isSolved)
-			 for(int i=0;i<vars.length;i++)
-				 vars[i]= ((IntVar)chocoModel.getVar(i)).getValue();
+			 for(int i=0;i<vars.length;i++){
+				 vars[i]= ((IntVar)chocoModel.getVar(i)).getLB(); // getValue does not work if more than 1 value is possible
+			 }
 		 solution.setSolutions(vars);
 		 
 		 solution.isSolved = isSolved;

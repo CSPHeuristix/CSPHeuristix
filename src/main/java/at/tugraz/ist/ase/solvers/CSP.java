@@ -1,5 +1,8 @@
 package at.tugraz.ist.ase.solvers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Represents a CSP with Var[] and Const[]
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
@@ -38,13 +41,16 @@ public class CSP {
 
 	public void insertReqs(int [] reqs){
 		this.reqs = reqs;
+		List<Const> reqList = new ArrayList<Const>();
 		
-		REQ = new Const[reqs.length];
+		//REQ = new Const[reqs.length];
 		for(int i=0;i<reqs.length;i++){
-			if(reqs[i]>0){ // IF INITIATED
-				REQ[i]=new Const(i, "=", reqs[i]);
+			if(reqs[i]>-1){ // IF INITIATED
+				reqList.add(new Const(i, "=", reqs[i]));
 			}
 		}
+		REQ = new Const[reqList.size()];
+		REQ = reqList.toArray(REQ);
 		
 		Const[] currentAC= AC.clone();
 		AC = new Const[BC.length+REQ.length];

@@ -47,8 +47,8 @@ public class Library {
 	   * @param solverID is the selected CSP solver which is used during heuristics learning and solving tasks
 	   * @param diagnosisAlgorithmID is the selected diagnosis algorithm which is used for diagnosis tasks
 	   * @param inputFolder is the folder which holds all required input files
-	   * Required input files for configuration tasks: basisCSP, newReqs, pastConsistentReqs, pastSolutions
-	   * Required input files for diagnosis tasks: basisCSP, newReqs, pastInconsistentReqs, pastDiagnoses
+	   * Required input files for configuration tasks: basisCSP, newConsistentReqs, pastConsistentReqs, pastSolutions
+	   * Required input files for diagnosis tasks: basisCSP, newInconsistentReqs, pastInconsistentReqs, pastDiagnoses
 	   * @param outputFolder is the folder which holds all produced output files (clustering results, generated rating files, etc.)
 	   * @param pi is the performance indicator which is optimized during heuristics learning
 	   * @param stoppingCriteria is the time in milliseconds as stopping criterion for genetic algorithm.  

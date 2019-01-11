@@ -29,8 +29,8 @@ import at.tugraz.ist.ase.util.SolverID;
 	PerformanceIndicator pi = PerformanceIndicator.runtime;
 	HeuristicID[] hid = {HeuristicID.clusterBasedVVO, HeuristicID.clusterBasedCO, HeuristicID.MFBasedVVO, HeuristicID.MFBasedCO};
 	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
-	String inputFolder = "IOFOLDER/INPUT/test/CSPSolving2";
-	String outputFolder = "IOFOLDER/OUTPUT/test/CSPSolving2";
+	String inputFolder = "IOFOLDER/INPUT/test/LibraryInputFolder1";
+	String outputFolder = "IOFOLDER/OUTPUT/test/LibraryOutputFolder1";
 	int numberOfvars=4;
 	int numberOfClusters=3;
 	String stoppingCriteria = "10"; // stop learning after 10 ms
@@ -42,11 +42,11 @@ import at.tugraz.ist.ase.util.SolverID;
 	@Test
 	public void testResultsNotNull(){
 		
-		//for(int i=0;i<hid.length;i++){
-			Library lib = new Library(hid[3], sid, did, inputFolder, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
+		for(int i=0;i<hid.length;i++){
+			Library lib = new Library(hid[i], sid, did, inputFolder, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
 			results = lib.solveTasks();
 			assertTrue(results!=null);
-		//}
+		}
 	}
 	
 	
