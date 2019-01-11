@@ -110,7 +110,7 @@ public abstract class Heuristics{
     
     private void generatePastCSPs(){
     	//basisCSP = generateBasisCSP();
-    	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
+    	if(hid==HeuristicID.CLCO || hid==HeuristicID.MFCO)
     		trainingDataset = generateCSPs(pastDiagnosesFile,false).clone(); 
     	else
     		trainingDataset = generateCSPs(pastSolutionsFile,false).clone(); 
@@ -119,7 +119,7 @@ public abstract class Heuristics{
     private void generateNewCSPs(){
     	//CSP basis = generateBasisCSP();
     	
-    	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
+    	if(hid==HeuristicID.CLCO || hid==HeuristicID.MFCO)
     		newTasks =  generateCSPs(newInconsistentReqsFile,true).clone(); 	
     	else
     		newTasks =  generateCSPs(newConsistentReqsFile,true).clone(); 	

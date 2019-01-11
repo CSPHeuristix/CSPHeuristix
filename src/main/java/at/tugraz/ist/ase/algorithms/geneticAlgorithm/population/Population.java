@@ -42,11 +42,11 @@ public class Population {
     			
             	switch(iid){
             		case vvo:
-            			individuals[i] = new Individual_VVO(trainingDataset,HeuristicID.clusterBasedVVO,sid, pi,did,m);
+            			individuals[i] = new Individual_VVO(trainingDataset,HeuristicID.CLVVO,sid, pi,did,m);
             			//newIndividual.instantiate(this.geneLenght, trainingDataset);
             			break;
             		case co:
-            			individuals[i] = new Individual_CO(trainingDataset,HeuristicID.clusterBasedCO,sid, pi,did,m);
+            			individuals[i] = new Individual_CO(trainingDataset,HeuristicID.CLCO,sid, pi,did,m);
             			break;
             		case binary:
             			individuals[i] = new Individual_Default(target, null, null,sid, pi,did,m);

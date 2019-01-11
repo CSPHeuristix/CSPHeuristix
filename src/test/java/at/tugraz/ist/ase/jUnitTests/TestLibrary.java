@@ -27,7 +27,7 @@ import at.tugraz.ist.ase.util.SolverID;
 	DiagnoserID did = DiagnoserID.fastdiag;
 	SolverID sid = SolverID.choco;
 	PerformanceIndicator pi = PerformanceIndicator.runtime;
-	HeuristicID[] hid = {HeuristicID.clusterBasedVVO, HeuristicID.clusterBasedCO, HeuristicID.MFBasedVVO, HeuristicID.MFBasedCO};
+	HeuristicID[] hid = {HeuristicID.CLVVO, HeuristicID.CLCO, HeuristicID.MFVVO, HeuristicID.MFCO};
 	ClusteringAlgorithmID cid = ClusteringAlgorithmID.kmeans;
 	String inputFolder = "IOFOLDER/INPUT/test/LibraryInputFolder1";
 	String outputFolder = "IOFOLDER/OUTPUT/test/LibraryOutputFolder1";

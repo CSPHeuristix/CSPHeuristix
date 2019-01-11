@@ -8,6 +8,6 @@ package at.tugraz.ist.ase.util;
 */
 
 public enum HeuristicID {
-    clusterBasedVVO, clusterBasedCO, 
-    MFBasedVVO, MFBasedCO
+    CLVVO, CLCO, 
+    MFVVO, MFCO
 }

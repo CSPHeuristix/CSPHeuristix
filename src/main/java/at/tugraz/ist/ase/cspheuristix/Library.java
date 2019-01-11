@@ -81,19 +81,19 @@ public class Library {
 			logger.info("outputFolder: "+ outputFolder);
 			
 			switch (heuristicsID) {
-		         case clusterBasedVVO:
+		         case CLVVO:
 		        	 heuristix = new CLVVO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		        	 break;
 		                 
-		         case clusterBasedCO:
+		         case CLCO:
 		        	 heuristix = new CLCO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		             break;
 		                      
-		         case MFBasedCO: 
+		         case MFCO: 
 		        	 heuristix = new MFCO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		             break;
 		                     
-		         case MFBasedVVO:
+		         case MFVVO:
 		        	 heuristix = new MFVVO(heuristicsID, solverID, diagnosisAlgorithmID, inputFolder, outputFolder, pi, stoppingCriteria,cid,numberOfClusters,m);
 		             break;
 		             
@@ -129,15 +129,15 @@ public class Library {
 		CSP [] solutions = new CSP [heuristix.newTasks.length];
 		
 		switch (hid) {
-	        case clusterBasedVVO:
-	        case MFBasedVVO:
+	        case CLVVO:
+	        case MFVVO:
 	        	for (int i=0;i<solutions.length;i++){
 	    			solutions[i] = heuristix.solveTask(heuristix.newTasks[i]);
 	    		}
 	        	break;
 	                
-	        case clusterBasedCO:
-	        case MFBasedCO: 
+	        case CLCO:
+	        case MFCO: 
 	        	for (int i=0;i<heuristix.newTasks.length;i++){
 	        		solutions[i] = heuristix.diagnoseTask(heuristix.newTasks[i]);
 	    		}
