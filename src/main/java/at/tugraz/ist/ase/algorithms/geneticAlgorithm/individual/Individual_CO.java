@@ -64,7 +64,11 @@ public class Individual_CO extends Individual{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		String constraintOrdering = "Constraint Ordering: ";
+        for (int i = 0; i < this.variableOrdering.length; i++) {
+        	constraintOrdering += "VAR-"+variableOrdering[i]+"; ";
+        }
+        return constraintOrdering;
 	}
 
 
@@ -73,10 +77,9 @@ public class Individual_CO extends Individual{
 		this.variableOrdering = new int [this.numberOfVars]; // constraint ordering
 		//Arrays.setAll(variableOrdering, i -> i + 1);
 		variableOrdering = IntStream.rangeClosed(0, numberOfVars-1).toArray();
+		// SHUFFLE
+		variableOrdering = shuffleArray(variableOrdering).clone();
 		
-		// Update constraint ordering 
-		this.variableOrdering = shuffleArray(variableOrdering).clone(); 
-	
 		// Update trainingDataset
 		for(int m=0;m<this.trainingDataset.length;m++){
 			Const [] shuffledReqs= new Const[this.numberOfVars];

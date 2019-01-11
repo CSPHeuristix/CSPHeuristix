@@ -104,6 +104,13 @@ public class Library {
 			
 			heuristix.learn();
 			
+			String heuristics = "";
+			for(int i=0;i<heuristix.learnedHeuristics.length;i++){
+				heuristics += "Heuristics-"+i+": "+heuristix.learnedHeuristics[i].toString()+"\n";
+			}
+			
+			logger.info("LEARNED HEURISTICS: \n"+heuristics);	
+			
 		}catch(Exception ex){
 			logger.error(ex.toString());
 		}
@@ -135,9 +142,7 @@ public class Library {
 	        		solutions[i] = heuristix.diagnoseTask(heuristix.newTasks[i]);
 	    		}
 	       	 	break;
-	       
 	    }
-		
 		
 		String solutionsStr="";
 		for(int i=0;i<solutions.length;i++)

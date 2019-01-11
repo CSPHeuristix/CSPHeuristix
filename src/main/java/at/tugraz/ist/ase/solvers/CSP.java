@@ -16,9 +16,8 @@ public class CSP {
 	Const[] REQ; // user requirements -> can be inconsistent
 	String name;
 	int [] reqs;
-	int [] solutions;
-	
-	Const[] diagnoses;
+	int [] solution;
+	Const[] diagnosis;
 	
 	public boolean isSolved= false;
 	public float runtime = -1;
@@ -80,13 +79,15 @@ public class CSP {
 	
 	public String toString(){
 		
-		String print = name;
-		if(solutions!=null)
-			for (int i=0;i<solutions.length;i++)
-				print += ", var-"+i+"= "+solutions[i];
-		if(diagnoses!=null)
-			for (int i=0;i<diagnoses.length;i++)
-					print+= diagnoses[i].toString()+";";
+		String print = "CSP-"+name+": ";
+		
+		if(solution!=null)
+			for (int i=0;i<solution.length;i++)
+				print += ", var-"+i+"= "+solution[i];
+				
+		if(diagnosis!=null)
+			for (int i=0;i<diagnosis.length;i++)
+					print+= diagnosis[i].toString()+";";
 			
 		
 		print+= ", runtime: "+this.runtime+" ns";
@@ -98,14 +99,14 @@ public class CSP {
 	 * @return the solutions
 	 */
 	public int[] getSolutions() {
-		return solutions;
+		return solution;
 	}
 
 	/**
 	 * @param solutions the solutions to set
 	 */
 	public void setSolutions(int[] solutions) {
-		this.solutions = solutions.clone();
+		this.solution = solutions.clone();
 	}
 
 	/**
@@ -158,14 +159,14 @@ public class CSP {
 	 * @return the diagnoses
 	 */
 	public Const[] getDiagnoses() {
-		return diagnoses;
+		return diagnosis;
 	}
 
 	/**
 	 * @param diagnoses the diagnoses to set
 	 */
 	public void setDiagnoses(Const[] diagnoses) {
-		this.diagnoses = diagnoses;
+		this.diagnosis = diagnoses;
 	}
 
 }

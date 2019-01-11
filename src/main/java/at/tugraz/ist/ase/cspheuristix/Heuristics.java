@@ -49,7 +49,8 @@ public abstract class Heuristics{
 	protected int numberOfVars;
 	
 	protected String basisCSPFile;
-	protected String newReqsFile;
+	protected String newConsistentReqsFile;
+	protected String newInconsistentReqsFile;
 	protected String pastSolutionsFile;
 	protected String pastConsistentReqsFile;
 	protected String pastDiagnosesFile;
@@ -76,7 +77,8 @@ public abstract class Heuristics{
 		this.inputFolder=inputFolder;
 		
 		basisCSPFile = inputFolder+"/basisCSP";
-		newReqsFile = inputFolder+"/newReqs";
+		newConsistentReqsFile = inputFolder+"/newConsistentReqs";
+		newInconsistentReqsFile = inputFolder+"/newInconsistentReqs";
 		pastSolutionsFile = inputFolder+"/pastSolutions";
 		pastConsistentReqsFile = inputFolder+"/pastConsistentReqs";
 		pastDiagnosesFile = inputFolder+"/pastDiagnoses";
@@ -100,16 +102,21 @@ public abstract class Heuristics{
     
     protected abstract CSP diagnoseTask(CSP task);
     
-    private CSP[] generatePastCSPs(){
+    private void generatePastCSPs(){
     	CSP basis = generateBasisCSP();
-    	
-    	return generateCSPs(pastSolutionsFile,basis); 	
+    	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
+    		trainingDataset = generateCSPs(pastDiagnosesFile,basis).clone(); 
+    	else
+    		trainingDataset = generateCSPs(pastSolutionsFile,basis).clone(); 
 	}
     
     private void generateNewCSPs(){
     	CSP basis = generateBasisCSP();
     	
-    	newTasks =  generateCSPs(newReqsFile,basis); 	
+    	if(hid==HeuristicID.clusterBasedCO || hid==HeuristicID.MFBasedCO)
+    		newTasks =  generateCSPs(newInconsistentReqsFile,basis).clone(); 	
+    	else
+    		newTasks =  generateCSPs(newConsistentReqsFile,basis).clone(); 	
 	}
     
     private CSP[] generateCSPs(String inputFile,CSP basis){
@@ -117,20 +124,20 @@ public abstract class Heuristics{
 		// read reqs 
 		List<String> lines = FileOperations.readFile(inputFile);
 		String [][] reqsStr = new String[lines.size()][];
-		trainingDataset= new CSP[reqsStr.length];
+		CSP [] generatedCSPs= new CSP[reqsStr.length];
     	
 		for(int i=0;i<lines.size();i++){
 			reqsStr[i] = lines.get(i).split(",");
-			int [] reqs= new int [reqsStr[i].length-1];
+			int [] reqs= new int [basis.getVars().length];
 					
-			for(int j=0;j<reqsStr[i].length-1;j++)
+			for(int j=0;j<basis.getVars().length;j++)
 				reqs[j]= Integer.valueOf(reqsStr[i][j].trim());
 				
-			trainingDataset[i]= new CSP(basis.getName()+i,basis.getVars(),basis.getAllConstraints());
-			trainingDataset[i].insertReqs(reqs);
+			generatedCSPs[i]= new CSP(basis.getName()+i,basis.getVars(),basis.getAllConstraints());
+			generatedCSPs[i].insertReqs(reqs);
 		}
 				
-		return trainingDataset;
+		return generatedCSPs;
 		
 	}
     

@@ -22,7 +22,7 @@ import at.tugraz.ist.ase.util.SolverID;
 */
 class CLVVO extends Heuristics{
 	
-	int [][] clusteredItems;
+	//int [][] clusteredItems;
 	CSP [][] trainingDatasetClustered;
 
 	CLVVO(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFile,
@@ -55,7 +55,7 @@ class CLVVO extends Heuristics{
 		
 		// Step-1: Cluster past user requirements of the same CSP tasks
 		Clustering clustering = new Clustering();
-		clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
+		int [][] clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
 		trainingDatasetClustered = new CSP[k][];
 		
 		for (int i=0;i<k;i++){
@@ -77,7 +77,7 @@ class CLVVO extends Heuristics{
 		
 		// Step-3: Find nearest cluster
 		KNN knn = new KNN();
-		int index = knn.findClosestCluster(clusteredItems, task.getREQs());
+		int index = knn.findClosestCluster(trainingDatasetClustered, task.getREQs());
 		
 		
 		// Step-4: Solve with the heuristics of the nearest cluster

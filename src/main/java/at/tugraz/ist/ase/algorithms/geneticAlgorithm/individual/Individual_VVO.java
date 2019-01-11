@@ -71,13 +71,24 @@ public class Individual_VVO extends Individual{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		String vvo = "Variable and Value Ordering: ";
+        for (int i = 0; i < this.variableOrdering.length; i++) {
+        	int varIndex = variableOrdering[i];
+        	vvo += "Var-"+varIndex+":(";
+            for (int j=0;j<valueOrdering[varIndex].length;j++){
+            	int value = valueOrdering[varIndex][j];
+            	vvo += value+",";
+            }
+            vvo += "); ";
+        }
+        return vvo;
 	}
 	
 	@Override
 	protected void generateIndividual() {
 		// TODO Auto-generated method stub
 		variableOrdering = new int [numberOfVars];
+		valueOrdering = new int [numberOfVars][];
 		for(int i=0;i<numberOfVars;i++)
 			variableOrdering[i]=i;
 			
@@ -87,8 +98,9 @@ public class Individual_VVO extends Individual{
 				domains[i][1]= trainingDataset[0].getVars()[i].getMaxDomain();
 		}
 		for(int i=0;i<numberOfVars;i++){
-			valueOrdering[i]=new int[domains[i].length];
-			valueOrdering[i]=domains[i].clone();
+			valueOrdering[i]=new int[domains[i][1]-domains[i][0]];
+			for(int j=0;j<valueOrdering[i].length;j++)
+				valueOrdering[i][j]=j;
 		}
 		
 		// SHUFFLE

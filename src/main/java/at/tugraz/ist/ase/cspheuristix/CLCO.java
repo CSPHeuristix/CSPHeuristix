@@ -24,7 +24,7 @@ import at.tugraz.ist.ase.util.SolverID;
 
 class CLCO extends Heuristics{
 	
-	int [][] clusteredItems;
+	//int [][] clusteredItems;
 	CSP [][] trainingDatasetClustered;
 
 	
@@ -62,7 +62,7 @@ class CLCO extends Heuristics{
 		
 		// Step-1: Cluster past inconsistent user requirements of the same CSP tasks
 		Clustering clustering = new Clustering();
-		clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
+		int [][] clusteredItems = clustering.cluster(cid, pastSolutionsFile, outputFolder, numberOfvars, k);
 		trainingDatasetClustered = new CSP[k][];
 		
 		for (int i=0;i<k;i++){
@@ -95,7 +95,7 @@ class CLCO extends Heuristics{
 		
 		// Step-3: Find nearest cluster 
 		KNN knn = new KNN();
-		int index = knn.findClosestCluster(clusteredItems, task.getREQs());
+		int index = knn.findClosestCluster(trainingDatasetClustered, task.getREQs());
 		
 		// Step-4: order REQs
 		Const[] unsorted = task.getREQ().clone();

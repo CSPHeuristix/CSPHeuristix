@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import at.tugraz.ist.ase.solvers.CSP;
+
 /** Represents a kth Nearest Neighbor Operation based on Euclidean Distance
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
@@ -43,7 +45,7 @@ public class KNN {
 		return similarIndexes;			
 	}
 
-	public int findClosestCluster(int [][] clusteredItems, int []reqs){
+	public int findClosestCluster(CSP [][] clusteredItems, int []reqs){
 		int index = 0;
 		
 		// CALCULATE MEANS OF THE CLUSTERS
@@ -53,7 +55,7 @@ public class KNN {
         		int sum_of_v = 0;
              	for(int e=0;e<clusteredItems[c].length;e++){
              		// get Vth value of the CSP in the cluster
-             		sum_of_v += clusteredItems[c][e];
+             		sum_of_v += clusteredItems[c][e].getREQs()[v];
              	}
              	int avg_of_v = 0;
              	

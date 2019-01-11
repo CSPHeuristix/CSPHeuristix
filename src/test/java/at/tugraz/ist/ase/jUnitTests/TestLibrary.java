@@ -19,7 +19,7 @@ import at.tugraz.ist.ase.util.SolverID;
  * @version 1.0
  * @since 1.0
 */
- class TestLibrary {
+ public class TestLibrary {
 	
 	////////////////////////////////
 	//  SETTINGS 				  //
@@ -40,13 +40,13 @@ import at.tugraz.ist.ase.util.SolverID;
 
 
 	@Test
-     void testResultsNotNull(){
+	public void testResultsNotNull(){
 		
-		for(int i=0;i<hid.length;i++){
-			Library lib = new Library(hid[i], sid, did, inputFolder, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
+		//for(int i=0;i<hid.length;i++){
+			Library lib = new Library(hid[2], sid, did, inputFolder, outputFolder, pi, stoppingCriteria, cid, numberOfClusters,m);
 			results = lib.solveTasks();
 			assertTrue(results!=null);
-		}
+		//}
 	}
 	
 	

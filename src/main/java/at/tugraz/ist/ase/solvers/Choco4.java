@@ -48,8 +48,9 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		
 		 CSP solution = new CSP(csp);
 		 int [] vars = new int [chocoModel.getNbVars()];
-		 for(int i=0;i<vars.length;i++)
-			 vars[i]= ((IntVar)chocoModel.getVar(i)).getValue();
+		 if(isSolved)
+			 for(int i=0;i<vars.length;i++)
+				 vars[i]= ((IntVar)chocoModel.getVar(i)).getValue();
 		 solution.setSolutions(vars);
 		 
 		 solution.isSolved = isSolved;

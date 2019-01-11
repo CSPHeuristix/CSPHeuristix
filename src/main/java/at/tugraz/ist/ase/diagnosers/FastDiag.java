@@ -24,6 +24,8 @@ class FastDiag {
 	Var[] vars;
 	SolverID solverID;
 	int m=1;
+	int reqsLenght;
+	
 //	Algorithm − FastDiag
 	
 //	1 func FastDiag(C ⊆ AC, AC = {c1..ct}) : ∆
@@ -46,8 +48,8 @@ class FastDiag {
 		if(C==null || C.length==0 || !isConsistent(subtract(AC,C)))
 			return null;
 		
-		else
-			return FD(null,C,AC);
+		reqsLenght=C.length;
+		return FD(null,C,AC);
 	}
 	
 	//////////////////////////////////
@@ -61,23 +63,34 @@ class FastDiag {
 
 	private Const[] FD (Const[] D, Const[] C, Const[] AC){
 		if(D!=null && isConsistent(AC))
-			return D;
+			return null;  
 		
 		if(C!=null && C.length==1)
 			return C;
 		
-		int k = AC.length/2;
+		int k = C.length/2;
 		
 		Const[] C1 = Arrays.copyOfRange(C, 0, k);
 		Const[] C2 = Arrays.copyOfRange(C, k, C.length);
 				
-		Const[] D1 = FD(C1, C2, subtract(AC, C1));
+		//Const[] D1 = FD(C1, C2, subtract(AC, C1));
+		//Const[] D2 = FD(D1, C1, subtract(AC, D1));
+		
+		Const[] D1 = FD(C2, C1, subtract(AC, C2));
 		Const[] D2 = FD(D1, C2, subtract(AC, D1));
 		
+		int length=0;
+		if(D1!=null)
+			length+=D1.length;
+		if(D2!=null)
+			length+=D2.length;
 		
-		Const[] Diagnosis = new Const[D1.length+D2.length];
-		System.arraycopy(D1, 0, Diagnosis, 0, D1.length);
-		System.arraycopy(D2, 0, Diagnosis, D1.length, D2.length);
+		Const[] Diagnosis = new Const[length];
+		
+		if(D1!=null)
+			System.arraycopy(D1, 0, Diagnosis, 0, D1.length);
+		if(D2!=null)
+			System.arraycopy(D2, 0, Diagnosis, length-D2.length, D2.length);
 		
 		
 		////////////////////////////////////
@@ -118,6 +131,8 @@ class FastDiag {
 	
 	private Const[] subtract (Const[] C1, Const[] C2){
 		// C1- C2
+	    if(C2==null)
+	    	return C1;
 	    
 		List<Const> c1 = new ArrayList<Const>(Arrays.asList(C1));
 		List<Const> c2 = new ArrayList<Const>(Arrays.asList(C2));
