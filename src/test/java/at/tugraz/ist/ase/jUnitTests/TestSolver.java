@@ -47,7 +47,7 @@ public class TestSolver {
 		
 		/////////////////////////////////
 		Solver solver = new Solver();
-		CSP csp = new CSP("test1",vars, consArray1);
+		CSP csp = new CSP("test1",vars, consArray1,null,null);
 		
 		CSP soln = solver.solveCSP(csp,sid, null);
 		
@@ -61,7 +61,7 @@ public class TestSolver {
 		
 		/////////////////////////////////
 		Solver solver2 = new Solver();
-		CSP csp2 = new CSP("test2",vars, consArray2);
+		CSP csp2 = new CSP("test2",vars, consArray2,null,null);
 		
 		CSP soln2 = solver2.solveCSP(csp2,sid, null);
 		

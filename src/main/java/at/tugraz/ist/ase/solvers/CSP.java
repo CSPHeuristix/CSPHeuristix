@@ -18,29 +18,49 @@ public class CSP {
 	Const[] BC; // basis constraints -> always consistent
 	Const[] REQ; // user requirements -> can be inconsistent
 	String name;
-	int [] reqs;
+	int [] intREQ;
+	int [] expectedSolution;
+	
+	/////
 	int [] solution;
 	Const[] diagnosis;
+	/////
 	
 	public boolean isSolved= false;
 	public float runtime = -1;
+	public float predictionQuality = -1;
 	
 	public CSP (CSP basisCSP){
+
 		this.name= basisCSP.name;
 		this.vars= basisCSP.vars.clone();
 		this.AC = basisCSP.AC.clone();
 		this.BC = basisCSP.BC.clone();
+		
+		if(basisCSP.REQ!=null)
+			this.REQ = basisCSP.REQ.clone();
+		if(basisCSP.intREQ!=null)
+			this.intREQ = basisCSP.intREQ.clone();
+		if(basisCSP.expectedSolution!=null)
+			this.expectedSolution=basisCSP.expectedSolution.clone();
 	}
 	
-	public CSP(String name,Var[] vars,Const[] cons){
+	public CSP(String name,Var[] vars,Const[] cons,int[]reqs,int[]expecetedSoln){
 		this.name= name;
 		this.vars= vars;
 		this.AC = cons.clone();
 		this.BC = cons.clone();
+		if(reqs!=null){
+			this.intREQ = reqs.clone();
+			insertReqs(reqs);
+		}
+		if(expecetedSoln!=null)
+			this.expectedSolution=expecetedSoln.clone();
+		
 	}
 
-	public void insertReqs(int [] reqs){
-		this.reqs = reqs;
+	private void insertReqs(int [] reqs){
+		this.intREQ = reqs;
 		List<Const> reqList = new ArrayList<Const>();
 		
 		//REQ = new Const[reqs.length];
@@ -62,12 +82,40 @@ public class CSP {
 			AC[BC.length+i]=REQ[i];
 		
 	}
+	
+	public float getPredictionQuality(){
+		
+		if(predictionQuality==-1){
+			float totalSameResults=0;
+			if(expectedSolution!=null){
+				if(solution!=null)
+					if(solution.length==expectedSolution.length){
+						for(int i=0;i<solution.length;i++){
+							if(solution[i]==expectedSolution[i])
+								totalSameResults++;
+						}
+						predictionQuality = (float)(totalSameResults/solution.length);
+					}
+				else if (diagnosis!=null)
+					if(diagnosis.length==expectedSolution.length){
+						for(int i=0;i<diagnosis.length;i++){
+							if(expectedSolution[diagnosis[i].getVarID()]!=intREQ[diagnosis[i].getVarID()]) // if the req is diagnosed 
+								totalSameResults++;
+						}
+						predictionQuality = (float)(totalSameResults/solution.length);
+					}
+			}
+			
+		}
+		
+		return predictionQuality;
+	}
 
 	public String getName() {
 		return this.name;
 	}
 	public int[] getREQs() {
-		return this.reqs;
+		return this.intREQ;
 	}
 	public Var[] getVars() {
 		return this.vars;
@@ -95,8 +143,9 @@ public class CSP {
 			for (int i=0;i<diagnosis.length;i++)
 					print+= diagnosis[i].toString()+";";
 			
-		
 		print+= ", runtime: "+this.runtime+" ns";
+		
+		print+= ", prediction quality: "+this.predictionQuality;
 		return print;
 		
 	}
@@ -132,14 +181,14 @@ public class CSP {
 	/**
 	 * @return the c
 	 */
-	public Const[] getC() {
+	public Const[] getBC() {
 		return BC;
 	}
 
 	/**
 	 * @param c the c to set
 	 */
-	public void setC(Const[] c) {
+	public void setBC(Const[] c) {
 		BC = c.clone();
 	}
 
@@ -164,15 +213,37 @@ public class CSP {
 	/**
 	 * @return the diagnoses
 	 */
-	public Const[] getDiagnoses() {
+	public Const[] getDiagnosis() {
 		return diagnosis;
 	}
 
 	/**
 	 * @param diagnoses the diagnoses to set
 	 */
-	public void setDiagnoses(Const[] diagnoses) {
+	public void setDiagnosis(Const[] diagnoses) {
 		this.diagnosis = diagnoses;
 	}
+
+	/**
+	 * @return the expectedSolution
+	 */
+	public int[] getExpectedSolution() {
+		return expectedSolution;
+	}
+
+	/**
+	 * @param expectedSolution the expectedSolution to set
+	 */
+	public void setExpectedSolution(int[] expectedSolution) {
+		this.expectedSolution = expectedSolution;
+	}
+
+	/**
+	 * @param vars the vars to set
+	 */
+	public void setVars(Var[] vars) {
+		this.vars = vars;
+	}
+	
 
 }

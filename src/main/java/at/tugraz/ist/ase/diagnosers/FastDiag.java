@@ -123,7 +123,7 @@ class FastDiag {
 	private boolean isConsistent(Const[] C){
 		// TODO
 		Solver solver = new Solver();
-		CSP csp = new CSP("test",vars, C);
+		CSP csp = new CSP("test",vars, C,null,null);
 		CSP soln = solver.solveCSP(csp,this.solverID,null);
 		return soln.isSolved();
 		

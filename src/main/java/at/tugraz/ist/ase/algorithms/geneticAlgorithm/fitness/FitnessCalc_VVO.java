@@ -55,8 +55,17 @@ public class FitnessCalc_VVO extends FitnessCalc{
 	
 	@Override
 	protected float getpredictionQualityFitness(){
-		// TODO SEDA
-		return 0;
+		float avg_predictionQuality=0;
+		 
+		for (int i=0;i<trainingDataset.length;i++){
+			Solver s= new Solver();
+			s.solveCSP(trainingDataset[i], this.sid, this.individual); 
+			avg_predictionQuality += trainingDataset[i].getPredictionQuality();
+		}
+		
+		avg_predictionQuality = avg_predictionQuality/trainingDataset.length;
+		
+		return avg_predictionQuality;
 	}
 
 }

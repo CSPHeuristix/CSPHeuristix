@@ -55,10 +55,14 @@ public  class TestDiagnoser {
     	did = DiagnoserID.fastdiag;
     	SolverID sid = SolverID.choco;
     	m = 1;
+    	CSP task = new CSP(null);
+    	task.setVars(vars);
+    	task.setBC(C1);
+    	task.setAC(AC1);
 		/////////////////////////////////
 		Diagnoser diagnoser = new Diagnoser();
-		Const[] diag = diagnoser.diagnose(vars, SolverID.choco, C1, AC1, m, did);
-		assertTrue(diag.length==1);
+		task = diagnoser.diagnose(task, SolverID.choco,did,m);
+		assertTrue(task.getDiagnosis().length==1);
 		///////////////////////////////
 		
 	}
@@ -68,10 +72,15 @@ public  class TestDiagnoser {
     	did = DiagnoserID.fastdiag;
     	SolverID sid = SolverID.choco;
     	m = 1;
+    	CSP task = new CSP(null);
+    	task.setVars(vars);
+    	task.setBC(C2);
+    	task.setAC(AC2);
 		/////////////////////////////////
     	Diagnoser diagnoser = new Diagnoser();
-		Const[] diag = diagnoser.diagnose(vars, SolverID.choco, C2, AC2, m, did);
-		assertTrue(diag.length==1 && diag[0].getValue()==3);
+		task = diagnoser.diagnose(task, SolverID.choco,did,m);
+		
+		assertTrue(task.getDiagnosis().length==1 && task.getDiagnosis()[0].getValue()==3);
 		///////////////////////////////	
 	}
     
@@ -80,11 +89,15 @@ public  class TestDiagnoser {
     	did = DiagnoserID.fastdiag;
     	SolverID sid = SolverID.choco;
     	m = 1;
+    	CSP task = new CSP(null);
+    	task.setVars(vars);
+    	task.setBC(C2_reverse);
+    	task.setAC(AC2);
 		/////////////////////////////////
     	Diagnoser diagnoser = new Diagnoser();
-		//CSPInterface csp = new ChocoCSP("test1",vars, consArray1);
-		Const[] diag = diagnoser.diagnose(vars, SolverID.choco, C2_reverse,AC2, m, did);
-		assertTrue(diag.length==1 && diag[0].getValue()==3);
+		task = diagnoser.diagnose(task, SolverID.choco,did,m);
+		
+		assertTrue(task.getDiagnosis().length==1 && task.getDiagnosis()[0].getValue()==3);
 		///////////////////////////////	
 	}
    

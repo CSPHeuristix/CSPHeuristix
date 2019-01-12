@@ -1,5 +1,6 @@
 package at.tugraz.ist.ase.diagnosers;
 
+import at.tugraz.ist.ase.solvers.CSP;
 import at.tugraz.ist.ase.solvers.Const;
 import at.tugraz.ist.ase.solvers.Var;
 import at.tugraz.ist.ase.util.DiagnoserID;
@@ -14,17 +15,43 @@ import at.tugraz.ist.ase.util.SolverID;
 
 public class Diagnoser {
 	
-	public Const[] diagnose (Var[] vars, SolverID sid, Const[] C, Const[] AC, int m, DiagnoserID did){
+	public CSP diagnose (CSP task, SolverID sid,  DiagnoserID did, int m){
+		Const[] diagnosis;
 		
+		long time = 0;
+	    long start = System.nanoTime();
 		switch(did){
 			case fastdiag:
-				return new FastDiag().diagnose(vars, sid, C, AC);
+				diagnosis = new FastDiag().diagnose(task.getVars(), sid, task.getREQ(), task.getAC());
 			case flexdiag:
-				return new FlexDiag().diagnose(vars, sid, C, AC, m);
+				diagnosis =  new FlexDiag().diagnose(task.getVars(), sid, task.getREQ(), task.getAC(), m);
 			default:
-				return new FastDiag().diagnose(vars, sid, C, AC);
+				diagnosis =  new FastDiag().diagnose(task.getVars(), sid, task.getREQ(), task.getAC());
 		}
+		long end = System.nanoTime();
+		time = end-start;
+		
+		task.setDiagnosis(diagnosis);
+		task.runtime = time;
+		
+		return task;
 		
 	}
+//	public Const[] diagnose (Var[] vars, SolverID sid, Const[] C, Const[] AC, int m, DiagnoserID did, CSP task){
+//		Const[] diagnosis;
+//		
+//		switch(did){
+//			case fastdiag:
+//				diagnosis = new FastDiag().diagnose(vars, sid, C, AC);
+//			case flexdiag:
+//				diagnosis =  new FlexDiag().diagnose(vars, sid, C, AC, m);
+//			default:
+//				diagnosis =  new FastDiag().diagnose(vars, sid, C, AC);
+//		}
+//		task.setDiagnosis(diagnosis);
+//		
+//		return diagnosis;
+//		
+//	}
 	
 }

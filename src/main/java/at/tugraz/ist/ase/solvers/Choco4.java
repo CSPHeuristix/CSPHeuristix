@@ -47,7 +47,7 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		 long end = System.nanoTime();
 		 time = end-start;
 		
-		 CSP solution = new CSP(csp);
+		 CSP solution = new CSP(this.csp);
 		 int [] vars = new int [chocoModel.getNbVars()];
 		 if(isSolved)
 			 for(int i=0;i<vars.length;i++){
@@ -57,6 +57,7 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		 
 		 solution.isSolved = isSolved;
 		 solution.runtime = time;
+		 solution.getPredictionQuality();
 		 
 		 return solution;
 	}

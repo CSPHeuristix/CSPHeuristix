@@ -1,5 +1,7 @@
 package at.tugraz.ist.ase.algorithms.geneticAlgorithm.fitness;
 
+import org.apache.hadoop.mapred.taskdetails_jsp;
+
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual;
 import at.tugraz.ist.ase.diagnosers.Diagnoser;
 import at.tugraz.ist.ase.solvers.CSP;
@@ -43,25 +45,36 @@ public class FitnessCalc_CO extends FitnessCalc{
 	@Override
 	protected float getRuntimeFitness() {
 		// TODO Auto-generated method stub
-		long start=System.nanoTime();
-		diagnosisArray = new Const[trainingDataset.length][];
-		
+		float avg_runtime=0;
 		for (int i=0;i<trainingDataset.length;i++){
 			CSP task = trainingDataset[i];
 			Diagnoser d = new Diagnoser();
-			diagnosisArray[i] = d.diagnose(task.getVars(), sid, task.getREQ(), task.getAC(), m, this.did);
+			task = d.diagnose(task, this.sid,this.did,m);
+			avg_runtime += task.getRuntime();
 		}
-		long stop=System.nanoTime();
+		avg_runtime = avg_runtime/trainingDataset.length;
 		
-		long time=stop-start;
 		
-		return (float)((float)1/(float)(time));
+		return avg_runtime;
 	}
 
 	@Override
 	protected float getpredictionQualityFitness() {
-		// TODO SEDA
-		return 0;
+		diagnosisArray = new Const[trainingDataset.length][];
+		
+		float avg_predictionQuality=0;
+		
+		for (int i=0;i<trainingDataset.length;i++){
+			CSP task = trainingDataset[i];
+			Diagnoser d = new Diagnoser();
+			task = d.diagnose(task, this.sid,this.did,m);
+			avg_predictionQuality += task.getPredictionQuality();
+		}
+		
+		avg_predictionQuality = avg_predictionQuality/trainingDataset.length;
+				
+		return avg_predictionQuality;
+		
 	}
 
 

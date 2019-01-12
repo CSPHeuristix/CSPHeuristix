@@ -46,11 +46,14 @@ public abstract class Heuristics{
 	PerformanceIndicator pi;
 	String outputFolder;
 	String inputFolder;
-	int [][] solutionsOfNewTasks;
-	int [][] pastDiagnoses;
+	////////////////////////
+	
+	
+    ////////////////////////
+	int [][] intNewTasks;
+	int [][] intExpectedResult;
 	////////////////////////
 	protected int numberOfVars;
-	
 	protected String basisCSPFile;
 	protected String newConsistentReqsFile;
 	protected String newInconsistentReqsFile;
@@ -131,35 +134,30 @@ public abstract class Heuristics{
 		List<String> lines = FileOperations.readFile(inputFile);
 		int numberOfUsers=lines.size();
 		String [][] reqsStr = new String[numberOfUsers][];
-		solutionsOfNewTasks = new int[numberOfUsers][];
-		pastDiagnoses = new int[numberOfUsers][];
+		intExpectedResult = new int[numberOfUsers][];
+		intNewTasks = new int[numberOfUsers][];
 		
 		CSP [] generatedCSPs= new CSP[reqsStr.length];
     	
 		for(int i=0;i<numberOfUsers;i++){
 			reqsStr[i] = lines.get(i).split(",");
-			int [] reqs= new int [numberOfVars];
+			intNewTasks [i] = new int [numberOfVars];
 			
 			if((reqsStr[i].length-1)/2==numberOfVars){
-				if(isNew)
-					solutionsOfNewTasks[i] = new int [numberOfVars];
-				else
-					pastDiagnoses[i] = new int [numberOfVars];
+				intExpectedResult[i] = new int [numberOfVars];
 			}
 			
 						
 			for(int j=0;j<numberOfVars;j++){
-				reqs[j]= Integer.valueOf(reqsStr[i][j].trim());
+				intNewTasks[i][j]= Integer.valueOf(reqsStr[i][j].trim());
 				if((reqsStr[i].length-1)/2==numberOfVars){
-					if(isNew)
-						solutionsOfNewTasks[i][j]=Integer.valueOf(reqsStr[i][j+numberOfVars].trim());
-					else
-						pastDiagnoses[i][j]=Integer.valueOf(reqsStr[i][j+numberOfVars].trim());
+					intExpectedResult[i][j]=Integer.valueOf(reqsStr[i][j+numberOfVars].trim());
 				}
 			}
+			
 		
-			generatedCSPs[i]= new CSP(basisCSP.getName()+i,basisCSP.getVars(),basisCSP.getAllConstraints());
-			generatedCSPs[i].insertReqs(reqs);
+			generatedCSPs[i]= new CSP(basisCSP.getName()+i,basisCSP.getVars(),basisCSP.getAllConstraints(),intNewTasks[i],intExpectedResult[i]);
+			//generatedCSPs[i].insertReqs(intNewTasks);
 		}
 				
 		return generatedCSPs;
@@ -188,7 +186,7 @@ public abstract class Heuristics{
 		//new CSP(name, varList, constList);
 		
 		this.numberOfVars = varList.length;
-		this.basisCSP = new CSP(name, varList, constList);
+		this.basisCSP = new CSP(name, varList, constList,null,null); // reqs and expectedSol NULL
 	}
     
     

@@ -139,18 +139,8 @@ class MFCO extends Heuristics{
 		task.setREQ(sorted);
 						
 		// Step-6: Solve with the heuristics of the nearest cluster
-		long time = 0;
-	    long start = System.nanoTime();
 		Diagnoser d = new Diagnoser();
-		diagnosis = d.diagnose(task.getVars(), sid, task.getREQ(), task.getAC(), m, this.did);
-		//.solveCSP(task, sid, learnedHeuristics[index]);
-		//.solveCSP(task, sid, learnedHeuristics[index]);
-		long end = System.nanoTime();	
-		time = end-start;
-					
-		task.setDiagnoses(diagnosis);
-		task.runtime = time;
+		return d.diagnose(task, this.sid,this.did,m);
 		
-		return task;	
 	}
 }

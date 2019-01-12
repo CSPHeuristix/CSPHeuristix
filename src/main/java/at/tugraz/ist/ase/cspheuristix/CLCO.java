@@ -115,17 +115,7 @@ class CLCO extends Heuristics{
 		// Step-5: Solve with the heuristics of the nearest cluster
 		Diagnoser d = new Diagnoser();
 		
-		long time = 0;
-	    long start = System.nanoTime();
-		diagnosis = d.diagnose(task.getVars(), sid, task.getREQ(), task.getAC(), m, this.did);
-				//.solveCSP(task, sid, learnedHeuristics[index]);
-		long end = System.nanoTime();	
-		time = end-start;
-		
-		task.setDiagnoses(diagnosis);
-		task.runtime = time;
-		
-		return task;	
+		return d.diagnose(task, this.sid,this.did,m);
 	}
 
 	
