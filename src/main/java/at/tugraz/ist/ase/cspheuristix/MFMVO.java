@@ -12,6 +12,7 @@ import org.apache.mahout.cf.taste.model.DataModel;
 import org.junit.Test;
 
 import at.tugraz.ist.ase.algorithms.KNN;
+import at.tugraz.ist.ase.algorithms.MAUT;
 import at.tugraz.ist.ase.algorithms.MatrixFactorization;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_CO;
 import at.tugraz.ist.ase.algorithms.geneticAlgorithm.individual.Individual_VVO;
@@ -25,14 +26,16 @@ import at.tugraz.ist.ase.util.HeuristicID;
 import at.tugraz.ist.ase.util.PerformanceIndicator;
 import at.tugraz.ist.ase.util.SolverID;
 
-/** Represents Matrix Factorization Based Variable Ordering Heuristics for Constraint Solving
+/** Represents Matrix Factorization and MAUT Function Based Variable Ordering Heuristics for Constraint Solving 
+ * -> (designed for "Optimized Release Planning using MF based Heuristics")
+ * -> additional input is the input file : itemDimensions 
  * @author Seda Polat Erdeniz (AIG, TUGraz)
  * @author http://ase.ist.tugraz.at
  * @version 1.0
  * @since 1.0
 */
 
-class MFVO extends Heuristics{
+class MFMVO extends Heuristics{
 	
 	//int [][]domains;
 	
@@ -44,13 +47,17 @@ class MFVO extends Heuristics{
 	int numberOfUsers;
 	int numberOfItems;
 	
+	double [][] dimensionValuesOfVars;
+	
 
-	MFVO(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFile,
+	MFMVO(HeuristicID heuristicsID, SolverID solverID, DiagnoserID diagnosisAlgorithmID, String inputFile,
 			String outputFolder, PerformanceIndicator pi, String stoppingCriteria, ClusteringAlgorithmID cid,
 			int numberOfClusters, int m) {
 		super(heuristicsID, solverID, diagnosisAlgorithmID, inputFile, outputFolder, pi, stoppingCriteria, cid,
 				numberOfClusters, m);
 		// TODO Auto-generated constructor stub
+		
+		getDimensions();
 	}
 
 	@Override
@@ -85,10 +92,26 @@ class MFVO extends Heuristics{
 			int index = 0;
 			
 			HashMap<Double,Integer> vars = new HashMap<Double,Integer>(this.numberOfVars);   
-			
-			// READ VARIABLES (of a User)
+
+
+			// READ DIMENSIONS AND CALCULATE MAUT FOR EACH VAR
 			for(int v=0;v<this.numberOfVars;v++){
-				vars.put(fullMatrix[i][v],v);
+				//HashMap<Double,Integer> dimensionRatingsOfUserForVar = new HashMap<Double,Integer>();   
+				double [] dimensionRatingsOfUserForVar = new double [dimensionValuesOfVars[0].length];
+				
+				
+				for(int d=0;d<dimensionValuesOfVars[0].length;d++){
+					dimensionRatingsOfUserForVar[d] = fullMatrix[i][index];
+					index++;
+				}
+				
+				// Maut
+				double utility = MAUT.basic(dimensionRatingsOfUserForVar, dimensionValuesOfVars[v]);
+				
+				
+				// Var
+			    vars.put(utility,v); // put maut value for each var for this user
+			    
 			}
 			
 			// SORT VARIABLES
@@ -98,7 +121,8 @@ class MFVO extends Heuristics{
 		
 	        for(int v=0;v<this.numberOfVars;v++){
 		    	int var_index = vars.get(mapKeys2.get(v));
-		    	learnedHeuristics[i].variableOrdering[v]= var_index;  
+		    	learnedHeuristics[i].variableOrdering[v]= var_index; 
+		    	//recommendationTasks.recomTasks_copies[h][i].variableOrdering[v] = var_index; 
 			}
 		}
 		
@@ -141,7 +165,6 @@ class MFVO extends Heuristics{
 		return solution;
 	}
 
-	
 	@Override
 	protected CSP diagnoseTask(CSP task) {
 		// TODO Auto-generated method stub
@@ -151,6 +174,20 @@ class MFVO extends Heuristics{
 		return null;
 	}
 
+	private void getDimensions(){
+		int numberOfDimensions=0;
+		String dimensionFileName = inputFolder+"/itemDimensions";
+		List<String> items = FileOperations.readFile(dimensionFileName);
+		numberOfDimensions = items.get(0).split(",").length;
+		dimensionValuesOfVars = new double[items.size()][numberOfDimensions];
+		
+		for (int i=0;i<items.size();i++){
+			String[] dimensions = items.get(i).split(",");
+			for(int j=0;j<numberOfDimensions;j++)
+				dimensionValuesOfVars[i][j] = Double.valueOf(dimensions[j]);
+		}
+		
+	}
 	
 	
 }
