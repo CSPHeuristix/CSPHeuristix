@@ -7,6 +7,7 @@ import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.constraints.Constraint;
 import org.chocosolver.solver.constraints.nary.cnf.LogOp.Operator;
+import org.chocosolver.solver.search.strategy.selectors.values.IntDomainMin;
 import org.chocosolver.solver.search.strategy.selectors.values.IntValueSelector;
 import org.chocosolver.solver.search.strategy.selectors.variables.VariableSelector;
 import org.chocosolver.solver.variables.IntVar;
@@ -26,6 +27,7 @@ import at.tugraz.ist.ase.util.SolverID;
 class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 
 	boolean withHeuristics = false;
+	boolean withValueOrdering = false;
 	Individual heuristix;
 	CSP csp;
 	
@@ -34,6 +36,9 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 		 this.heuristix=heu;
 		 if(heu!=null)
 			 this.withHeuristics=true;
+		 if(heu.valueOrdering!=null)
+			 this.withValueOrdering=true; 
+		 
 		 // TODO Auto-generated method stub
 		 Model chocoModel= createChocoModel(this.csp);
 		 //Variable [] solutions = chocoModel.getVars();
@@ -94,10 +99,16 @@ class Choco4 extends at.tugraz.ist.ase.solvers.Solver{
 
 	private Solver setHeuristics (Solver solver){
 		
-		// TODO: SEDA : debug this function
 		
 		VariableSelector<IntVar> varSelector = null;
-		IntValueSelector valueSelector = new Choco4ValueOrder(heuristix.valueOrdering);
+		IntValueSelector valueSelector = null;
+		
+		
+		if(withValueOrdering)
+			valueSelector = new Choco4ValueOrder(heuristix.valueOrdering);
+		else
+			valueSelector = new IntDomainMin(); // default value selector 
+			
 		IntVar[] intvars = getIntVars(solver.getModel());
 		 
 		varSelector =(VariableSelector<IntVar>) variables -> {
